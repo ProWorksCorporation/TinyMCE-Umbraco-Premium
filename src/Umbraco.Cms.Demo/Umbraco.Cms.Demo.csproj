@@ -5,6 +5,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>umbraco.cms.demo</PackageId>
+    <Product>Umbraco.Cms.Demo</Product>
+    <Title>TinyMCE.Umbraco.Premium Umbraco.Cms.Demo</Title>
+    <Version>12.0.0</Version>
+    <Description></Description>
+    <PackageTags></PackageTags>
+    <Authors>ProWorks Corporation</Authors>
+    <Company>ProWorks Corporation</Company>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms" Version="12.0.0" />
   </ItemGroup>
