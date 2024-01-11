@@ -34,13 +34,13 @@ namespace TinyMCE.Umbraco.Premium.Composers
                 commands.Add(new RichTextEditorSettings.RichTextEditorCommand
                 {
                     Alias = "checklist",
-                    Name = "Checklist Plugin (Requires Enterprise plan)",
+                    Name = "Checklist Plugin (Premium Plugin)",
                     Mode = RichTextEditorCommandMode.Insert
                 });
                 commands.Add(new RichTextEditorSettings.RichTextEditorCommand
                 {
                     Alias = "a11ycheck",
-                    Name = "Accessibility Checker Plugin (Requires paid TinyMCE subscription)",
+                    Name = "Accessibility Checker Plugin (Premium Plugin)",
                     Mode = RichTextEditorCommandMode.Insert
                 });
                 options.Commands = commands.ToArray();
