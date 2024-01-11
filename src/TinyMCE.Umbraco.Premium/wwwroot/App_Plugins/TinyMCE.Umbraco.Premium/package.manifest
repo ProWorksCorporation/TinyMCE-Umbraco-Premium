@@ -1,0 +1,9 @@
+{
+  "id": "TinyMCE.Umbraco.Premium",
+  "name": "TinyMCE.Umbraco.Premium",
+  "allowPackageTelemetry": true,
+  "javascript": [
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/initialize.js"
+  ],
+  "bundleOptions": "None"
+}
