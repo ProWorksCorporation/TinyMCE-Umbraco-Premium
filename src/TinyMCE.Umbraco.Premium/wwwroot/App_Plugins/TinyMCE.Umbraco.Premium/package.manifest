@@ -2,17 +2,23 @@
   "id": "TinyMCE.Umbraco.Premium",
   "name": "TinyMCE.Umbraco.Premium",
   "allowPackageTelemetry": true,
-  "isParameterEditor": false,
-  "icon": "icon-browser-window",
-  "group": "Rich Content",
-  "editor": {
-    "view": "/App_Plugins/TinyMCE.Umbraco.Premium/view.html",
-    "hideLabel": true,
-    "valueType": "TEXT"
-  },
-  "prevalues": {
-    "fields": []
-  },
+  "propertyEditors": [
+    {
+      "name": "TinyMCE Premium Rich Text Editor",
+      "alias": "TinyMCE.Umbraco.Premium",
+      "icon": "icon-browser-window",
+      "group": "Rich Content",
+      "isParameterEditor": false,
+      "editor": {
+        "view": "/App_Plugins/TinyMCE.Umbraco.Premium/view.html",
+        "hideLabel": true,
+        "valueType": "TEXT"
+      },
+      "prevalues": {
+        //"fields": []
+      }
+    }
+  ],
   "javascript": [
     "~/App_Plugins/TinyMCE.Umbraco.Premium/initialize.js"
   ],
