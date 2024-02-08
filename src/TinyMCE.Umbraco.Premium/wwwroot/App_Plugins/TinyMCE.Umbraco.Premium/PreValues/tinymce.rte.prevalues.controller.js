@@ -2,6 +2,7 @@
     function ($scope, $sce, tinyMceService, stylesheetResource, assetsService) {
         var cfg = tinyMceService.defaultPrevalues();
 
+
         if ($scope.model.value) {
             if (Utilities.isString($scope.model.value)) {
                 $scope.model.value = cfg;
@@ -12,6 +13,9 @@
 
         if (!$scope.model.value.stylesheets) {
             $scope.model.value.stylesheets = [];
+        }
+        if (!$scope.model.value.customConfig) {
+            $scope.model.value.customConfig = "";
         }
         if (!$scope.model.value.toolbar) {
             $scope.model.value.toolbar = [];
@@ -27,8 +31,29 @@
             $scope.model.value.mode = 'inline';
         }
 
+        $scope.model.aceOption = {
+            mode: "json",
+            theme: "chrome",
+            showPrintMargin: false,
+            advanced: {
+                fontSize: '14px',
+                enableSnippets: false,
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: false
+            },
+            onLoad: function (_editor) {
+                $scope.model.aceEditor = _editor;
+            }
+        };
+
         tinyMceService.configuration().then(config => {
             $scope.tinyMceConfig = config;
+
+            if ($scope.tinyMceConfig.customConfig != null) {
+                if ($scope.model.value.customConfig != null && $scope.model.value.customConfig.length == 0) {
+                    $scope.model.value.customConfig = JSON.stringify($scope.tinyMceConfig.customConfig, null, '\t');
+                }
+            }
 
             // extend commands with properties for font-icon and if it is a custom command
             $scope.tinyMceConfig.commands = _.map($scope.tinyMceConfig.commands, obj => {

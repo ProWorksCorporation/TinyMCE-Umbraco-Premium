@@ -43,9 +43,21 @@
         </div>
     </umb-control-group>
 
+    <umb-control-group label="Global Custom Configuration" description="This is managed in the appSettings and is here for reference.">
+        <div class="vertical-align-items">
+            <div><pre>{{tinyMceConfig.customConfig | json}}</pre></div>
+
+        </div>
+
+    </umb-control-group>
+
     <umb-control-group label="CustomConfig" description="Set the editor custom configuration">
         <div class="vertical-align-items">
-            <input type="text" min="0" ng-model="model.value.customconfig" class="umb-property-editor" title="CustomConfig" placeholder="CustomConfig" />
+            <div data-element="code-editor"
+                 auto-scale="85"
+                 umb-ace-editor="model.aceOption"
+                 model="model.value.customConfig"
+                 style="width: 100%;"></div>
         </div>
     </umb-control-group>
 

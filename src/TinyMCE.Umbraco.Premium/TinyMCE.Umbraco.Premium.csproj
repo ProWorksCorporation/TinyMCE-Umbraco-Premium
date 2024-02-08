@@ -20,6 +20,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="PropertyEditors\TinyMceUmbracoPremiumEditor - Copy.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms.Web.Website" Version="12.0.0" />

@@ -4,7 +4,7 @@
   "allowPackageTelemetry": true,
   "propertyEditors": [
     {
-      "name": "TinyMCE Premium Rich Text Editor",
+      "name": "TinyMCE Premium Rich Text Editor (TEST)",
       "alias": "TinyMCE.Umbraco.Premium",
       "icon": "icon-browser-window",
       "group": "Rich Content",
@@ -21,7 +21,8 @@
   ],
   "javascript": [
     "~/App_Plugins/TinyMCE.Umbraco.Premium/initialize.js",
-    "~/App_Plugins/TinyMCE.Umbraco.Premium/tinymce.rte.prevalues.controller.js"
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/PreValues/tinymce.rte.prevalues.controller.js",
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/premium.rte.controller.js"
   ],
   "bundleOptions": "None"
 }

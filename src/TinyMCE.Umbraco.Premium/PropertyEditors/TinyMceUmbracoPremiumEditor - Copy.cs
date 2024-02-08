@@ -24,15 +24,15 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 	/// </summary>
 	[DataEditor(
 		Constants.PropertyEditors.Aliases.TinyMceUmbracoPremiumRte,
-		"TinyMCE Premium Rich Text Editor",
-		//"rte",
-		"~/App_Plugins/TinyMCE.Umbraco.Premium/premium.rte.html",
+		"TinyMCE Premium Rich Text Editor 2",
+		"rte",
+		//"~/App_Plugins/TinyMCE.Umbraco.Premium/tinymce.rte.prevalues.html",
 		ValueType = ValueTypes.Text,
 		HideLabel = true,
 		Group = "Rich Content",
 		Icon = "icon-browser-window",
 		ValueEditorIsReusable = true)]
-	public class TinyMceUmbracoPremiumEditor : RichTextPropertyEditor
+	public class TinyMceUmbracoPremiumEditor : DataEditor
 	{
 		private readonly IBackOfficeSecurityAccessor _backOfficeSecurityAccessor;
 		private readonly IEditorConfigurationParser _editorConfigurationParser;
@@ -101,15 +101,7 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			IImageUrlGenerator imageUrlGenerator,
 			IHtmlMacroParameterParser macroParameterParser,
 			IEditorConfigurationParser editorConfigurationParser)
-			: base(dataValueEditorFactory, 
-				   backOfficeSecurityAccessor,
-				   imageSourceParser,
-				   localLinkParser,
-				   pastedImages,
-				   ioHelper,
-				   imageUrlGenerator,
-				   macroParameterParser,
-				   editorConfigurationParser)
+			: base(dataValueEditorFactory)
 		{
 			_backOfficeSecurityAccessor = backOfficeSecurityAccessor;
 			_imageSourceParser = imageSourceParser;
@@ -122,26 +114,23 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			SupportsReadOnly = true;
 		}
 
-		// Try to use the Umbraco Implementation
-		//public override IPropertyIndexValueFactory PropertyIndexValueFactory => new RichTextPropertyIndexValueFactory();
+		public override IPropertyIndexValueFactory PropertyIndexValueFactory => new RichTextPropertyIndexValueFactory();
 
 		/// <summary>
 		///     Create a custom value editor
 		/// </summary>
 		/// <returns></returns>
 		protected override IDataValueEditor CreateValueEditor() =>
-			DataValueEditorFactory.Create<TinyMceUmbracoPremiumPropertyValueEditor>(Attribute!);
+			DataValueEditorFactory.Create<RichTextPropertyValueEditor>(Attribute!);
 
 		protected override IConfigurationEditor CreateConfigurationEditor() =>
-			new TinyMceUmbracoPremiumConfigurationEditor(_ioHelper, _editorConfigurationParser);
-
-		// Had to copy this in because its internal
+			new RichTextConfigurationEditor(_ioHelper, _editorConfigurationParser);
 
 		/// <summary>
 		///     A custom value editor to ensure that macro syntax is parsed when being persisted and formatted correctly for
 		///     display in the editor
 		/// </summary>
-		internal class TinyMceUmbracoPremiumPropertyValueEditor : DataValueEditor, IDataValueReference
+		internal class RichTextPropertyValueEditor : DataValueEditor, IDataValueReference
 		{
 			private readonly IBackOfficeSecurityAccessor _backOfficeSecurityAccessor;
 			private readonly IHtmlSanitizer _htmlSanitizer;
@@ -151,7 +140,7 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			private readonly IHtmlMacroParameterParser _macroParameterParser;
 			private readonly RichTextEditorPastedImages _pastedImages;
 
-			public TinyMceUmbracoPremiumPropertyValueEditor(
+			public RichTextPropertyValueEditor(
 				DataEditorAttribute attribute,
 				IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 				ILocalizedTextService localizedTextService,
@@ -176,7 +165,7 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			}
 
 			[Obsolete("Use the constructor which takes an HtmlMacroParameterParser instead")]
-			public TinyMceUmbracoPremiumPropertyValueEditor(
+			public RichTextPropertyValueEditor(
 				DataEditorAttribute attribute,
 				IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 				ILocalizedTextService localizedTextService,
@@ -215,10 +204,10 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 						throw new ArgumentNullException(nameof(value));
 					}
 
-					if (!(value is TinyMceUmbracoPremiumConfiguration configuration))
+					if (!(value is RichTextConfiguration configuration))
 					{
 						throw new ArgumentException(
-							$"Expected a {typeof(TinyMceUmbracoPremiumConfiguration).Name} instance, but got {value.GetType().Name}.",
+							$"Expected a {typeof(RichTextConfiguration).Name} instance, but got {value.GetType().Name}.",
 							nameof(value));
 					}
 
@@ -296,7 +285,7 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 				var userId = _backOfficeSecurityAccessor.BackOfficeSecurity?.CurrentUser?.Id ??
 							 Constants.Security.SuperUserId;
 
-				var config = editorValue.DataTypeConfiguration as TinyMceUmbracoPremiumConfiguration;
+				var config = editorValue.DataTypeConfiguration as RichTextConfiguration;
 				GuidUdi? mediaParent = config?.MediaParentId;
 				Guid mediaParentId = mediaParent == null ? Guid.Empty : mediaParent.Guid;
 
@@ -315,32 +304,30 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			}
 		}
 
-		// Try to inherit from Umbraco RTE
+		internal class RichTextPropertyIndexValueFactory : IPropertyIndexValueFactory
+		{
+			public IEnumerable<KeyValuePair<string, IEnumerable<object?>>> GetIndexValues(IProperty property, string? culture, string? segment, bool published, IEnumerable<string> availableCultures)
+			{
+				var val = property.GetValue(culture, segment, published);
 
-		//internal class RichTextPropertyIndexValueFactory : IPropertyIndexValueFactory
-		//{
-		//	public IEnumerable<KeyValuePair<string, IEnumerable<object?>>> GetIndexValues(IProperty property, string? culture, string? segment, bool published, IEnumerable<string> availableCultures)
-		//	{
-		//		var val = property.GetValue(culture, segment, published);
+				if (!(val is string strVal))
+				{
+					yield break;
+				}
 
-		//		if (!(val is string strVal))
-		//		{
-		//			yield break;
-		//		}
+				// index the stripped HTML values
+				yield return new KeyValuePair<string, IEnumerable<object?>>(
+					property.Alias,
+					new object[] { strVal.StripHtml() });
 
-		//		// index the stripped HTML values
-		//		yield return new KeyValuePair<string, IEnumerable<object?>>(
-		//			property.Alias,
-		//			new object[] { strVal.StripHtml() });
+				// store the raw value
+				yield return new KeyValuePair<string, IEnumerable<object?>>(
+					$"{UmbracoExamineFieldNames.RawFieldPrefix}{property.Alias}", new object[] { strVal });
+			}
 
-		//		// store the raw value
-		//		yield return new KeyValuePair<string, IEnumerable<object?>>(
-		//			$"{UmbracoExamineFieldNames.RawFieldPrefix}{property.Alias}", new object[] { strVal });
-		//	}
-
-		//	[Obsolete("Use the overload with the 'availableCultures' parameter instead, scheduled for removal in v14")]
-		//	public IEnumerable<KeyValuePair<string, IEnumerable<object?>>> GetIndexValues(IProperty property, string? culture, string? segment, bool published)
-		//		=> GetIndexValues(property, culture, segment, published);
-		//}
+			[Obsolete("Use the overload with the 'availableCultures' parameter instead, scheduled for removal in v14")]
+			public IEnumerable<KeyValuePair<string, IEnumerable<object?>>> GetIndexValues(IProperty property, string? culture, string? segment, bool published)
+				=> GetIndexValues(property, culture, segment, published);
+		}
 	}
 }
