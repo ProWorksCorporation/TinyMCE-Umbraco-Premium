@@ -20,6 +20,9 @@
         if (!$scope.model.value.toolbar) {
             $scope.model.value.toolbar = [];
         }
+        if (!$scope.model.value.plugins) {
+            $scope.model.value.plugins = [];
+        }
         if (!$scope.model.value.maxImageSize && $scope.model.value.maxImageSize != 0) {
             $scope.model.value.maxImageSize = cfg.maxImageSize;
         }
@@ -49,11 +52,33 @@
         tinyMceService.configuration().then(config => {
             $scope.tinyMceConfig = config;
 
+            // Format with line breaks and tabbing
             if ($scope.tinyMceConfig.customConfig != null) {
                 if ($scope.model.value.customConfig != null && $scope.model.value.customConfig.length == 0) {
                     $scope.model.value.customConfig = JSON.stringify($scope.tinyMceConfig.customConfig, null, '\t');
                 }
             }
+
+            // If empty, then add all plugins so they get selected below
+            if ($scope.model.value.plugins != null && $scope.model.value.plugins.length == 0) {
+                $scope.model.value.plugins = _.map($scope.tinyMceConfig.plugins, obj => {
+                    return obj.name;
+                });
+            }
+
+            // Create objects out of the 
+            $scope.tinyMceConfig.pluginOptions = _.map($scope.tinyMceConfig.plugins, obj => {
+                const name = getDisplayName(obj.name);
+
+                const objPlugin = {
+                    name: obj.name,
+                    displayName: name,
+                    selected: $scope.model.value.plugins.indexOf(obj.name) >= 0,
+                };
+
+                return objPlugin;
+            });
+
 
             // extend commands with properties for font-icon and if it is a custom command
             $scope.tinyMceConfig.commands = _.map($scope.tinyMceConfig.commands, obj => {
@@ -105,6 +130,16 @@
                 stylesheet.selected = $scope.model.value.stylesheets.indexOf(stylesheet.path) >= 0 || $scope.model.value.stylesheets.indexOf(stylesheet.name) >= 0;
             });
         });
+
+        $scope.selectPlugin = function (plugin) {
+            var index = $scope.model.value.plugins.indexOf(plugin.name);
+
+            if (plugin.selected && index === -1) {
+                $scope.model.value.plugins.push(plugin.name);
+            } else if (index >= 0) {
+                $scope.model.value.plugins.splice(index, 1);
+            }
+        };
 
         $scope.selectCommand = function (command) {
             var index = $scope.model.value.toolbar.indexOf(command.alias);
@@ -231,6 +266,23 @@
 
             return icon;
         }
+
+        // Map name for specific plugins
+        function getDisplayName(name) {
+            var displayname = name;
+
+            switch (name) {
+                case "a11ychecker":
+                    displayname = "Accessibility Checker (Premium Plugin)";
+                    break;
+                case "ai":
+                    displayname = "AI Assistant (Premium Plugin)";
+                    break;
+            }
+
+            return displayname;
+        }
+
 
         var unsubscribe = $scope.$on("formSubmitting", function () {
 
