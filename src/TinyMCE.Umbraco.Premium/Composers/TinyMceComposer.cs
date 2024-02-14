@@ -12,103 +12,164 @@ namespace TinyMCE.Umbraco.Premium.Composers
 {
     internal class TinyMceComposer : IComposer
     {
-        /// <inheritdoc />
-        public void Compose(IUmbracoBuilder builder)
+		private static readonly string[] Default_tinymce_premium_plugins =
+        {
+			"a11ychecker", "advtable", "advcode", "checklist", "casechange", "export", "footnotes", "formatpainter",
+			"linkchecker", "pageembed", "permanentpen", "tinymcespellchecker", "autocorrect", "tableofcontents"
+		};
+		private static readonly string[] Default_tinymce_additional_free_plugins =
+		{
+		};
+
+		private TinyMceConfig _tinyMceConfig;
+		//public TinyMceComposer(IOptions<TinyMceConfig> tinyMceConfig)
+		//{
+		//	_tinyMceConfig = tinyMceConfig.Value;
+		//}
+
+
+		/// <inheritdoc />
+		public void Compose(IUmbracoBuilder builder)
         {
             builder.AddNotificationHandler<ServerVariablesParsingNotification, ServerVariablesParsingNotificationHandler>();
 
-			var options = builder.Services.AddOptions<TinyMceConfig>().Bind(builder.Config.GetSection("TinyMceConfig"));
+			var tinyMceOptionsBuilder = builder.Services.AddOptions<TinyMceConfig>().Bind(builder.Config.GetSection("TinyMceConfig"));
 
 			/// <inheritdoc />
 			builder.Services.Configure<RichTextEditorSettings>(options =>
             {
-                // Add an example plugin (this will always be enabled) 
-                var plugins = options.Plugins.ToList();
-                plugins.Add("a11ychecker");
-                plugins.Add("advtable");
-                plugins.Add("advcode");
-                plugins.Add("checklist");
-                plugins.Add("casechange");
-                plugins.Add("export");
-                plugins.Add("footnotes");
-                plugins.Add("formatpainter");
-                plugins.Add("linkchecker");
-                plugins.Add("pageembed");
-                plugins.Add("permanentpen");
-                plugins.Add("tinymcespellchecker");
-                plugins.Add("autocorrect");
-                plugins.Add("tableofcontents");
-                options.Plugins = plugins.ToArray();
+				var optionsService = StaticServiceProvider.Instance.GetRequiredService<IOptions<TinyMceConfig>>();
+				if (optionsService != null)
+				{
+					_tinyMceConfig = (TinyMceConfig)optionsService.Value;
+				}
 
-                // Add an example command (that the user can turn on in the data type settings) 
-                var commands = options.Commands.ToList();
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "a11ycheck",
-                    Name = "Accessibility Checker (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "casechange",
-                    Name = "Case Change (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "checklist",
-                    Name = "Checklist (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "code",
-                    Name = "Advanced Code Editor (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "export",
-                    Name = "Export (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "footnotes",
-                    Name = "Footnotes (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "formatpainter",
-                    Name = "Format Painter (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "pageembed",
-                    Name = "Page Embed (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "permanentpen",
-                    Name = "Permanent Pen (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "spellchecker",
-                    Name = "Spell Checker Pro (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                commands.Add(new RichTextEditorSettings.RichTextEditorCommand
-                {
-                    Alias = "tableofcontents",
-                    Name = "Table of Contents (Premium Plugin)",
-                    Mode = RichTextEditorCommandMode.Insert
-                });
-                options.Commands = commands.ToArray();                
+				if (_tinyMceConfig != null)
+				{
+					var plugins = options.Plugins.ToList();
+					var commands = options.Commands.ToList();
+
+					//plugins.AddRange(Default_tinymce_premium_plugins);
+
+					// Add some default plugins to all RTEs that don't require much configuration and have a toolbar that
+					// can be disabled
+					if (!_tinyMceConfig.pluginsToExclude.Contains("a11ychecker"))
+					{
+						plugins.Add("a11ychecker");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "a11ycheck",
+							Name = "Accessibility Checker (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					//plugins.Add("advtable");  // No toolbar so excluding by default
+					//plugins.Add("advcode");   // Umbraco uses the ace editor
+					//commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+					//{
+					//    Alias = "code",
+					//    Name = "Advanced Code Editor (Premium Plugin)",
+					//    Mode = RichTextEditorCommandMode.Insert
+					//});
+
+					if (!_tinyMceConfig.pluginsToExclude.Contains("casechange"))
+					{
+						plugins.Add("casechange");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "casechange",
+							Name = "Case Change (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Selection
+						});
+						// TODO: Add a default "casechange_title_case_minors" in some way
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("checklist"))
+					{
+						plugins.Add("checklist");   // Umbraco has the "lists" plugin by default
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "checklist",
+							Name = "Checklist (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("export"))
+					{
+						plugins.Add("export");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "export",
+							Name = "Export (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("footnotes"))
+					{
+						plugins.Add("footnotes");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "footnotes",
+							Name = "Footnotes (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("formatpainter"))
+					{
+						plugins.Add("formatpainter");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "formatpainter",
+							Name = "Format Painter (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Selection
+						});
+					}
+					//plugins.Add("linkchecker"); // No toolbar so excluding by default
+					if (!_tinyMceConfig.pluginsToExclude.Contains("pageembed"))
+					{
+						plugins.Add("pageembed");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "pageembed",
+							Name = "Page Embed (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("permanentpen"))
+					{
+						plugins.Add("permanentpen");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "permanentpen",
+							Name = "Permanent Pen (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Selection
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("tinymcespellchecker"))
+					{
+						plugins.Add("tinymcespellchecker");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "spellchecker",
+							Name = "Spell Checker Pro (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					//plugins.Add("autocorrect"); // No toolbar so excluding by default
+					if (!_tinyMceConfig.pluginsToExclude.Contains("tableofcontents"))
+					{
+						plugins.Add("tableofcontents");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "tableofcontents",
+							Name = "Table of Contents (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
+
+
+					options.Plugins = plugins.ToArray();
+					options.Commands = commands.ToArray();
+				}
             });
         }
 
@@ -122,7 +183,7 @@ namespace TinyMCE.Umbraco.Premium.Composers
             }
 
             /// <inheritdoc /> 
-            public void Handle(ServerVariablesParsingNotification notification) => notification.ServerVariables.Add("tinymce", new
+            public void Handle(ServerVariablesParsingNotification notification) => notification.ServerVariables.Add("tinymcepremium", new
             {
                 apiKey = _tinyMceConfig != null ? _tinyMceConfig.apikey : "",
             });

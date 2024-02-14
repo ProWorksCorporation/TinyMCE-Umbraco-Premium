@@ -1,5 +1,15 @@
 ﻿<div ng-controller="TinyMce.Umbraco.Premium.PrevalueEditors.RteController" class="rte-editor-preval umb-rte">
 
+    <umb-control-group label="Plugins" description="Pick the plugins to activate for this editor">
+        <div ng-repeat="p in tinyMceConfig.pluginOptions">
+            <umb-checkbox model="p.selected"
+                          on-change="selectPlugin(p)"
+                          class="mce-cmd">
+                <span ng-if="p.displayName" class="umb-form-check__text">{{p.displayName}}</span>
+            </umb-checkbox>
+        </div>
+    </umb-control-group>
+
     <umb-control-group label="Toolbar" description="Pick the toolbar options that should be available when editing">
         <div ng-repeat="cmd in tinyMceConfig.commands">
             <umb-checkbox model="cmd.selected"

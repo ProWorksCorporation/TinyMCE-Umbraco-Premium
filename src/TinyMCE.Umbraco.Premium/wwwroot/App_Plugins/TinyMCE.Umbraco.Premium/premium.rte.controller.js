@@ -67,6 +67,11 @@
                     }
                 }
 
+                // Override with prevalue plugins if present
+                if (editorConfig.plugins) {
+                    
+                }
+
                 if (height !== null) {
                     standardConfig.plugins.splice(standardConfig.plugins.indexOf("autoresize"), 1);
                 }
