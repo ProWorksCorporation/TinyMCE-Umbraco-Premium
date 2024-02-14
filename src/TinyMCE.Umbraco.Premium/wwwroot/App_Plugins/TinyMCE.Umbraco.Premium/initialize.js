@@ -9,10 +9,10 @@
         const plugins = document.createElement('script')
         plugins.referrerPolicy = 'origin'
 
-        //console.log(Umbraco.Sys.ServerVariables.tinymce.apiKey)
+        //console.log(Umbraco.Sys.ServerVariables.tinymcepremium.apiKey)
 
-        // Compose the URL to the TinyMCE plugins.min.js file using the Umbraco.Sys.ServerVariables.tinymce.apiKey variable. 
-        plugins.src = 'https://cdn.tiny.cloud/1/' + Umbraco.Sys.ServerVariables.tinymce.apiKey + '/tinymce/' + tinymce.majorVersion + '.' + tinymce.minorVersion + '/plugins.min.js'
+        // Compose the URL to the TinyMCE plugins.min.js file using the Umbraco.Sys.ServerVariables.tinymcepremium.apiKey variable.
+        plugins.src = 'https://cdn.tiny.cloud/1/' + Umbraco.Sys.ServerVariables.tinymcepremium.apiKey + '/tinymce/' + tinymce.majorVersion + '.' + tinymce.minorVersion + '/plugins.min.js'
 
         document.head.appendChild(plugins)
     }
