@@ -21,6 +21,7 @@
   ],
   "javascript": [
     "~/App_Plugins/TinyMCE.Umbraco.Premium/initialize.js",
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/plugins.list.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/PreValues/tinymce.rte.prevalues.controller.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/premium.rte.controller.js"
   ],
