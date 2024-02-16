@@ -12,21 +12,7 @@ namespace TinyMCE.Umbraco.Premium.Composers
 {
     internal class TinyMceComposer : IComposer
     {
-		private static readonly string[] Default_tinymce_premium_plugins =
-        {
-			"a11ychecker", "advtable", "advcode", "checklist", "casechange", "export", "footnotes", "formatpainter",
-			"linkchecker", "pageembed", "permanentpen", "tinymcespellchecker", "autocorrect", "tableofcontents"
-		};
-		private static readonly string[] Default_tinymce_additional_free_plugins =
-		{
-		};
-
 		private TinyMceConfig _tinyMceConfig;
-		//public TinyMceComposer(IOptions<TinyMceConfig> tinyMceConfig)
-		//{
-		//	_tinyMceConfig = tinyMceConfig.Value;
-		//}
-
 
 		/// <inheritdoc />
 		public void Compose(IUmbracoBuilder builder)
@@ -49,8 +35,6 @@ namespace TinyMCE.Umbraco.Premium.Composers
 					var plugins = options.Plugins.ToList();
 					var commands = options.Commands.ToList();
 
-					//plugins.AddRange(Default_tinymce_premium_plugins);
-
 					// Add some default plugins to all RTEs that don't require much configuration and have a toolbar that
 					// can be disabled
 					if (!_tinyMceConfig.pluginsToExclude.Contains("a11ychecker"))
@@ -64,6 +48,7 @@ namespace TinyMCE.Umbraco.Premium.Composers
 						});
 					}
 					//plugins.Add("advtable");  // No toolbar so excluding by default
+
 					//plugins.Add("advcode");   // Umbraco uses the ace editor
 					//commands.Add(new RichTextEditorSettings.RichTextEditorCommand
 					//{
@@ -123,7 +108,9 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Mode = RichTextEditorCommandMode.Selection
 						});
 					}
+
 					//plugins.Add("linkchecker"); // No toolbar so excluding by default
+
 					if (!_tinyMceConfig.pluginsToExclude.Contains("pageembed"))
 					{
 						plugins.Add("pageembed");
@@ -154,7 +141,9 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Mode = RichTextEditorCommandMode.All
 						});
 					}
+
 					//plugins.Add("autocorrect"); // No toolbar so excluding by default
+
 					if (!_tinyMceConfig.pluginsToExclude.Contains("tableofcontents"))
 					{
 						plugins.Add("tableofcontents");
@@ -165,7 +154,6 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Mode = RichTextEditorCommandMode.Insert
 						});
 					}
-
 
 					options.Plugins = plugins.ToArray();
 					options.Commands = commands.ToArray();

@@ -2,6 +2,7 @@
     function ($scope, $sce, tinyMceService, stylesheetResource, assetsService) {
         var cfg = tinyMceService.defaultPrevalues();
 
+        $scope.model.createdPlugins = false;
 
         if ($scope.model.value) {
             if (Utilities.isString($scope.model.value)) {
@@ -21,6 +22,7 @@
             $scope.model.value.toolbar = [];
         }
         if (!$scope.model.value.plugins) {
+            $scope.model.createdPlugins = true;
             $scope.model.value.plugins = [];
         }
         if (!$scope.model.value.maxImageSize && $scope.model.value.maxImageSize != 0) {
@@ -59,25 +61,41 @@
                 }
             }
 
-            // If empty, then add all plugins so they get selected below
-            if ($scope.model.value.plugins != null && $scope.model.value.plugins.length == 0) {
-                $scope.model.value.plugins = _.map($scope.tinyMceConfig.plugins, obj => {
-                    return obj.name;
+            // If empty, then add all plugins so they get selected below if we created the array above (don't add all if they simply selected none)
+            if ($scope.model.createdPlugins) {
+                if ($scope.model.value.plugins != null && $scope.model.value.plugins.length == 0) {
+                    $scope.model.value.plugins = _.map($scope.tinyMceConfig.plugins, obj => {
+                        return obj.name;
+                    });
+                }
+            }
+
+
+            if (tinymcePremiumPluginsList != null) {
+                $scope.tinyMceConfig.pluginOptions = _.map(tinymcePremiumPluginsList, obj => {
+
+                    const objPlugin = {
+                        name: obj.alias,
+                        displayName: obj.name,
+                        selected: $scope.model.value.plugins.indexOf(obj.alias) >= 0
+                    };
+
+                    return objPlugin;
                 });
             }
 
             // Create objects out of the 
-            $scope.tinyMceConfig.pluginOptions = _.map($scope.tinyMceConfig.plugins, obj => {
-                const name = getDisplayName(obj.name);
+            //$scope.tinyMceConfig.pluginOptions = _.map($scope.tinyMceConfig.plugins, obj => {
+            //    const name = getDisplayName(obj.name);
 
-                const objPlugin = {
-                    name: obj.name,
-                    displayName: name,
-                    selected: $scope.model.value.plugins.indexOf(obj.name) >= 0,
-                };
+            //    const objPlugin = {
+            //        name: obj.name,
+            //        displayName: name,
+            //        selected: $scope.model.value.plugins.indexOf(obj.name) >= 0
+            //    };
 
-                return objPlugin;
-            });
+            //    return objPlugin;
+            //});
 
 
             // extend commands with properties for font-icon and if it is a custom command
@@ -277,6 +295,45 @@
                     break;
                 case "ai":
                     displayname = "AI Assistant (Premium Plugin)";
+                    break;
+                case "advcode":
+                    displayname = "Advanced Code Editor (Premium Plugin)";
+                    break;
+                case "advtable":
+                    displayname = "Advanced Tables (Premium Plugin)";
+                    break;
+                case "autocorrect":
+                    displayname = "Spelling Autocorrect (Premium Plugin)";
+                    break;
+                case "casechange":
+                    displayname = "Case Change (Premium Plugin)";
+                    break;
+                case "checklist":
+                    displayname = "Checklist (Premium Plugin)";
+                    break;
+                case "export":
+                    displayname = "Export (Premium Plugin)";
+                    break;
+                case "footnotes":
+                    displayname = "Footnotes (Premium Plugin)";
+                    break;
+                case "formatpainter":
+                    displayname = "Format Painter (Premium Plugin)";
+                    break;
+                case "linkchecker":
+                    displayname = "Link Checker (Premium Plugin)";
+                    break;
+                case "pageembed":
+                    displayname = "Page Embed (Premium Plugin)";
+                    break;
+                case "permanentpen":
+                    displayname = "Permanent Pen (Premium Plugin)";
+                    break;
+                case "tinymcespellchecker":
+                    displayname = "Spell Checker Pro (Premium Plugin)";
+                    break;
+                case "tableofcontents":
+                    displayname = "Table of Contents (Premium Plugin)";
                     break;
             }
 
