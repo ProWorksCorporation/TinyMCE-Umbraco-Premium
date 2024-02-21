@@ -74,11 +74,10 @@
             if (tinymcePremiumPluginsList != null) {
                 $scope.tinyMceConfig.pluginOptions = _.map(tinymcePremiumPluginsList, obj => {
 
-                    const objPlugin = {
-                        name: obj.alias,
+                    const objPlugin = Utilities.extend(obj, {
                         displayName: obj.name,
-                        selected: $scope.model.value.plugins.indexOf(obj.alias) >= 0
-                    };
+                        selected: $scope.model.value.plugins.indexOf(obj.alias) >= 0,
+                    });
 
                     return objPlugin;
                 });
@@ -105,7 +104,7 @@
                 const objCmd = Utilities.extend(obj, {
                     fontIcon: icon.name,
                     isCustom: icon.isCustom,
-                    selected: $scope.model.value.toolbar.indexOf(obj.alias) >= 0,
+                    selected: $scope.model.value.toolbar.indexOf(obj.alias) >= 0,                    
                     icon: "mce-ico " + (icon.isCustom ? ' mce-i-custom ' : ' mce-i-') + icon.name
                 });
 
@@ -150,12 +149,15 @@
         });
 
         $scope.selectPlugin = function (plugin) {
-            var index = $scope.model.value.plugins.indexOf(plugin.name);
+            var index = $scope.model.value.plugins.indexOf(plugin.alias);
+            var relatedCommand = _.findWhere($scope.tinyMceConfig.commands, { alias: plugin.command.alias });
 
             if (plugin.selected && index === -1) {
-                $scope.model.value.plugins.push(plugin.name);
+                $scope.model.value.plugins.push(plugin.alias);
             } else if (index >= 0) {
                 $scope.model.value.plugins.splice(index, 1);
+                relatedCommand.selected = false;
+                $scope.selectCommand(relatedCommand);
             }
         };
 
