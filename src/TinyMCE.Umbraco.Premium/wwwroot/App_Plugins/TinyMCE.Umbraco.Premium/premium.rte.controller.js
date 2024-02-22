@@ -69,7 +69,10 @@
 
                 // Override with prevalue plugins if present
                 if (editorConfig.plugins) {
-                    
+                    standardConfig.plugins = _.union(standardConfig.plugins, editorConfig.plugins);
+                    _.each(editorConfig.pluginsToExclude, function (alias) {
+                        standardConfig.plugins = _.without(standardConfig.plugins, alias);
+                    });
                 }
 
                 if (height !== null) {
