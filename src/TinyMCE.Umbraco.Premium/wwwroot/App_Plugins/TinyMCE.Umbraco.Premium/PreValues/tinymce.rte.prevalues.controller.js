@@ -21,6 +21,9 @@
         if (!$scope.model.value.toolbar) {
             $scope.model.value.toolbar = [];
         }
+        if (!$scope.model.value.pluginsToExclude) {
+            $scope.model.value.pluginsToExclude = [];
+        }
         if (!$scope.model.value.plugins) {
             $scope.model.createdPlugins = true;
             $scope.model.value.plugins = [];
@@ -70,7 +73,13 @@
                 }
             }
 
+            // Remove extra plugins that maybe no longer apply but were saved to prevalues at some point
+            var allPossiblePlugins = _.pluck($scope.tinyMceConfig.plugins, "name");
+            var premiumPlugins = _.pluck(tinymcePremiumPluginsList, "alias");
+            allPossiblePlugins = _.union(allPossiblePlugins, premiumPlugins);
+            $scope.model.value.plugins = _.intersection(allPossiblePlugins, $scope.model.value.plugins);
 
+            // Setup the checklist data for selecting plugins
             if (tinymcePremiumPluginsList != null) {
                 $scope.tinyMceConfig.pluginOptions = _.map(tinymcePremiumPluginsList, obj => {
 
@@ -82,20 +91,6 @@
                     return objPlugin;
                 });
             }
-
-            // Create objects out of the 
-            //$scope.tinyMceConfig.pluginOptions = _.map($scope.tinyMceConfig.plugins, obj => {
-            //    const name = getDisplayName(obj.name);
-
-            //    const objPlugin = {
-            //        name: obj.name,
-            //        displayName: name,
-            //        selected: $scope.model.value.plugins.indexOf(obj.name) >= 0
-            //    };
-
-            //    return objPlugin;
-            //});
-
 
             // extend commands with properties for font-icon and if it is a custom command
             $scope.tinyMceConfig.commands = _.map($scope.tinyMceConfig.commands, obj => {
@@ -150,11 +145,16 @@
 
         $scope.selectPlugin = function (plugin) {
             var index = $scope.model.value.plugins.indexOf(plugin.alias);
+            var indexInExcluded = $scope.model.value.pluginsToExclude.indexOf(plugin.alias);
             var relatedCommand = _.findWhere($scope.tinyMceConfig.commands, { alias: plugin.command.alias });
 
             if (plugin.selected && index === -1) {
                 $scope.model.value.plugins.push(plugin.alias);
+                $scope.model.value.pluginsToExclude.splice(indexInExcluded, 1);
+                relatedCommand.selected = true;
+                $scope.selectCommand(relatedCommand);
             } else if (index >= 0) {
+                $scope.model.value.pluginsToExclude.push(plugin.alias);
                 $scope.model.value.plugins.splice(index, 1);
                 relatedCommand.selected = false;
                 $scope.selectCommand(relatedCommand);

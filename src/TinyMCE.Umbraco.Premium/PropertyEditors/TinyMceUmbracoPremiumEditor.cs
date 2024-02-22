@@ -315,7 +315,7 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			}
 		}
 
-		// Try to inherit from Umbraco RTE
+		// Inherit from Umbraco RTE
 
 		//internal class RichTextPropertyIndexValueFactory : IPropertyIndexValueFactory
 		//{
