@@ -73,6 +73,8 @@
                 }
             }
 
+            var tinymcePremiumPluginsList = window.tinymcepremium.Config.tinymcePremiumPluginsList;
+
             // Remove extra plugins that maybe no longer apply but were saved to prevalues at some point
             var allPossiblePlugins = _.pluck($scope.tinyMceConfig.plugins, "name");
             var premiumPlugins = _.pluck(tinymcePremiumPluginsList, "alias");
@@ -92,14 +94,25 @@
                 });
             }
 
+            var allCommands = $scope.tinyMceConfig.commands;
+            _.each(tinymcePremiumPluginsList, function (p) {
+                if (p.command != null) {
+                    var relatedCommand = _.findWhere(allCommands, { alias: p.command.alias });
+                    if (!relatedCommand) {
+                        allCommands = _.union(allCommands, [p.command]);
+                    }
+                }
+            });
+
             // extend commands with properties for font-icon and if it is a custom command
-            $scope.tinyMceConfig.commands = _.map($scope.tinyMceConfig.commands, obj => {
+            $scope.tinyMceConfig.commands = _.map(allCommands, obj => {
                 const icon = getIcon(obj.alias);
 
                 const objCmd = Utilities.extend(obj, {
                     fontIcon: icon.name,
                     isCustom: icon.isCustom,
-                    selected: $scope.model.value.toolbar.indexOf(obj.alias) >= 0,                    
+                    selected: $scope.model.value.toolbar.indexOf(obj.alias) >= 0,
+                    disabled: $scope.model.value.pluginsToExclude.indexOf(obj.alias) >= 0,
                     icon: "mce-ico " + (icon.isCustom ? ' mce-i-custom ' : ' mce-i-') + icon.name
                 });
 
@@ -146,18 +159,29 @@
         $scope.selectPlugin = function (plugin) {
             var index = $scope.model.value.plugins.indexOf(plugin.alias);
             var indexInExcluded = $scope.model.value.pluginsToExclude.indexOf(plugin.alias);
-            var relatedCommand = _.findWhere($scope.tinyMceConfig.commands, { alias: plugin.command.alias });
+            var relatedCommand = _.find($scope.tinyMceConfig.commands, function (c) {
+                if (plugin.command != null) {
+                    return c.alias === plugin.command.alias;
+                }
+                else {
+                    return false;
+                }
+            });
 
             if (plugin.selected && index === -1) {
                 $scope.model.value.plugins.push(plugin.alias);
                 $scope.model.value.pluginsToExclude.splice(indexInExcluded, 1);
-                relatedCommand.selected = true;
-                $scope.selectCommand(relatedCommand);
+                if (relatedCommand) {
+                    relatedCommand.disabled = false;
+                    $scope.selectCommand(relatedCommand);
+                }
             } else if (index >= 0) {
                 $scope.model.value.pluginsToExclude.push(plugin.alias);
                 $scope.model.value.plugins.splice(index, 1);
-                relatedCommand.selected = false;
-                $scope.selectCommand(relatedCommand);
+                if (relatedCommand) {
+                    relatedCommand.disabled = true;
+                    $scope.selectCommand(relatedCommand);
+                }
             }
         };
 

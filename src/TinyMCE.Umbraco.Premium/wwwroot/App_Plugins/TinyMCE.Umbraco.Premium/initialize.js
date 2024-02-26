@@ -1,4 +1,11 @@
-﻿!(function () {
+﻿(function (tinyMcePremium, undefined) {
+
+    // Global namespaces defined
+    tinyMcePremium.Config = {};
+
+}(window.tinymcepremium = window.tinymcepremium || {}));
+
+!(function () {
     //console.log('Hello')
 
     /** 

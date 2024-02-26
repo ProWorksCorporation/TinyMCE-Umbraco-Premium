@@ -52,6 +52,7 @@
             $q.all(promises).then(function (result) {
 
                 var standardConfig = result[promises.length - 1];
+                var standardConfigKeys = _.keys(standardConfig);
 
                 // Override with prevalue custom config if present
                 if (editorConfig.customConfig) {
@@ -73,6 +74,15 @@
                     _.each(editorConfig.pluginsToExclude, function (alias) {
                         standardConfig.plugins = _.without(standardConfig.plugins, alias);
                     });
+                }
+
+                // Insert custom config for each plugin with more intense information
+                if (standardConfig.plugins.indexOf("advtemplate")) {
+                    if (_.indexOf(standardConfigKeys, "advtemplate_templates") < 0) {
+                        if (window.tinymcepremium.Config.advtemplate_templates != null) {
+                            Utilities.extend(standardConfig, window.tinymcepremium.Config.advtemplate_templates);
+                        }
+                    }
                 }
 
                 if (height !== null) {

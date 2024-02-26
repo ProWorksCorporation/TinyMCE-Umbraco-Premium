@@ -17,7 +17,8 @@
                           class="mce-cmd">
                 <umb-icon ng-if="cmd.icon" icon="{{cmd.icon}}"></umb-icon>
                 <span ng-if="!cmd.icon && cmd.svgIcon" ng-bind-html="cmd.svgIcon" class="umb-icon"></span>
-                <span ng-if="cmd.name" class="umb-form-check__text">{{cmd.name}}</span>
+                <span ng-if="cmd.name" data-ng-style="{ 'color' : cmd.disabled ? 'lightgrey' : null,'text-decoration': cmd.disabled ? 'line-through' : null }" class="umb-form-check__text">{{cmd.name}}</span>
+                <span ng-if="cmd.disabled" style="font-style: italic; color: grey;" class="umb-form-check__text"> (Disabled in Plugins Above)</span>
             </umb-checkbox>
         </div>
     </umb-control-group>
