@@ -51,6 +51,7 @@
             },
             onLoad: function (_editor) {
                 $scope.model.aceEditor = _editor;
+                $scope.model.aceEditor.resize();
             }
         };
 
