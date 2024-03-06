@@ -1,5 +1,5 @@
 ﻿angular.module("umbraco").controller("TinyMce.Umbraco.Premium.PrevalueEditors.RteController",
-    function ($scope, $sce, tinyMceService, stylesheetResource, assetsService) {
+    function ($scope, $sce, tinyMceService, stylesheetResource, assetsService, editorService) {
         var cfg = tinyMceService.defaultPrevalues();
 
         $scope.model.createdPlugins = false;
@@ -16,7 +16,7 @@
             $scope.model.value.stylesheets = [];
         }
         if (!$scope.model.value.customConfig) {
-            $scope.model.value.customConfig = "";
+            $scope.model.value.customConfig = {};
         }
         if (!$scope.model.value.toolbar) {
             $scope.model.value.toolbar = [];
@@ -37,32 +37,10 @@
         else if ($scope.model.value.mode === 'distraction-free') {
             // Due to legacy reasons, the older 'distraction-free' mode is kept and remapped to 'inline'
             $scope.model.value.mode = 'inline';
-        }
-
-        $scope.model.aceOption = {
-            mode: "json",
-            theme: "chrome",
-            showPrintMargin: false,
-            advanced: {
-                fontSize: '14px',
-                enableSnippets: false,
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: false
-            },
-            onLoad: function (_editor) {
-                $scope.model.aceEditor = _editor;
-            }
-        };
+        }       
 
         tinyMceService.configuration().then(config => {
             $scope.tinyMceConfig = config;
-
-            // Format with line breaks and tabbing
-            if ($scope.tinyMceConfig.customConfig != null) {
-                if ($scope.model.value.customConfig != null && $scope.model.value.customConfig.length == 0) {
-                    $scope.model.value.customConfig = JSON.stringify($scope.tinyMceConfig.customConfig, null, '\t');
-                }
-            }
 
             // If empty, then add all plugins so they get selected below if we created the array above (don't add all if they simply selected none)
             if ($scope.model.createdPlugins) {
@@ -184,6 +162,37 @@
                 }
             }
         };
+
+        // Open dialog to edit the custom configuration
+        var editConfigCollection = function (configValues, title, callback) {
+
+            var editConfigCollectionOverlay = {
+                config: configValues,
+                title: title,
+                view: "/App_Plugins/TinyMCE.Umbraco.Premium/Dialogs/editconfig.html",
+                size: "medium",
+                submit: function (model) {
+                    callback(model.config);
+                    editorService.close();
+                },
+                close: function (model) {
+                    editorService.close();
+                }
+            };
+
+            editorService.open(editConfigCollectionOverlay);
+        };
+
+        // Method that the html can call to open the dialog to edit the custom configuration
+        $scope.editConfig = function editConfig() {
+            editConfigCollection($scope.model.value.customConfig, "Edit Custom TinyMCE Configuration", function (data) {
+                $scope.model.value.customConfig = data;
+            });
+        }
+
+        //$scope.clearCustomConfig = function () {
+        //    $scope.model.value.customConfig = {};
+        //};
 
         $scope.selectCommand = function (command) {
             var index = $scope.model.value.toolbar.indexOf(command.alias);
@@ -310,62 +319,7 @@
 
             return icon;
         }
-
-        // Map name for specific plugins
-        function getDisplayName(name) {
-            var displayname = name;
-
-            switch (name) {
-                case "a11ychecker":
-                    displayname = "Accessibility Checker (Premium Plugin)";
-                    break;
-                case "ai":
-                    displayname = "AI Assistant (Premium Plugin)";
-                    break;
-                case "advcode":
-                    displayname = "Advanced Code Editor (Premium Plugin)";
-                    break;
-                case "advtable":
-                    displayname = "Advanced Tables (Premium Plugin)";
-                    break;
-                case "autocorrect":
-                    displayname = "Spelling Autocorrect (Premium Plugin)";
-                    break;
-                case "casechange":
-                    displayname = "Case Change (Premium Plugin)";
-                    break;
-                case "checklist":
-                    displayname = "Checklist (Premium Plugin)";
-                    break;
-                case "export":
-                    displayname = "Export (Premium Plugin)";
-                    break;
-                case "footnotes":
-                    displayname = "Footnotes (Premium Plugin)";
-                    break;
-                case "formatpainter":
-                    displayname = "Format Painter (Premium Plugin)";
-                    break;
-                case "linkchecker":
-                    displayname = "Link Checker (Premium Plugin)";
-                    break;
-                case "pageembed":
-                    displayname = "Page Embed (Premium Plugin)";
-                    break;
-                case "permanentpen":
-                    displayname = "Permanent Pen (Premium Plugin)";
-                    break;
-                case "tinymcespellchecker":
-                    displayname = "Spell Checker Pro (Premium Plugin)";
-                    break;
-                case "tableofcontents":
-                    displayname = "Table of Contents (Premium Plugin)";
-                    break;
-            }
-
-            return displayname;
-        }
-
+        
 
         var unsubscribe = $scope.$on("formSubmitting", function () {
 

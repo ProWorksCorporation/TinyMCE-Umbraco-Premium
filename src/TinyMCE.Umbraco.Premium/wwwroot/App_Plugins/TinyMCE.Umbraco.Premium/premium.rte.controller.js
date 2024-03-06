@@ -56,16 +56,7 @@
 
                 // Override with prevalue custom config if present
                 if (editorConfig.customConfig) {
-                    var customConfigAsJson = null;
-                    try {
-                        customConfigAsJson = JSON.parse(editorConfig.customConfig);
-                    }
-                    catch (e) {
-                        //cannot parse, we'll just leave it
-                    }
-                    if (customConfigAsJson) {
-                        Utilities.extend(standardConfig, customConfigAsJson);
-                    }
+                    Utilities.extend(standardConfig, editorConfig.customConfig);
                 }
 
                 // Override with prevalue plugins if present
