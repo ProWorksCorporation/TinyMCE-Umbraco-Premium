@@ -51,6 +51,7 @@
             },
             onLoad: function (_editor) {
                 $scope.model.aceEditor = _editor;
+                $scope.model.aceEditor.resize();
             }
         };
 
@@ -60,7 +61,7 @@
             // Format with line breaks and tabbing
             if ($scope.tinyMceConfig.customConfig != null) {
                 if ($scope.model.value.customConfig != null && $scope.model.value.customConfig.length == 0) {
-                    $scope.model.value.customConfig = JSON.stringify($scope.tinyMceConfig.customConfig, null, '\t');
+                //    $scope.model.value.customConfig = JSON.stringify($scope.tinyMceConfig.customConfig, null, '\t');
                 }
             }
 
@@ -183,6 +184,10 @@
                     $scope.selectCommand(relatedCommand);
                 }
             }
+        };
+
+        $scope.clearCustomConfig = function () {
+            $scope.model.value.customConfig = "";
         };
 
         $scope.selectCommand = function (command) {

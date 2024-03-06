@@ -54,12 +54,12 @@
         </div>
     </umb-control-group>
 
-    <umb-control-group label="Global Custom Configuration" description="This is managed in the appSettings and is here for reference.">
+    <umb-control-group label="CustomConfig" description="This data type's specific custom configuration for TinyMce">
         <div class="vertical-align-items">
-            <div><pre>{{tinyMceConfig.customConfig | json}}</pre></div>
-
+            <div><pre>{{model.value.customConfig}}</pre></div>
+            <!--<div><pre>{{tinyMceConfig.customConfig | json}}</pre></div>-->
+            <input type="button" ng-click="clearCustomConfig()" title="Clear Custom Config" />
         </div>
-
     </umb-control-group>
 
     <umb-control-group label="CustomConfig" description="Set the editor custom configuration">
@@ -68,7 +68,7 @@
                  auto-scale="85"
                  umb-ace-editor="model.aceOption"
                  model="model.value.customConfig"
-                 style="width: 100%;"></div>
+                 style="width: 100%; height: 100%;"></div>
         </div>
     </umb-control-group>
 
