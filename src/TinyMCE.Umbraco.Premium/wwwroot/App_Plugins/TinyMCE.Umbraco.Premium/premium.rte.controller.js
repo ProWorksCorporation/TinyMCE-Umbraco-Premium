@@ -67,7 +67,8 @@
                     });
                 }
 
-                // Insert custom config for each plugin with more intense information
+                ///////////////////
+                // Insert custom config for each plugin with default configuration so something shows up after adding it
                 if (standardConfig.plugins.indexOf("advtemplate")) {
                     if (_.indexOf(standardConfigKeys, "advtemplate_templates") < 0) {
                         if (window.tinymcepremium.Config.advtemplate_templates != null) {
@@ -75,6 +76,14 @@
                         }
                     }
                 }
+                if (standardConfig.plugins.indexOf("mergetags")) {
+                    if (_.indexOf(standardConfigKeys, "mergetags_list") < 0) {
+                        if (window.tinymcepremium.Config.mergetags_list != null) {
+                            Utilities.extend(standardConfig, window.tinymcepremium.Config.mergetags_list);
+                        }
+                    }
+                }
+                ///////////////////
 
                 if (height !== null) {
                     standardConfig.plugins.splice(standardConfig.plugins.indexOf("autoresize"), 1);
