@@ -93,6 +93,15 @@
             command: null
         },
         {
+            name: "Merge Tags (Premium Plugin)",
+            alias: "mergetags",
+            command: {
+                alias: "mergetags",
+                name: "Merge Tags (Premium Plugin)",
+                mode: "Insert"
+            }
+        },
+        {
             name: "Page Embed (Premium Plugin)",
             alias: "pageembed",
             command: {

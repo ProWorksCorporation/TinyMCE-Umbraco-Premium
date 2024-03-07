@@ -35,13 +35,7 @@ namespace TinyMCE.Umbraco.Premium.Composers
 			/// <inheritdoc />
 			builder.Services.Configure<RichTextEditorSettings>(options =>
             {
-				//JsonObject obj = new();
-
-				//foreach(var child in builder.Config.GetSection("TinyMceConfig:customConfig").GetChildren())
-				//{
-				//	obj.Add(child.Key, JsonSerializer.Serialize(child));
-				//}
-
+				// Rebuild the Json
 				var tinyMceCustomConfigurationSection = builder.Config.GetSection("TinyMceConfig:customConfig");
 				var customConfigKeys = new Dictionary<string, string>();
 				foreach(var child in tinyMceCustomConfigurationSection.GetChildren())
@@ -137,6 +131,16 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Mode = RichTextEditorCommandMode.Selection
 						});
 					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("mergetags"))
+					{
+						plugins.Add("mergetags");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "mergetags",
+							Name = "Merge Tags (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
 					if (!_tinyMceConfig.pluginsToExclude.Contains("pageembed"))
 					{
 						plugins.Add("pageembed");
@@ -204,15 +208,6 @@ namespace TinyMCE.Umbraco.Premium.Composers
 
 	public static class ConfigurationBinder
 	{
-
-		//public static void BindJsonNet(this IConfiguration config, object instance)
-		//{
-		//	var obj = BindToExpandoObject(config);
-
-		//	var jsonText = JsonConvert.SerializeObject(obj);
-		//	JsonConvert.PopulateObject(jsonText, instance);
-		//}
-
 		public static ExpandoObject BindToExpandoObject(IConfiguration config)
 		{
 			var result = new ExpandoObject();
