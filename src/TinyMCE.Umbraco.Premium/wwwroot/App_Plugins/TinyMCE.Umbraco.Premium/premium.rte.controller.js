@@ -83,6 +83,18 @@
                         }
                     }
                 }
+                if (standardConfig.plugins.indexOf("powerpaste")) {
+                    // remove the "paste" plugin per TinyMCE docs
+                    standardConfig.plugins = _.without(standardConfig.plugins, "paste");
+                }
+                if (standardConfig.plugins.indexOf("editimage")) {
+                    // add the  the "image" plugin per TinyMCE docs
+                    standardConfig.plugins = _.union(standardConfig.plugins,["image"]);
+                }
+                if (standardConfig.plugins.indexOf("mediaembed")) {
+                    // add the "media" plugin per TinyMCE docs
+                    standardConfig.plugins = _.union(standardConfig.plugins, ["media"]);
+                }
                 ///////////////////
 
                 if (height !== null) {

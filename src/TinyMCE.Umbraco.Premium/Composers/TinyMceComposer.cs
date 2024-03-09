@@ -80,6 +80,16 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Mode = RichTextEditorCommandMode.All
 						});
 					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("typography"))
+					{
+						plugins.Add("typography");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "typography",
+							Name = "Advanced Typography (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Selection
+						});
+					}
 					if (!_tinyMceConfig.pluginsToExclude.Contains("casechange"))
 					{
 						plugins.Add("casechange");
