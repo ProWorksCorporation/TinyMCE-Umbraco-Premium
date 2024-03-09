@@ -43,6 +43,15 @@
             }
         },
         {
+            name: "Advanced Typography (Premium Plugin)",
+            alias: "typography",
+            command: {
+                alias: "typography",
+                name: "Advanced Typography (Premium Plugin)",
+                mode: "Selection"
+            }
+        },
+        {
             name: "Case Change (Premium Plugin)",
             alias: "casechange",
             command: {
@@ -58,6 +67,25 @@
                 alias: "checklist",
                 name: "Checklist (Premium Plugin)",
                 mode: "All"
+            }
+        },
+        // Doesn't play well with the Umbraco Media Picker currently
+        //{
+        //    name: "Enhanced Image Editing (Premium Plugin)",
+        //    alias: "editimage",
+        //    command: {
+        //        alias: "image",
+        //        name: "Enhanced Image Editing (Premium Plugin)",
+        //        mode: "All"
+        //    }
+        //},
+        {
+            name: "Enhanced Media Embed (Premium Plugin)",
+            alias: "mediaembed",
+            command: {
+                alias: "media",
+                name: "Enhanced Media Embed (Premium Plugin)",
+                mode: "Insert"
             }
         },
         {
@@ -107,6 +135,15 @@
             command: {
                 alias: "pageembed",
                 name: "Page Embed (Premium Plugin)",
+                mode: "Insert"
+            }
+        },
+        {
+            name: "PowerPaste (Premium Plugin)",
+            alias: "powerpaste",
+            command: {
+                alias: "paste",
+                name: "PowerPaste (Premium Plugin)",
                 mode: "Insert"
             }
         },
