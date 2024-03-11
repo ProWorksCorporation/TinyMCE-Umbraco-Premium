@@ -2,20 +2,74 @@
 
     config.tinymcePremiumPluginsList = [
         {
-            name: "Accessibility Checker plugin (Premium Plugin)",
-            alias: "a11ychecker",
-            command: {
-                alias: "a11ycheck",
-                name: "Accessibility Checker (Premium Plugin)",
-                mode: "All"
-            }
-        },
-        {
             name: "Accordion",
             alias: "accordion",
             command: {
                 alias: "accordion",
                 name: "Accordion",
+                mode: "All"
+            }
+        },
+        {
+            name: "Code Sample",
+            alias: "codesample",
+            command: {
+                alias: "codesample",
+                name: "Code Sample",
+                mode: "All"
+            }
+        },
+        {
+            name: "Emoticons",
+            alias: "emoticons",
+            command: {
+                alias: "emoticons",
+                name: "Emoticons",
+                mode: "Insert"
+            }
+        },
+        {
+            name: "Help for Editors",
+            alias: "help",
+            command: {
+                alias: "help",
+                name: "Help for Editors",
+                mode: "All"
+            }
+        },
+        {
+            name: "Insert Date/Time",
+            alias: "insertdatetime",
+            command: {
+                alias: "insertdatetime",
+                name: "Insert Date/Time",
+                mode: "Insert"
+            }
+        },
+        {
+            name: "Search and Replace",
+            alias: "searchreplace",
+            command: {
+                alias: "searchreplace",
+                name: "Search and Replace",
+                mode: "All"
+            }
+        },
+        {
+            name: "Word Count",
+            alias: "wordcount",
+            command: {
+                alias: "wordcount",
+                name: "Word Count",
+                mode: "All"
+            }
+        },
+        {
+            name: "Accessibility Checker plugin (Premium Plugin)",
+            alias: "a11ychecker",
+            command: {
+                alias: "a11ycheck",
+                name: "Accessibility Checker (Premium Plugin)",
                 mode: "All"
             }
         },
@@ -69,16 +123,6 @@
                 mode: "All"
             }
         },
-        // Doesn't play well with the Umbraco Media Picker currently
-        //{
-        //    name: "Enhanced Image Editing (Premium Plugin)",
-        //    alias: "editimage",
-        //    command: {
-        //        alias: "image",
-        //        name: "Enhanced Image Editing (Premium Plugin)",
-        //        mode: "All"
-        //    }
-        //},
         {
             name: "Enhanced Media Embed (Premium Plugin)",
             alias: "mediaembed",

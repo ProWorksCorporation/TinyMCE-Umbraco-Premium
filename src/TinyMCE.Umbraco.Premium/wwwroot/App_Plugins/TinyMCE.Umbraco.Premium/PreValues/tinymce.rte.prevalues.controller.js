@@ -58,6 +58,7 @@
             var premiumPlugins = _.pluck(tinymcePremiumPluginsList, "alias");
             allPossiblePlugins = _.union(allPossiblePlugins, premiumPlugins);
             $scope.model.value.plugins = _.intersection(allPossiblePlugins, $scope.model.value.plugins);
+            $scope.model.value.pluginsToExclude = _.difference(allPossiblePlugins, $scope.model.value.plugins);
 
             // Setup the checklist data for selecting plugins
             if (tinymcePremiumPluginsList != null) {
