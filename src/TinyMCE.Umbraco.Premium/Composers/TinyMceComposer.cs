@@ -70,6 +70,76 @@ namespace TinyMCE.Umbraco.Premium.Composers
 
 					// Add some default plugins to all RTEs that don't require much configuration and have a toolbar that
 					// can be disabled
+					if (!_tinyMceConfig.pluginsToExclude.Contains("accordion"))
+					{
+						plugins.Add("accordion");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "accordion",
+							Name = "Accordion",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("codesample"))
+					{
+						plugins.Add("codesample");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "codesample",
+							Name = "Code Sample",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("emoticons"))
+					{
+						plugins.Add("emoticons");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "emoticons",
+							Name = "Emoticons",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("help"))
+					{
+						plugins.Add("help");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "help",
+							Name = "Help for Editors",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("insertdatetime"))
+					{
+						plugins.Add("insertdatetime");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "insertdatetime",
+							Name = "Insert Date/Time",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("searchreplace"))
+					{
+						plugins.Add("searchreplace");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "searchreplace",
+							Name = "Search and Replace",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("wordcount"))
+					{
+						plugins.Add("wordcount");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "wordcount",
+							Name = "Word Count",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
 					if (!_tinyMceConfig.pluginsToExclude.Contains("a11ychecker"))
 					{
 						plugins.Add("a11ychecker");
