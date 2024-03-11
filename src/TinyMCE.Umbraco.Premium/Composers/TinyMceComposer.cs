@@ -35,13 +35,7 @@ namespace TinyMCE.Umbraco.Premium.Composers
 			/// <inheritdoc />
 			builder.Services.Configure<RichTextEditorSettings>(options =>
             {
-				//JsonObject obj = new();
-
-				//foreach(var child in builder.Config.GetSection("TinyMceConfig:customConfig").GetChildren())
-				//{
-				//	obj.Add(child.Key, JsonSerializer.Serialize(child));
-				//}
-
+				// Rebuild the Json
 				var tinyMceCustomConfigurationSection = builder.Config.GetSection("TinyMceConfig:customConfig");
 				var customConfigKeys = new Dictionary<string, string>();
 				foreach(var child in tinyMceCustomConfigurationSection.GetChildren())
@@ -76,6 +70,76 @@ namespace TinyMCE.Umbraco.Premium.Composers
 
 					// Add some default plugins to all RTEs that don't require much configuration and have a toolbar that
 					// can be disabled
+					if (!_tinyMceConfig.pluginsToExclude.Contains("accordion"))
+					{
+						plugins.Add("accordion");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "accordion",
+							Name = "Accordion",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("codesample"))
+					{
+						plugins.Add("codesample");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "codesample",
+							Name = "Code Sample",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("emoticons"))
+					{
+						plugins.Add("emoticons");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "emoticons",
+							Name = "Emoticons",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("help"))
+					{
+						plugins.Add("help");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "help",
+							Name = "Help for Editors",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("insertdatetime"))
+					{
+						plugins.Add("insertdatetime");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "insertdatetime",
+							Name = "Insert Date/Time",
+							Mode = RichTextEditorCommandMode.Insert
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("searchreplace"))
+					{
+						plugins.Add("searchreplace");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "searchreplace",
+							Name = "Search and Replace",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("wordcount"))
+					{
+						plugins.Add("wordcount");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "wordcount",
+							Name = "Word Count",
+							Mode = RichTextEditorCommandMode.All
+						});
+					}
 					if (!_tinyMceConfig.pluginsToExclude.Contains("a11ychecker"))
 					{
 						plugins.Add("a11ychecker");
@@ -84,6 +148,16 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Alias = "a11ycheck",
 							Name = "Accessibility Checker (Premium Plugin)",
 							Mode = RichTextEditorCommandMode.All
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("typography"))
+					{
+						plugins.Add("typography");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "typography",
+							Name = "Advanced Typography (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Selection
 						});
 					}
 					if (!_tinyMceConfig.pluginsToExclude.Contains("casechange"))
@@ -135,6 +209,16 @@ namespace TinyMCE.Umbraco.Premium.Composers
 							Alias = "formatpainter",
 							Name = "Format Painter (Premium Plugin)",
 							Mode = RichTextEditorCommandMode.Selection
+						});
+					}
+					if (!_tinyMceConfig.pluginsToExclude.Contains("mergetags"))
+					{
+						plugins.Add("mergetags");
+						commands.Add(new RichTextEditorSettings.RichTextEditorCommand
+						{
+							Alias = "mergetags",
+							Name = "Merge Tags (Premium Plugin)",
+							Mode = RichTextEditorCommandMode.Insert
 						});
 					}
 					if (!_tinyMceConfig.pluginsToExclude.Contains("pageembed"))
@@ -204,15 +288,6 @@ namespace TinyMCE.Umbraco.Premium.Composers
 
 	public static class ConfigurationBinder
 	{
-
-		//public static void BindJsonNet(this IConfiguration config, object instance)
-		//{
-		//	var obj = BindToExpandoObject(config);
-
-		//	var jsonText = JsonConvert.SerializeObject(obj);
-		//	JsonConvert.PopulateObject(jsonText, instance);
-		//}
-
 		public static ExpandoObject BindToExpandoObject(IConfiguration config)
 		{
 			var result = new ExpandoObject();

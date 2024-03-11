@@ -2,20 +2,74 @@
 
     config.tinymcePremiumPluginsList = [
         {
-            name: "Accessibility Checker plugin (Premium Plugin)",
-            alias: "a11ychecker",
-            command: {
-                alias: "a11ycheck",
-                name: "Accessibility Checker (Premium Plugin)",
-                mode: "All"
-            }
-        },
-        {
             name: "Accordion",
             alias: "accordion",
             command: {
                 alias: "accordion",
                 name: "Accordion",
+                mode: "All"
+            }
+        },
+        {
+            name: "Code Sample",
+            alias: "codesample",
+            command: {
+                alias: "codesample",
+                name: "Code Sample",
+                mode: "All"
+            }
+        },
+        {
+            name: "Emoticons",
+            alias: "emoticons",
+            command: {
+                alias: "emoticons",
+                name: "Emoticons",
+                mode: "Insert"
+            }
+        },
+        {
+            name: "Help for Editors",
+            alias: "help",
+            command: {
+                alias: "help",
+                name: "Help for Editors",
+                mode: "All"
+            }
+        },
+        {
+            name: "Insert Date/Time",
+            alias: "insertdatetime",
+            command: {
+                alias: "insertdatetime",
+                name: "Insert Date/Time",
+                mode: "Insert"
+            }
+        },
+        {
+            name: "Search and Replace",
+            alias: "searchreplace",
+            command: {
+                alias: "searchreplace",
+                name: "Search and Replace",
+                mode: "All"
+            }
+        },
+        {
+            name: "Word Count",
+            alias: "wordcount",
+            command: {
+                alias: "wordcount",
+                name: "Word Count",
+                mode: "All"
+            }
+        },
+        {
+            name: "Accessibility Checker plugin (Premium Plugin)",
+            alias: "a11ychecker",
+            command: {
+                alias: "a11ycheck",
+                name: "Accessibility Checker (Premium Plugin)",
                 mode: "All"
             }
         },
@@ -43,6 +97,15 @@
             }
         },
         {
+            name: "Advanced Typography (Premium Plugin)",
+            alias: "typography",
+            command: {
+                alias: "typography",
+                name: "Advanced Typography (Premium Plugin)",
+                mode: "Selection"
+            }
+        },
+        {
             name: "Case Change (Premium Plugin)",
             alias: "casechange",
             command: {
@@ -58,6 +121,15 @@
                 alias: "checklist",
                 name: "Checklist (Premium Plugin)",
                 mode: "All"
+            }
+        },
+        {
+            name: "Enhanced Media Embed (Premium Plugin)",
+            alias: "mediaembed",
+            command: {
+                alias: "media",
+                name: "Enhanced Media Embed (Premium Plugin)",
+                mode: "Insert"
             }
         },
         {
@@ -93,11 +165,29 @@
             command: null
         },
         {
+            name: "Merge Tags (Premium Plugin)",
+            alias: "mergetags",
+            command: {
+                alias: "mergetags",
+                name: "Merge Tags (Premium Plugin)",
+                mode: "Insert"
+            }
+        },
+        {
             name: "Page Embed (Premium Plugin)",
             alias: "pageembed",
             command: {
                 alias: "pageembed",
                 name: "Page Embed (Premium Plugin)",
+                mode: "Insert"
+            }
+        },
+        {
+            name: "PowerPaste (Premium Plugin)",
+            alias: "powerpaste",
+            command: {
+                alias: "paste",
+                name: "PowerPaste (Premium Plugin)",
                 mode: "Insert"
             }
         },
