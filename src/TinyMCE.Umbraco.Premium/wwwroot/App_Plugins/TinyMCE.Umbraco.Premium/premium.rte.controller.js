@@ -83,6 +83,13 @@
                         }
                     }
                 }
+                if (standardConfig.plugins.indexOf("ai")) {
+                    if (_.indexOf(standardConfigKeys, "ai_request") < 0) {
+                        if (window.tinymcepremium.Config.ai_request != null) {
+                            Utilities.extend(standardConfig, window.tinymcepremium.Config.ai_request);
+                        }
+                    }
+                }
                 if (standardConfig.plugins.indexOf("powerpaste")) {
                     // remove the "paste" plugin per TinyMCE docs
                     standardConfig.plugins = _.without(standardConfig.plugins, "paste");
