@@ -106,6 +106,15 @@
             }
         },
         {
+            name: "AI Assistant Shortcuts (Premium Plugin)",
+            alias: "ai",
+            command: {
+                alias: "aishortcuts aidialog",
+                name: "AI Assistant (Premium Plugin)",
+                mode: "Insert"
+            }
+        },
+        {
             name: "Case Change (Premium Plugin)",
             alias: "casechange",
             command: {

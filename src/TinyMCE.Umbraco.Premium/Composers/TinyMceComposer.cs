@@ -280,8 +280,9 @@ namespace TinyMCE.Umbraco.Premium.Composers
             /// <inheritdoc /> 
             public void Handle(ServerVariablesParsingNotification notification) => notification.ServerVariables.Add("tinymcepremium", new
             {
-                apiKey = _tinyMceConfig != null ? _tinyMceConfig.apikey : "",
-            });
+				apiKey = _tinyMceConfig != null ? _tinyMceConfig.apikey : "",
+				openAiApikey = _tinyMceConfig != null ? _tinyMceConfig.openAiApikey : "",
+			});
         }
     }
 
