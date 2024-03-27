@@ -9,7 +9,7 @@ using Umbraco.Cms.Core.Strings;
 using Umbraco.Cms.Core.Templates;
 using Umbraco.Cms.Core.Web;
 
-namespace TinyMCE.Umbraco.Premium.ValueConverters
+namespace TinyMCE.UmbracoCms.Premium.ValueConverters
 {
 	/// <summary>
 	///     Value converter for the TinyMCE Umbraco Premium RTE so that it always returns IHtmlString so that Html.Raw doesn't have to be used.

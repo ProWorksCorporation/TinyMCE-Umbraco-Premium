@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace TinyMCE.Umbraco.Premium.Options
+namespace TinyMCE.UmbracoCms.Premium.Options
 {
 	public class TinyMceConfig
 	{

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
@@ -10,7 +10,7 @@
     <PackageId>tinymce.umbraco.premium</PackageId>
     <Product>TinyMCE.Umbraco.Premium</Product>
     <Title>TinyMCE.Umbraco.Premium</Title>
-    <Version>12.3.7</Version>
+    <Version>13.0.0</Version>
     <Description>Umbraco CMS package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE.</Description>
     <PackageTags>umbraco plugin package tinymce</PackageTags>
     <Authors>jasonproworks</Authors>
@@ -21,8 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="12.3.7" />
-    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="12.3.7" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="13.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="13.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="13.0.0" />
   </ItemGroup>
   
 </Project>

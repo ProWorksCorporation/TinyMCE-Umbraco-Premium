@@ -7,7 +7,8 @@
     "~/App_Plugins/TinyMCE.Umbraco.Premium/plugins.list.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/Dialogs/editconfig.controller.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/PreValues/tinymce.rte.prevalues.controller.js",
-    "~/App_Plugins/TinyMCE.Umbraco.Premium/premium.rte.controller.js",
+    //"~/App_Plugins/TinyMCE.Umbraco.Premium/premium.rte.controller.js",
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/premuim.rte.component.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/advtemplate.templates.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/mergetags.templates.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/ai.templates.js"

@@ -13,7 +13,7 @@ using Umbraco.Cms.Core.Strings;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Packaging;
 
-namespace TinyMCE.Umbraco.Premium.Migrations
+namespace TinyMCE.UmbracoCms.Premium.Migrations
 {
 	public class TinyMceMigrationPlan : PackageMigrationPlan
 	{
