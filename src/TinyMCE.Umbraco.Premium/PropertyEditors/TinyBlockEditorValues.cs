@@ -14,11 +14,11 @@ namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
 /// </summary>
 internal class TinyBlockEditorValues
 {
-    private readonly BlockEditorDataConverter _dataConverter;
+    private readonly TinyRichTextEditorBlockDataConverter _dataConverter;
     private readonly IContentTypeService _contentTypeService;
     private readonly ILogger _logger;
 
-    public TinyBlockEditorValues(BlockEditorDataConverter dataConverter, IContentTypeService contentTypeService, ILogger logger)
+    public TinyBlockEditorValues(TinyRichTextEditorBlockDataConverter dataConverter, IContentTypeService contentTypeService, ILogger logger)
     {
         _dataConverter = dataConverter;
         _contentTypeService = contentTypeService;

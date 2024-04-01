@@ -21,6 +21,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PropertyEditors\TinyBlockPropertyValueCreator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Umbraco.Cms.Core" Version="13.0.0" />
     <PackageReference Include="Umbraco.Cms.Web.Website" Version="13.0.0" />
     <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="13.0.0" />

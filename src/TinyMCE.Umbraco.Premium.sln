@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyMCE.Umbraco.Premium", "TinyMCE.Umbraco.Premium\TinyMCE.Umbraco.Premium.csproj", "{1A802507-42E9-4EBA-90B1-31BBE31E6943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyMCE.UmbracoCms.Premium", "TinyMCE.Umbraco.Premium\TinyMCE.UmbracoCms.Premium.csproj", "{1A802507-42E9-4EBA-90B1-31BBE31E6943}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbraco.Cms.Demo", "Umbraco.Cms.Demo\Umbraco.Cms.Demo.csproj", "{B691DAD4-0160-4E52-B632-31E1316FAFB9}"
 EndProject

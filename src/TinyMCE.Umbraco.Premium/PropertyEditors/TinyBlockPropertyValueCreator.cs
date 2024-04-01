@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Umbraco.Cms.Core.Models.Blocks;
+using Umbraco.Cms.Core.PropertyEditors;
+using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
+
+namespace TinyMCE.UmbracoCms.Premium.PropertyEditors
+//{
+//	internal class TinyBlockPropertyValueCreator
+//	{
+//		private readonly RichTextBlockPropertyValueConstructorCache _constructorCache;
+
+//		public TinyBlockPropertyValueCreator(BlockEditorConverter blockEditorConverter, RichTextBlockPropertyValueConstructorCache constructorCache)
+//			: base(blockEditorConverter)
+//			=> _constructorCache = constructorCache;
+
+//		public RichTextBlockModel CreateBlockModel(PropertyCacheLevel referenceCacheLevel, BlockValue blockValue, bool preview, RichTextConfiguration.RichTextBlockConfiguration[] blockConfigurations)
+//		{
+//			RichTextBlockModel CreateEmptyModel() => RichTextBlockModel.Empty;
+
+//			RichTextBlockModel CreateModel(IList<RichTextBlockItem> items) => new RichTextBlockModel(items);
+
+//			RichTextBlockModel blockModel = CreateBlockModel(referenceCacheLevel, blockValue, preview, blockConfigurations, CreateEmptyModel, CreateModel);
+
+//			return blockModel;
+//		}
+
+//		protected BlockEditorDataConverter CreateBlockEditorDataConverter() => new TinyRichTextEditorBlockDataConverter();
+
+//		protected BlockItemActivator<RichTextBlockItem> CreateBlockItemActivator() => new RichTextBlockItemActivator(BlockEditorConverter, _constructorCache);
+
+//		private class RichTextBlockItemActivator : BlockItemActivator<RichTextBlockItem>
+//		{
+//			public RichTextBlockItemActivator(BlockEditorConverter blockConverter, RichTextBlockPropertyValueConstructorCache constructorCache)
+//				: base(blockConverter, constructorCache)
+//			{
+//			}
+
+//			protected override Type GenericItemType => typeof(RichTextBlockItem<,>);
+//		}
+//	}
+}
