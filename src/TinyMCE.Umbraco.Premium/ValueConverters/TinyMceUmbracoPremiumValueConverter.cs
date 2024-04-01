@@ -67,35 +67,47 @@ namespace TinyMCE.UmbracoCms.Premium.ValueConverters
 		public override bool IsConverter(IPublishedPropertyType propertyType)
 			=> propertyType.EditorAlias == Constants.PropertyEditors.Aliases.TinyMceUmbracoPremiumRte;
 
+		// Doing these because we don't have access to RichTextEditorIntermediateValue
 		public bool IsRichTextBlockModelNull(object intermediateValue)
 		{
 			bool isNull = false;
 			foreach (var v in intermediateValue.GetType().GetProperties())
 			{
-				foreach (var p in v.PropertyType.GetProperties())
+				if (v.Name == "RichTextBlockModel")
 				{
-					if (p.Name == "RichTextBlockModel")
+					if (v.GetValue(intermediateValue) == null)
 					{
-						if (p.GetValue(v) == null)
-						{
-							isNull = true;
-						}
+						isNull = true;
 					}
 				}
 			}
 
 			return isNull;
 		}
-		public object SetRichTextBlockModel(object intermediateValue, RichTextBlockModel richTextBlockModel)
+		public RichTextBlockModel GetRichTextBlockModelProperty(object intermediateValue)
 		{
 			foreach (var v in intermediateValue.GetType().GetProperties())
 			{
-				foreach (var p in v.PropertyType.GetProperties())
+				if (v.Name == "RichTextBlockModel")
 				{
-					if (p.Name == "RichTextBlockModel")
+					var propertyValue = v.GetValue(intermediateValue);
+					if (propertyValue != null)
 					{
-						p.SetValue(v, richTextBlockModel);
+						return (RichTextBlockModel)propertyValue;
 					}
+				}
+			}
+
+			return RichTextBlockModel.Empty;
+		}
+
+		public object SetRichTextBlockModelProperty(object intermediateValue, RichTextBlockModel richTextBlockModel)
+		{
+			foreach (var v in intermediateValue.GetType().GetProperties())
+			{
+				if (v.Name == "RichTextBlockModel")
+				{
+					v.SetValue(intermediateValue, richTextBlockModel, null);
 				}
 			}
 
@@ -106,153 +118,158 @@ namespace TinyMCE.UmbracoCms.Premium.ValueConverters
 		public override object? ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object? source, bool preview)
 		{
 			var intermediateValue = base.ConvertSourceToIntermediate(owner,propertyType,source,preview);
+			// Have to do it this way because the RichTextEditorIntermediateValue model is private in Umbraco and if we don't use that nothing renders
 
-			if(intermediateValue == null)
+			if (intermediateValue == null)
 			{
 				return null;
 			}
 
-			if (IsRichTextBlockModelNull(intermediateValue))
+			if (!IsRichTextBlockModelNull(intermediateValue))
 			{
-				if (RichTextPropertyEditorHelper.TryParseRichTextEditorValue(source, _jsonSerializer, _logger, out RichTextEditorValue? richTextEditorValue) is false)
+				var intermediateRichTextBlockModel = GetRichTextBlockModelProperty(intermediateValue);
+
+				if(!intermediateRichTextBlockModel.Any())
 				{
-					return null;
-				}
-
-				RichTextConfiguration? configuration = propertyType.DataType.ConfigurationAs<RichTextConfiguration>();
-				if (configuration?.Blocks?.Any() is not true)
-				{
-					return null;
-				}
-
-				BlockEditorData converted = _blockDataConverter.Convert(richTextEditorValue.Blocks);
-				var referenceCacheLevel = PropertyCacheLevel.Element;
-
-				var richTextBlockModel = RichTextBlockModel.Empty;
-
-				// Pulled from BlockPropertyValueCreatorBase.CreateBlockModel()
-				IEnumerable<RichTextBlockLayoutItem>? layout = converted.Layout?.ToObject<IEnumerable<RichTextBlockLayoutItem>>();
-				if (layout is null)
-				{
-					return intermediateValue;
-				}
-				var blockConfigMap = configuration.Blocks.ToDictionary(bc => bc.ContentElementTypeKey);
-				var contentPublishedElements = new Dictionary<Guid, IPublishedElement>();
-
-				foreach (BlockItemData data in converted.BlockValue.ContentData)
-				{
-					if (!blockConfigMap.ContainsKey(data.ContentTypeKey))
-					{
-						continue;
-					}
-
-					IPublishedElement? element = _blockEditorConverter.ConvertToElement(data, referenceCacheLevel, preview);
-					if (element == null)
-					{
-						continue;
-					}
-
-					contentPublishedElements[element.Key] = element;
-				}
-				// If there are no content elements, it doesn't matter what is stored in layout
-				if (contentPublishedElements.Count == 0)
-				{
-					return intermediateValue;
-				}
-
-				// Convert the settings data
-				var settingsPublishedElements = new Dictionary<Guid, IPublishedElement>();
-				var validSettingsElementTypes = blockConfigMap.Values.Select(x => x.SettingsElementTypeKey)
-					.Where(x => x.HasValue).Distinct().ToList();
-
-				foreach (BlockItemData data in converted.BlockValue.SettingsData)
-				{
-					if (!validSettingsElementTypes.Contains(data.ContentTypeKey))
-					{
-						continue;
-					}
-
-					IPublishedElement? element = _blockEditorConverter.ConvertToElement(data, referenceCacheLevel, preview);
-					if (element is null)
-					{
-						continue;
-					}
-
-					settingsPublishedElements[element.Key] = element;
-				}
-
-				BlockItemActivator<RichTextBlockItem> blockItemActivator = new BlockItemActivator<RichTextBlockItem>(_blockEditorConverter, _constructorCache);
-
-				RichTextBlockItem? CreateBlockItem(RichTextBlockLayoutItem layoutItem)
-				{
-					// Get the content reference
-					var contentGuidUdi = (GuidUdi?)layoutItem.ContentUdi;
-					if (contentGuidUdi is null ||
-						!contentPublishedElements.TryGetValue(contentGuidUdi.Guid, out IPublishedElement? contentData))
+					// Copying what Umbraco does here because most of the classes are internal or private and the block rendering doesn't work because they call the wrong converter
+					if (RichTextPropertyEditorHelper.TryParseRichTextEditorValue(source, _jsonSerializer, _logger, out RichTextEditorValue? richTextEditorValue) is false)
 					{
 						return null;
 					}
 
-					if (!blockConfigMap.TryGetValue(
-							contentData.ContentType.Key,
-							out RichTextConfiguration.RichTextBlockConfiguration? blockConfig))
+					RichTextConfiguration? configuration = propertyType.DataType.ConfigurationAs<RichTextConfiguration>();
+					if (configuration?.Blocks?.Any() is not true)
 					{
 						return null;
 					}
 
-					// Get the setting reference
-					IPublishedElement? settingsData = null;
-					var settingGuidUdi = (GuidUdi?)layoutItem.SettingsUdi;
-					if (settingGuidUdi is not null)
+					BlockEditorData converted = _blockDataConverter.Convert(richTextEditorValue.Blocks);
+					var referenceCacheLevel = PropertyCacheLevel.Element;
+
+					var richTextBlockModel = RichTextBlockModel.Empty;
+
+					// Pulled from BlockPropertyValueCreatorBase.CreateBlockModel()
+					IEnumerable<RichTextBlockLayoutItem>? layout = converted.Layout?.ToObject<IEnumerable<RichTextBlockLayoutItem>>();
+					if (layout is null)
 					{
-						settingsPublishedElements.TryGetValue(settingGuidUdi.Guid, out settingsData);
+						return intermediateValue;
+					}
+					var blockConfigMap = configuration.Blocks.ToDictionary(bc => bc.ContentElementTypeKey);
+					var contentPublishedElements = new Dictionary<Guid, IPublishedElement>();
+
+					foreach (BlockItemData data in converted.BlockValue.ContentData)
+					{
+						if (!blockConfigMap.ContainsKey(data.ContentTypeKey))
+						{
+							continue;
+						}
+
+						IPublishedElement? element = _blockEditorConverter.ConvertToElement(data, referenceCacheLevel, preview);
+						if (element == null)
+						{
+							continue;
+						}
+
+						contentPublishedElements[element.Key] = element;
+					}
+					// If there are no content elements, it doesn't matter what is stored in layout
+					if (contentPublishedElements.Count == 0)
+					{
+						return intermediateValue;
 					}
 
-					// This can happen if they have a settings type, save content, remove the settings type, and display the front-end page before saving the content again
-					// We also ensure that the content types match, since maybe the settings type has been changed after this has been persisted
-					if (settingsData is not null && (!blockConfig.SettingsElementTypeKey.HasValue ||
-													 settingsData.ContentType.Key != blockConfig.SettingsElementTypeKey))
+					// Convert the settings data
+					var settingsPublishedElements = new Dictionary<Guid, IPublishedElement>();
+					var validSettingsElementTypes = blockConfigMap.Values.Select(x => x.SettingsElementTypeKey)
+						.Where(x => x.HasValue).Distinct().ToList();
+
+					foreach (BlockItemData data in converted.BlockValue.SettingsData)
 					{
-						settingsData = null;
+						if (!validSettingsElementTypes.Contains(data.ContentTypeKey))
+						{
+							continue;
+						}
+
+						IPublishedElement? element = _blockEditorConverter.ConvertToElement(data, referenceCacheLevel, preview);
+						if (element is null)
+						{
+							continue;
+						}
+
+						settingsPublishedElements[element.Key] = element;
 					}
 
-					// Create instance (use content/settings type from configuration)
-					var blockItem = blockItemActivator.CreateInstance(blockConfig.ContentElementTypeKey, blockConfig.SettingsElementTypeKey, contentGuidUdi, contentData, settingGuidUdi, settingsData);
-					if (blockItem == null)
+					BlockItemActivator<RichTextBlockItem> blockItemActivator = new BlockItemActivator<RichTextBlockItem>(_blockEditorConverter, _constructorCache);
+
+					RichTextBlockItem? CreateBlockItem(RichTextBlockLayoutItem layoutItem)
 					{
-						return null;
+						// Get the content reference
+						var contentGuidUdi = (GuidUdi?)layoutItem.ContentUdi;
+						if (contentGuidUdi is null ||
+							!contentPublishedElements.TryGetValue(contentGuidUdi.Guid, out IPublishedElement? contentData))
+						{
+							return null;
+						}
+
+						if (!blockConfigMap.TryGetValue(
+								contentData.ContentType.Key,
+								out RichTextConfiguration.RichTextBlockConfiguration? blockConfig))
+						{
+							return null;
+						}
+
+						// Get the setting reference
+						IPublishedElement? settingsData = null;
+						var settingGuidUdi = (GuidUdi?)layoutItem.SettingsUdi;
+						if (settingGuidUdi is not null)
+						{
+							settingsPublishedElements.TryGetValue(settingGuidUdi.Guid, out settingsData);
+						}
+
+						// This can happen if they have a settings type, save content, remove the settings type, and display the front-end page before saving the content again
+						// We also ensure that the content types match, since maybe the settings type has been changed after this has been persisted
+						if (settingsData is not null && (!blockConfig.SettingsElementTypeKey.HasValue ||
+														 settingsData.ContentType.Key != blockConfig.SettingsElementTypeKey))
+						{
+							settingsData = null;
+						}
+
+						// Create instance (use content/settings type from configuration)
+						var blockItem = blockItemActivator.CreateInstance(blockConfig.ContentElementTypeKey, blockConfig.SettingsElementTypeKey, contentGuidUdi, contentData, settingGuidUdi, settingsData);
+						if (blockItem == null)
+						{
+							return null;
+						}
+
+						// Ensure what this does so I'm commenting it out for now
+						//if (enrichBlockItem != null)
+						//{
+						//	blockItem = enrichBlockItem(blockItem, layoutItem, blockConfig, CreateBlockItem);
+						//}
+
+						return blockItem;
 					}
 
-					//if (enrichBlockItem != null)
-					//{
-					//	blockItem = enrichBlockItem(blockItem, layoutItem, blockConfig, CreateBlockItem);
-					//}
+					var blockItems = layout.Select(CreateBlockItem).Where(x => x != null).ToList();
 
-					return blockItem;
-				}
-
-				var blockItems = layout.Select(CreateBlockItem).Where(x => x != null).ToList();
-
-				if (blockItems == null)
-				{
-					return intermediateValue;
+					if (blockItems == null)
+					{
+						return intermediateValue;
+					}
+					else
+					{
+						return SetRichTextBlockModelProperty(intermediateValue, new RichTextBlockModel(blockItems));
+					}
 				}
 				else
 				{
-					return SetRichTextBlockModel(intermediateValue, new RichTextBlockModel(blockItems));
+					return intermediateValue;
 				}
 			}
 			else
 			{
 				return intermediateValue;
 			}
-		}
-
-		private class TinyRichTextEditorIntermediateValue
-		{
-			public required string Markup { get; set; }
-
-			public required RichTextBlockModel? RichTextBlockModel { get; set; }
 		}
 
 		/// Pulled from BlockPropertyValueCreatorBase
