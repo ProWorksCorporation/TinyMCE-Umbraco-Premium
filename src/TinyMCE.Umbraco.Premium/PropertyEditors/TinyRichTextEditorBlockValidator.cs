@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using TinyMCE.UmbracoCms.Premium.PropertyEditors;
+using TinyMCE.Umbraco.Premium.PropertyEditors;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Serialization;
@@ -8,7 +8,7 @@ using Umbraco.Cms.Core.PropertyEditors;
 
 using static Umbraco.Cms.Core.PropertyEditors.ComplexEditorValidator;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 internal class TinyRichTextEditorBlockValidator : TinyBlockEditorValidatorBase
 {

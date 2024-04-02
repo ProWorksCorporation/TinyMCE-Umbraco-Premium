@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 using System.Dynamic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using TinyMCE.UmbracoCms.Premium.Options;
+using TinyMCE.Umbraco.Premium.Options;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Configuration.Models;
 using Umbraco.Cms.Core.DependencyInjection;
@@ -19,7 +19,7 @@ using Umbraco.Cms.Core.Models.ContentEditing;
 using Umbraco.Cms.Core.Notifications;
 using static Umbraco.Cms.Core.Constants;
 
-namespace TinyMCE.UmbracoCms.Premium.Composers
+namespace TinyMCE.Umbraco.Premium.Composers
 {
     internal class TinyMceComposer : IComposer
     {

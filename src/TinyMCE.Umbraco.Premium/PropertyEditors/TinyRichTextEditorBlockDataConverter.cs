@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using Umbraco.Cms.Core.Models.Blocks;
+using Umbraco.Cms.Core.Models.PublishedContent;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 ///     Data converter for blocks in the richtext property editor

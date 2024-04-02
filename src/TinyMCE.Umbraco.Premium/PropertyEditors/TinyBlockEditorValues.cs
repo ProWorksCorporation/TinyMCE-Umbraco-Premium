@@ -7,18 +7,18 @@ using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Extensions;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 /// Used to deserialize json values and clean up any values based on the existence of element types and layout structure
 /// </summary>
 internal class TinyBlockEditorValues
 {
-    private readonly BlockEditorDataConverter _dataConverter;
+    private readonly TinyRichTextEditorBlockDataConverter _dataConverter;
     private readonly IContentTypeService _contentTypeService;
     private readonly ILogger _logger;
 
-    public TinyBlockEditorValues(BlockEditorDataConverter dataConverter, IContentTypeService contentTypeService, ILogger logger)
+    public TinyBlockEditorValues(TinyRichTextEditorBlockDataConverter dataConverter, IContentTypeService contentTypeService, ILogger logger)
     {
         _dataConverter = dataConverter;
         _contentTypeService = contentTypeService;
