@@ -1,4 +1,4 @@
-﻿angular.module("umbraco").controller("TinyMce.Umbraco.Premium.PrevalueEditors.RteController",
+﻿angular.module("umbraco").controller("TinyMCE.Umbraco.Premium.PrevalueEditors.RteController",
     function ($scope, $sce, tinyMceService, stylesheetResource, assetsService, editorService) {
         var cfg = tinyMceService.defaultPrevalues();
 
@@ -307,6 +307,10 @@
                     break;
                 case "umbmediapicker":
                     icon.name = "icon-picture";
+                    icon.isCustom = true;
+                    break;
+                case "umbblockpicker":
+                    icon.name = "icon-document";
                     icon.isCustom = true;
                     break;
                 case "umbmacro":

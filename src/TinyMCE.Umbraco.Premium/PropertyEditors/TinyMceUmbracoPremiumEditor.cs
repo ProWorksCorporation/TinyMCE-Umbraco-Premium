@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.Media;
 using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Models.Editors;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core.Security;
@@ -34,17 +37,12 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 		ValueEditorIsReusable = true)]
 	public class TinyMceUmbracoPremiumEditor : RichTextPropertyEditor
 	{
-		private readonly IBackOfficeSecurityAccessor _backOfficeSecurityAccessor;
 		private readonly IEditorConfigurationParser _editorConfigurationParser;
-		private readonly HtmlImageSourceParser _imageSourceParser;
-		private readonly IImageUrlGenerator _imageUrlGenerator;
 		private readonly IIOHelper _ioHelper;
-		private readonly HtmlLocalLinkParser _localLinkParser;
-		private readonly IHtmlMacroParameterParser _macroParameterParser;
-		private readonly RichTextEditorPastedImages _pastedImages;
+        private readonly IRichTextPropertyIndexValueFactory _richTextPropertyIndexValueFactory;
 
-		[Obsolete("Use the constructor which takes an IHtmlMacroParameterParser instead")]
-		public TinyMceUmbracoPremiumEditor(
+        [Obsolete("Use the constructor which takes an IHtmlMacroParameterParser instead. Will be removed in V15.")]
+        public TinyMceUmbracoPremiumEditor(
 			IDataValueEditorFactory dataValueEditorFactory,
 			IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 			HtmlImageSourceParser imageSourceParser,
@@ -66,8 +64,8 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 		{
 		}
 
-		[Obsolete("Use the constructor which takes an IHtmlMacroParameterParser instead")]
-		public TinyMceUmbracoPremiumEditor(
+        [Obsolete("Use the constructor which takes an IHtmlMacroParameterParser instead. Will be removed in V15.")]
+        public TinyMceUmbracoPremiumEditor(
 			IDataValueEditorFactory dataValueEditorFactory,
 			IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 			HtmlImageSourceParser imageSourceParser,
@@ -88,10 +86,8 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 		{
 		}
 
-		/// <summary>
-		///     The constructor will setup the property editor based on the attribute if one is found.
-		/// </summary>
-		public TinyMceUmbracoPremiumEditor(
+        [Obsolete($"Use the constructor which accepts an {nameof(IRichTextPropertyIndexValueFactory)} parameter. Will be removed in V15.")]
+        public TinyMceUmbracoPremiumEditor(
 			IDataValueEditorFactory dataValueEditorFactory,
 			IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 			HtmlImageSourceParser imageSourceParser,
@@ -101,35 +97,68 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			IImageUrlGenerator imageUrlGenerator,
 			IHtmlMacroParameterParser macroParameterParser,
 			IEditorConfigurationParser editorConfigurationParser)
-			: base(dataValueEditorFactory, 
-				   backOfficeSecurityAccessor,
-				   imageSourceParser,
-				   localLinkParser,
-				   pastedImages,
-				   ioHelper,
-				   imageUrlGenerator,
-				   macroParameterParser,
-				   editorConfigurationParser)
-		{
-			_backOfficeSecurityAccessor = backOfficeSecurityAccessor;
-			_imageSourceParser = imageSourceParser;
-			_localLinkParser = localLinkParser;
-			_pastedImages = pastedImages;
-			_ioHelper = ioHelper;
-			_imageUrlGenerator = imageUrlGenerator;
-			_macroParameterParser = macroParameterParser;
-			_editorConfigurationParser = editorConfigurationParser;
-			SupportsReadOnly = true;
-		}
+			: this(
+				dataValueEditorFactory,
+				backOfficeSecurityAccessor,
+				imageSourceParser,
+				localLinkParser,
+				pastedImages,
+				ioHelper,
+				imageUrlGenerator,
+				macroParameterParser,
+				editorConfigurationParser,
+				StaticServiceProvider.Instance.GetRequiredService<IRichTextPropertyIndexValueFactory>())
+			{
+			}
 
-		// Try to use the Umbraco Implementation
-		//public override IPropertyIndexValueFactory PropertyIndexValueFactory => new RichTextPropertyIndexValueFactory();
+        [Obsolete($"Use the non-obsolete constructor. Will be removed in V15.")]
+        public TinyMceUmbracoPremiumEditor(
+            IDataValueEditorFactory dataValueEditorFactory,
+            IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
+            HtmlImageSourceParser imageSourceParser,
+            HtmlLocalLinkParser localLinkParser,
+            RichTextEditorPastedImages pastedImages,
+            IIOHelper ioHelper,
+            IImageUrlGenerator imageUrlGenerator,
+            IHtmlMacroParameterParser macroParameterParser,
+            IEditorConfigurationParser editorConfigurationParser,
+            IRichTextPropertyIndexValueFactory richTextPropertyIndexValueFactory)
+            : this(
+                dataValueEditorFactory,
+                editorConfigurationParser,
+                ioHelper,
+                richTextPropertyIndexValueFactory)
+			{
+			}
 
-		/// <summary>
-		///     Create a custom value editor
-		/// </summary>
-		/// <returns></returns>
-		protected override IDataValueEditor CreateValueEditor() =>
+        /// <summary>
+        ///     The constructor will setup the property editor based on the attribute if one is found.
+        /// </summary>
+        public TinyMceUmbracoPremiumEditor(
+            IDataValueEditorFactory dataValueEditorFactory,
+            IEditorConfigurationParser editorConfigurationParser,
+            IIOHelper ioHelper,
+            IRichTextPropertyIndexValueFactory richTextPropertyIndexValueFactory)
+            : base(
+				  dataValueEditorFactory,
+                  editorConfigurationParser,
+                  ioHelper,
+                  richTextPropertyIndexValueFactory)
+        {
+            _ioHelper = ioHelper;
+            _richTextPropertyIndexValueFactory = richTextPropertyIndexValueFactory;
+            _editorConfigurationParser = editorConfigurationParser;
+            SupportsReadOnly = true;
+        }
+
+        // Try to use the Umbraco Implementation
+        //public override IPropertyIndexValueFactory PropertyIndexValueFactory => new RichTextPropertyIndexValueFactory();
+
+        /// <summary>
+        ///     Create a custom value editor
+        /// </summary>
+        /// <returns></returns>
+        protected override IDataValueEditor CreateValueEditor() =>
 			DataValueEditorFactory.Create<TinyMceUmbracoPremiumPropertyValueEditor>(Attribute!);
 
 		protected override IConfigurationEditor CreateConfigurationEditor() =>
@@ -141,68 +170,50 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 		///     A custom value editor to ensure that macro syntax is parsed when being persisted and formatted correctly for
 		///     display in the editor
 		/// </summary>
-		internal class TinyMceUmbracoPremiumPropertyValueEditor : DataValueEditor, IDataValueReference
-		{
+		internal class TinyMceUmbracoPremiumPropertyValueEditor : TinyBlockValuePropertyValueEditorBase
+        {
 			private readonly IBackOfficeSecurityAccessor _backOfficeSecurityAccessor;
 			private readonly IHtmlSanitizer _htmlSanitizer;
 			private readonly HtmlImageSourceParser _imageSourceParser;
-			private readonly IImageUrlGenerator _imageUrlGenerator;
 			private readonly HtmlLocalLinkParser _localLinkParser;
 			private readonly IHtmlMacroParameterParser _macroParameterParser;
 			private readonly RichTextEditorPastedImages _pastedImages;
+            private readonly IJsonSerializer _jsonSerializer;
+            private readonly IContentTypeService _contentTypeService;
+            private readonly ILogger<TinyMceUmbracoPremiumPropertyValueEditor> _logger;
 
-			public TinyMceUmbracoPremiumPropertyValueEditor(
+            public TinyMceUmbracoPremiumPropertyValueEditor(
 				DataEditorAttribute attribute,
-				IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
+                PropertyEditorCollection propertyEditors,
+                IDataTypeService dataTypeService,
+				ILogger<TinyMceUmbracoPremiumPropertyValueEditor> logger,
+                IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 				ILocalizedTextService localizedTextService,
 				IShortStringHelper shortStringHelper,
 				HtmlImageSourceParser imageSourceParser,
 				HtmlLocalLinkParser localLinkParser,
 				RichTextEditorPastedImages pastedImages,
-				IImageUrlGenerator imageUrlGenerator,
 				IJsonSerializer jsonSerializer,
 				IIOHelper ioHelper,
 				IHtmlSanitizer htmlSanitizer,
-				IHtmlMacroParameterParser macroParameterParser)
-				: base(localizedTextService, shortStringHelper, jsonSerializer, ioHelper, attribute)
-			{
-				_backOfficeSecurityAccessor = backOfficeSecurityAccessor;
+				IHtmlMacroParameterParser macroParameterParser,
+				IContentTypeService contentTypeService,
+				IPropertyValidationService propertyValidationService)
+				: base(attribute, propertyEditors, dataTypeService, localizedTextService, logger, shortStringHelper, jsonSerializer, ioHelper)
+            {
+                _backOfficeSecurityAccessor = backOfficeSecurityAccessor;
 				_imageSourceParser = imageSourceParser;
 				_localLinkParser = localLinkParser;
 				_pastedImages = pastedImages;
-				_imageUrlGenerator = imageUrlGenerator;
 				_htmlSanitizer = htmlSanitizer;
 				_macroParameterParser = macroParameterParser;
-			}
+                _contentTypeService = contentTypeService;
+                _jsonSerializer = jsonSerializer;
+                _logger = logger;
 
-			[Obsolete("Use the constructor which takes an HtmlMacroParameterParser instead")]
-			public TinyMceUmbracoPremiumPropertyValueEditor(
-				DataEditorAttribute attribute,
-				IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
-				ILocalizedTextService localizedTextService,
-				IShortStringHelper shortStringHelper,
-				HtmlImageSourceParser imageSourceParser,
-				HtmlLocalLinkParser localLinkParser,
-				RichTextEditorPastedImages pastedImages,
-				IImageUrlGenerator imageUrlGenerator,
-				IJsonSerializer jsonSerializer,
-				IIOHelper ioHelper,
-				IHtmlSanitizer htmlSanitizer)
-				: this(
-					attribute,
-					backOfficeSecurityAccessor,
-					localizedTextService,
-					shortStringHelper,
-					imageSourceParser,
-					localLinkParser,
-					pastedImages,
-					imageUrlGenerator,
-					jsonSerializer,
-					ioHelper,
-					htmlSanitizer,
-					StaticServiceProvider.Instance.GetRequiredService<IHtmlMacroParameterParser>())
-			{
-			}
+                Validators.Add(new TinyRichTextEditorBlockValidator(propertyValidationService, CreateBlockEditorValues(), contentTypeService, jsonSerializer, logger));
+
+            }
 
 			/// <inheritdoc />
 			public override object? Configuration
@@ -233,51 +244,81 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			/// </summary>
 			/// <param name="value"></param>
 			/// <returns></returns>
-			public IEnumerable<UmbracoEntityReference> GetReferences(object? value)
+			public override IEnumerable<UmbracoEntityReference> GetReferences(object? value)
 			{
-				var asString = value == null ? string.Empty : value is string str ? str : value.ToString()!;
+                if (TryParseEditorValue(value, out RichTextEditorValue? richTextEditorValue) is false)
+                {
+                    return Array.Empty<UmbracoEntityReference>();
+                }
 
-				foreach (Udi udi in _imageSourceParser.FindUdisFromDataAttributes(asString))
-				{
-					yield return new UmbracoEntityReference(udi);
-				}
+                var references = new List<UmbracoEntityReference>();
 
-				foreach (Udi? udi in _localLinkParser.FindUdisFromLocalLinks(asString))
-				{
-					if (udi is not null)
-					{
-						yield return new UmbracoEntityReference(udi);
-					}
-				}
+                // image references from markup
+                references.AddRange(_imageSourceParser
+                    .FindUdisFromDataAttributes(richTextEditorValue.Markup)
+                    .Select(udi => new UmbracoEntityReference(udi)));
 
-				// TODO: Detect Macros too ... but we can save that for a later date, right now need to do media refs
-				// UPDATE: We are getting the Macros in 'FindUmbracoEntityReferencesFromEmbeddedMacros' - perhaps we just return the macro Udis here too or do they need their own relationAlias?
-				foreach (UmbracoEntityReference umbracoEntityReference in _macroParameterParser
-							 .FindUmbracoEntityReferencesFromEmbeddedMacros(asString))
-				{
-					yield return umbracoEntityReference;
-				}
-			}
+                // local link references from markup
+                references.AddRange(_localLinkParser
+                    .FindUdisFromLocalLinks(richTextEditorValue.Markup)
+                    .WhereNotNull()
+                    .Select(udi => new UmbracoEntityReference(udi)));
 
-			/// <summary>
-			///     Format the data for the editor
-			/// </summary>
-			/// <param name="property"></param>
-			/// <param name="culture"></param>
-			/// <param name="segment"></param>
-			public override object? ToEditor(IProperty property, string? culture = null, string? segment = null)
+                // TODO: Detect Macros too ... but we can save that for a later date, right now need to do media refs
+                // UPDATE: We are getting the Macros in 'FindUmbracoEntityReferencesFromEmbeddedMacros' - perhaps we just return the macro Udis here too or do they need their own relationAlias?
+                references.AddRange(_macroParameterParser.FindUmbracoEntityReferencesFromEmbeddedMacros(richTextEditorValue.Markup));
+
+                // references from blocks
+                if (richTextEditorValue.Blocks is not null)
+                {
+                    BlockEditorData? blockEditorData = ConvertAndClean(richTextEditorValue.Blocks);
+                    if (blockEditorData is not null)
+                    {
+                        references.AddRange(GetBlockValueReferences(blockEditorData.BlockValue));
+                    }
+                }
+
+                return references;
+            }
+
+            public override IEnumerable<ITag> GetTags(object? value, object? dataTypeConfiguration, int? languageId)
+            {
+                if (TryParseEditorValue(value, out RichTextEditorValue? richTextEditorValue) is false || richTextEditorValue.Blocks is null)
+                {
+                    return Array.Empty<ITag>();
+                }
+
+                BlockEditorData? blockEditorData = ConvertAndClean(richTextEditorValue.Blocks);
+                if (blockEditorData is null)
+                {
+                    return Array.Empty<ITag>();
+                }
+
+                return GetBlockValueTags(blockEditorData.BlockValue, languageId);
+            }
+
+            /// <summary>
+            ///     Format the data for the editor
+            /// </summary>
+            /// <param name="property"></param>
+            /// <param name="culture"></param>
+            /// <param name="segment"></param>
+            public override object? ToEditor(IProperty property, string? culture = null, string? segment = null)
 			{
-				var val = property.GetValue(culture, segment);
-				if (val == null)
-				{
-					return null;
-				}
+                var value = property.GetValue(culture, segment);
+                if (TryParseEditorValue(value, out RichTextEditorValue? richTextEditorValue) is false)
+                {
+                    return null;
+                }
 
-				var propertyValueWithMediaResolved = _imageSourceParser.EnsureImageSources(val.ToString()!);
-				var parsed = MacroTagParser.FormatRichTextPersistedDataForEditor(
-					propertyValueWithMediaResolved,
-					new Dictionary<string, string>());
-				return parsed;
+                var propertyValueWithMediaResolved = _imageSourceParser.EnsureImageSources(richTextEditorValue.Markup);
+                var parsed = MacroTagParser.FormatRichTextPersistedDataForEditor(
+                    propertyValueWithMediaResolved,
+                    new Dictionary<string, string>());
+                richTextEditorValue.Markup = parsed;
+
+                // return json convertable object
+                return CleanAndMapBlocks(richTextEditorValue, blockValue => MapBlockValueToEditor(property, blockValue));
 			}
 
 			/// <summary>
@@ -288,59 +329,83 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 			/// <returns></returns>
 			public override object? FromEditor(ContentPropertyData editorValue, object? currentValue)
 			{
-				if (editorValue.Value == null)
-				{
-					return null;
-				}
+                if (TryParseEditorValue(editorValue.Value, out RichTextEditorValue? richTextEditorValue) is false)
+                {
+                    return null;
+                }
 
-				var userId = _backOfficeSecurityAccessor.BackOfficeSecurity?.CurrentUser?.Id ??
-							 Constants.Security.SuperUserId;
+                var userId = _backOfficeSecurityAccessor.BackOfficeSecurity?.CurrentUser?.Id ??
+                             Constants.Security.SuperUserId;
 
-				var config = editorValue.DataTypeConfiguration as TinyMceUmbracoPremiumConfiguration;
-				GuidUdi? mediaParent = config?.MediaParentId;
-				Guid mediaParentId = mediaParent == null ? Guid.Empty : mediaParent.Guid;
+                var config = editorValue.DataTypeConfiguration as TinyMceUmbracoPremiumConfiguration;
+                GuidUdi? mediaParent = config?.MediaParentId;
+                Guid mediaParentId = mediaParent == null ? Guid.Empty : mediaParent.Guid;
 
-				if (string.IsNullOrWhiteSpace(editorValue.Value.ToString()))
-				{
-					return null;
-				}
+                if (string.IsNullOrWhiteSpace(richTextEditorValue.Markup))
+                {
+                    return null;
+                }
 
-				var parseAndSavedTempImages =
-					_pastedImages.FindAndPersistPastedTempImages(editorValue.Value.ToString()!, mediaParentId, userId, _imageUrlGenerator);
-				var editorValueWithMediaUrlsRemoved = _imageSourceParser.RemoveImageSources(parseAndSavedTempImages);
-				var parsed = MacroTagParser.FormatRichTextContentForPersistence(editorValueWithMediaUrlsRemoved);
-				var sanitized = _htmlSanitizer.Sanitize(parsed);
+                //var parseAndSaveBase64Images = _pastedImages.FindAndPersistEmbeddedImages(
+                //    richTextEditorValue.Markup, mediaParentId, userId);
+                //var parseAndSavedTempImages =
+                //    _pastedImages.FindAndPersistPastedTempImages(parseAndSaveBase64Images, mediaParentId, userId);
+                var parseAndSavedTempImages =
+                    _pastedImages.FindAndPersistPastedTempImages(richTextEditorValue.Markup, mediaParentId, userId);
 
-				return sanitized.NullOrWhiteSpaceAsNull();
+                var editorValueWithMediaUrlsRemoved = _imageSourceParser.RemoveImageSources(parseAndSavedTempImages);
+                var parsed = MacroTagParser.FormatRichTextContentForPersistence(editorValueWithMediaUrlsRemoved);
+                var sanitized = _htmlSanitizer.Sanitize(parsed);
+
+                richTextEditorValue.Markup = sanitized.NullOrWhiteSpaceAsNull() ?? string.Empty;
+
+                RichTextEditorValue cleanedUpRichTextEditorValue = CleanAndMapBlocks(richTextEditorValue, MapBlockValueFromEditor);
+
+                // return json
+                return RichTextPropertyEditorHelper.SerializeRichTextEditorValue(cleanedUpRichTextEditorValue, _jsonSerializer);
 			}
-		}
 
-		// Inherit from Umbraco RTE
+            private bool TryParseEditorValue(object? value, [NotNullWhen(true)] out RichTextEditorValue? richTextEditorValue)
+				=> RichTextPropertyEditorHelper.TryParseRichTextEditorValue(value, _jsonSerializer, _logger, out richTextEditorValue);
 
-		//internal class RichTextPropertyIndexValueFactory : IPropertyIndexValueFactory
-		//{
-		//	public IEnumerable<KeyValuePair<string, IEnumerable<object?>>> GetIndexValues(IProperty property, string? culture, string? segment, bool published, IEnumerable<string> availableCultures)
-		//	{
-		//		var val = property.GetValue(culture, segment, published);
+            private RichTextEditorValue CleanAndMapBlocks(RichTextEditorValue richTextEditorValue, Action<BlockValue> handleMapping)
+            {
+                if (richTextEditorValue.Blocks is null)
+                {
+                    // no blocks defined, store empty block value
+                    return MarkupWithEmptyBlocks();
+                }
 
-		//		if (!(val is string strVal))
-		//		{
-		//			yield break;
-		//		}
+                BlockEditorData? blockEditorData = ConvertAndClean(richTextEditorValue.Blocks);
 
-		//		// index the stripped HTML values
-		//		yield return new KeyValuePair<string, IEnumerable<object?>>(
-		//			property.Alias,
-		//			new object[] { strVal.StripHtml() });
+                if (blockEditorData is not null)
+                {
+                    handleMapping(blockEditorData.BlockValue);
+                    return new RichTextEditorValue
+                    {
+                        Markup = richTextEditorValue.Markup,
+                        Blocks = blockEditorData.BlockValue
+                    };
+                }
 
-		//		// store the raw value
-		//		yield return new KeyValuePair<string, IEnumerable<object?>>(
-		//			$"{UmbracoExamineFieldNames.RawFieldPrefix}{property.Alias}", new object[] { strVal });
-		//	}
+                // could not deserialize the blocks or handle the mapping, store empty block value
+                return MarkupWithEmptyBlocks();
 
-		//	[Obsolete("Use the overload with the 'availableCultures' parameter instead, scheduled for removal in v14")]
-		//	public IEnumerable<KeyValuePair<string, IEnumerable<object?>>> GetIndexValues(IProperty property, string? culture, string? segment, bool published)
-		//		=> GetIndexValues(property, culture, segment, published, Enumerable.Empty<string>());
-		//}
-	}
+                RichTextEditorValue MarkupWithEmptyBlocks() => new()
+                {
+                    Markup = richTextEditorValue.Markup,
+                    Blocks = new BlockValue()
+                };
+            }
+
+            private BlockEditorData? ConvertAndClean(BlockValue blockValue)
+            {
+                TinyBlockEditorValues blockEditorValues = CreateBlockEditorValues();
+                return blockEditorValues.ConvertAndClean(blockValue);
+            }
+
+            private TinyBlockEditorValues CreateBlockEditorValues()
+                => new(new TinyRichTextEditorBlockDataConverter(), _contentTypeService, _logger);
+        }
+    }
 }
