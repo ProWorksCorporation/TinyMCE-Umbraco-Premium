@@ -1,4 +1,4 @@
-﻿angular.module("umbraco").controller("TinyMCE.UmbracoCms.Premium.PrevalueEditors.RteController",
+﻿angular.module("umbraco").controller("TinyMCE.Umbraco.Premium.PrevalueEditors.RteController",
     function ($scope, $sce, tinyMceService, stylesheetResource, assetsService, editorService) {
         var cfg = tinyMceService.defaultPrevalues();
 

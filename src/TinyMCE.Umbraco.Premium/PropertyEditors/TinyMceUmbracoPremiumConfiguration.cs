@@ -1,7 +1,7 @@
 ﻿using static Umbraco.Cms.Core.PropertyEditors.RichTextConfiguration;
 using Umbraco.Cms.Core.PropertyEditors;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 ///     Represents the configuration for the rich text value editor.

@@ -1,6 +1,6 @@
 ﻿
 
-namespace TinyMCE.UmbracoCms.Premium
+namespace TinyMCE.Umbraco.Premium
 {
 	public static partial class Constants
 	{

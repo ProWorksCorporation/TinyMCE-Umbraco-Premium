@@ -8,7 +8,7 @@ using Umbraco.Cms.Core.Serialization;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Strings;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors
+namespace TinyMCE.Umbraco.Premium.PropertyEditors
 {
     internal abstract class TinyBlockValuePropertyValueEditorBase : DataValueEditor, IDataValueReference, IDataValueTags
     {

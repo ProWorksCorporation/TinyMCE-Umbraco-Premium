@@ -24,7 +24,7 @@ using Umbraco.Extensions;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Cms.Core;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 public sealed class TinyRichTextEditorPastedImages
 {
@@ -96,7 +96,7 @@ public sealed class TinyRichTextEditorPastedImages
         _imageUrlGenerator = imageUrlGenerator;
         _contentSettings = contentSettings.Value;
 
-        _tempFolderAbsolutePath = _hostingEnvironment.MapPathContentRoot(Umbraco.Cms.Core.Constants.SystemDirectories.TempImageUploads);
+        _tempFolderAbsolutePath = _hostingEnvironment.MapPathContentRoot(global::Umbraco.Cms.Core.Constants.SystemDirectories.TempImageUploads);
     }
 
     /// <summary>
@@ -167,7 +167,7 @@ public sealed class TinyRichTextEditorPastedImages
 
             // Create an unique folder path to help with concurrent users to avoid filename clash
             var imageTempPath =
-                _hostingEnvironment.MapPathContentRoot(Umbraco.Cms.Core.Constants.SystemDirectories.TempImageUploads + Path.DirectorySeparatorChar + Guid.NewGuid());
+                _hostingEnvironment.MapPathContentRoot(global::Umbraco.Cms.Core.Constants.SystemDirectories.TempImageUploads + Path.DirectorySeparatorChar + Guid.NewGuid());
 
             // Ensure image temp path exists
             if (Directory.Exists(imageTempPath) is false)
@@ -268,11 +268,11 @@ public sealed class TinyRichTextEditorPastedImages
         {
             var isSvg = qualifiedTmpImgPath.EndsWith(".svg");
             var mediaType = isSvg
-                ? Umbraco.Cms.Core.Constants.Conventions.MediaTypes.VectorGraphicsAlias
-                : Umbraco.Cms.Core.Constants.Conventions.MediaTypes.Image;
+                ? global::Umbraco.Cms.Core.Constants.Conventions.MediaTypes.VectorGraphicsAlias
+                : global::Umbraco.Cms.Core.Constants.Conventions.MediaTypes.Image;
 
             IMedia mediaFile = mediaParentFolder == Guid.Empty
-                ? _mediaService.CreateMedia(mediaItemName, Umbraco.Cms.Core.Constants.System.Root, mediaType, userId)
+                ? _mediaService.CreateMedia(mediaItemName, global::Umbraco.Cms.Core.Constants.System.Root, mediaType, userId)
                 : _mediaService.CreateMedia(mediaItemName, mediaParentFolder, mediaType, userId);
 
             var fileInfo = new FileInfo(absoluteTempImagePath);
@@ -286,7 +286,7 @@ public sealed class TinyRichTextEditorPastedImages
             using (fileStream)
             {
                 mediaFile.SetValue(_mediaFileManager, _mediaUrlGenerators, _shortStringHelper,
-                    _contentTypeBaseServiceProvider, Umbraco.Cms.Core.Constants.Conventions.Media.File, safeFileName, fileStream);
+                    _contentTypeBaseServiceProvider, global::Umbraco.Cms.Core.Constants.Conventions.Media.File, safeFileName, fileStream);
             }
 
             _mediaService.Save(mediaFile, userId);

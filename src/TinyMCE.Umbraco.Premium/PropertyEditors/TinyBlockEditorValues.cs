@@ -7,7 +7,7 @@ using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Extensions;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 /// Used to deserialize json values and clean up any values based on the existence of element types and layout structure

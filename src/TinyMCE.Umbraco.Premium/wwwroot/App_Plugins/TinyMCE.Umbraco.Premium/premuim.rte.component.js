@@ -9,7 +9,7 @@
      * @description
      * The component for the TinyMce Premium RTE Property Editor
      * 
-     * TinyMCE.UmbracoCms.Premium.PropertyEditors.tinyMcePremiumRtePropertyEditor
+     * TinyMCE.Umbraco.Premium.PropertyEditors.tinyMcePremiumRtePropertyEditor
      * 
      * Copied and modified from the Umbraco rte.component.js
      */

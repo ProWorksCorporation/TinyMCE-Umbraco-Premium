@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using System.Globalization;
 using System;
 using System.Reflection;
-using TinyMCE.UmbracoCms.Premium.PropertyEditors;
+using TinyMCE.Umbraco.Premium.PropertyEditors;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Blocks;
 using Umbraco.Cms.Core.Configuration.Models;
@@ -25,7 +25,7 @@ using static Umbraco.Cms.Core.Constants.HttpContext;
 using static Umbraco.Cms.Core.PropertyEditors.BlockListConfiguration;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace TinyMCE.UmbracoCms.Premium.ValueConverters
+namespace TinyMCE.Umbraco.Premium.ValueConverters
 {
 	/// <summary>
 	///     Value converter for the TinyMCE Umbraco Premium RTE so that it always returns IHtmlString so that Html.Raw doesn't have to be used.

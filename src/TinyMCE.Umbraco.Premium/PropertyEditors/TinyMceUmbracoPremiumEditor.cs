@@ -19,7 +19,7 @@ using Umbraco.Cms.Infrastructure.Macros;
 using Umbraco.Cms.Infrastructure.Templates;
 using Umbraco.Extensions;
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors
+namespace TinyMCE.Umbraco.Premium.PropertyEditors
 {
 
 	/// <summary>

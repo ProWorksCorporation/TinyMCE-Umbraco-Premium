@@ -4,7 +4,7 @@ using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.PropertyEditors;
 
 
-namespace TinyMCE.UmbracoCms.Premium.PropertyEditors;
+namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 internal abstract class TinyBlockEditorValidatorBase : ComplexEditorValidator
 {
