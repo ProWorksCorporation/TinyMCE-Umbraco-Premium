@@ -11,6 +11,8 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 /// Used to deserialize json values and clean up any values based on the existence of element types and layout structure
+/// 
+/// Based on Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\BlockEditorValues.cs
 /// </summary>
 internal class TinyBlockEditorValues
 {

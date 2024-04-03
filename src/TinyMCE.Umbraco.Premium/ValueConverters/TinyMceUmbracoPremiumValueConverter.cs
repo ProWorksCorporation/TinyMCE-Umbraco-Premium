@@ -31,6 +31,8 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 	///     Value converter for the TinyMCE Umbraco Premium RTE so that it always returns IHtmlString so that Html.Raw doesn't have to be used.
 	///     
 	///		NOTE: extending the normal RTE ValueConverter so that locallinks and other key items are converted.
+	///		
+	///		Extends Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\ValueConverters\RteMacroRenderingValueConverter.cs
 	/// </summary>
 	public class TinyMceUmbracoPremiumValueConverter : RteMacroRenderingValueConverter, IDeliveryApiPropertyValueConverter
 	{
@@ -84,6 +86,14 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 
 			return isNull;
 		}
+
+		/// <summary>
+		/// Did it this way because there was no IRichTextEditorIntermediateValue interface.  
+		/// 
+		/// TODO: create a new model with this interface?
+		/// </summary>
+		/// <param name="intermediateValue"></param>
+		/// <returns></returns>
 		public RichTextBlockModel GetRichTextBlockModelProperty(object intermediateValue)
 		{
 			foreach (var v in intermediateValue.GetType().GetProperties())
@@ -101,6 +111,14 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 			return RichTextBlockModel.Empty;
 		}
 
+		/// <summary>
+		/// Did it this way because there was no IRichTextEditorIntermediateValue interface.  
+		/// 
+		/// TODO: create a new model with this interface?
+		/// </summary>
+		/// <param name="intermediateValue"></param>
+		/// <param name="richTextBlockModel"></param>
+		/// <returns></returns>
 		public object SetRichTextBlockModelProperty(object intermediateValue, RichTextBlockModel richTextBlockModel)
 		{
 			foreach (var v in intermediateValue.GetType().GetProperties())
@@ -119,6 +137,7 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 		{
 			var intermediateValue = base.ConvertSourceToIntermediate(owner,propertyType,source,preview);
 			// Have to do it this way because the RichTextEditorIntermediateValue model is private in Umbraco and if we don't use that nothing renders
+			// NOTE: in v13.2.2 there is now an interface IRichTextEditorIntermediateValue that we may be able to leverage
 
 			if (intermediateValue == null)
 			{
@@ -132,22 +151,28 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 				if(!intermediateRichTextBlockModel.Any())
 				{
 					// Copying what Umbraco does here because most of the classes are internal or private and the block rendering doesn't work because they call the wrong converter
+					// from the RteMacroRenderingValueConverter.ConvertSourceToIntermediate() method in Umbraco
 					if (RichTextPropertyEditorHelper.TryParseRichTextEditorValue(source, _jsonSerializer, _logger, out RichTextEditorValue? richTextEditorValue) is false)
 					{
 						return null;
 					}
 
+					// from the RteMacroRenderingValueConverter.ParseRichTextBlockModel() method in Umbraco
 					RichTextConfiguration? configuration = propertyType.DataType.ConfigurationAs<RichTextConfiguration>();
 					if (configuration?.Blocks?.Any() is not true)
 					{
 						return null;
 					}
 
+					// Pulled from BlockPropertyValueCreatorBase.CreateBlockModel()
 					BlockEditorData converted = _blockDataConverter.Convert(richTextEditorValue.Blocks);
+
+					// Used in this method only 
 					var referenceCacheLevel = PropertyCacheLevel.Element;
 
 					var richTextBlockModel = RichTextBlockModel.Empty;
 
+					///////
 					// Pulled from BlockPropertyValueCreatorBase.CreateBlockModel()
 					IEnumerable<RichTextBlockLayoutItem>? layout = converted.Layout?.ToObject<IEnumerable<RichTextBlockLayoutItem>>();
 					if (layout is null)
@@ -251,6 +276,7 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 					}
 
 					var blockItems = layout.Select(CreateBlockItem).Where(x => x != null).ToList();
+					///////
 
 					if (blockItems == null)
 					{
@@ -272,8 +298,12 @@ namespace TinyMCE.Umbraco.Premium.ValueConverters
 			}
 		}
 
+		/// <summary>
 		/// Pulled from BlockPropertyValueCreatorBase
-		// Cache constructors locally (it's tied to the current IPublishedSnapshot and IPublishedModelFactory)
+		/// 
+		/// Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\ValueConverters\BlockPropertyValueCreatorBase.cs
+		/// </summary>
+		/// <typeparam name="T"></typeparam>ed to the current IPublishedSnapshot and IPublishedModelFactory)
 		public class BlockItemActivator<T>
 			where T : IBlockReference<IPublishedElement, IPublishedElement>
 		{

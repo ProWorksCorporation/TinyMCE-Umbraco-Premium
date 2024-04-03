@@ -10,6 +10,9 @@ using static Umbraco.Cms.Core.PropertyEditors.ComplexEditorValidator;
 
 namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
+/// <summary>
+/// Based on Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\RichTextEditorBlockValidator.cs
+/// </summary>
 internal class TinyRichTextEditorBlockValidator : TinyBlockEditorValidatorBase
 {
     private readonly TinyBlockEditorValues _blockEditorValues;
