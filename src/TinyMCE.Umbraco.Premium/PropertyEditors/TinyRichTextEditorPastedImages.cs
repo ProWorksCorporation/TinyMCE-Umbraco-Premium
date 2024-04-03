@@ -26,6 +26,9 @@ using Umbraco.Cms.Core;
 
 namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
+/// <summary>
+/// Based on Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\RichTextEditorPastedImages.cs
+/// </summary>
 public sealed class TinyRichTextEditorPastedImages
 {
     private const string TemporaryImageDataAttribute = "data-tmpimg";

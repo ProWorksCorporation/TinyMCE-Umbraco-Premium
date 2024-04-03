@@ -5,6 +5,8 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 ///     Represents the configuration for the rich text value editor.
+///     
+///		Extends Umbraco-CMS\src\Umbraco.Core\PropertyEditors\RichTextConfiguration.cs
 /// </summary>
 public class TinyMceUmbracoPremiumConfiguration : RichTextConfiguration
 {

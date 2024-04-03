@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using Umbraco.Cms.Core;
+using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.Media;
@@ -24,6 +25,9 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 
 	/// <summary>
 	///     Represents the TinyMCE.Umbraco.Premium Rich Text property editor.
+	///     
+	///     Based on Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\RichTextPropertyEditor.cs
+    ///     with modifications
 	/// </summary>
 	[DataEditor(
 		Constants.PropertyEditors.Aliases.TinyMceUmbracoPremiumRte,
@@ -185,8 +189,8 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
             public TinyMceUmbracoPremiumPropertyValueEditor(
 				DataEditorAttribute attribute,
                 PropertyEditorCollection propertyEditors,
-                IDataTypeService dataTypeService,
-				ILogger<TinyMceUmbracoPremiumPropertyValueEditor> logger,
+			    IDataTypeConfigurationCache dataTypeReadCache, 
+                ILogger<TinyMceUmbracoPremiumPropertyValueEditor> logger,
                 IBackOfficeSecurityAccessor backOfficeSecurityAccessor,
 				ILocalizedTextService localizedTextService,
 				IShortStringHelper shortStringHelper,
@@ -198,8 +202,9 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors
 				IHtmlSanitizer htmlSanitizer,
 				IHtmlMacroParameterParser macroParameterParser,
 				IContentTypeService contentTypeService,
-				IPropertyValidationService propertyValidationService)
-				: base(attribute, propertyEditors, dataTypeService, localizedTextService, logger, shortStringHelper, jsonSerializer, ioHelper)
+				IPropertyValidationService propertyValidationService,
+			    DataValueReferenceFactoryCollection dataValueReferenceFactoryCollection)
+				: base(attribute, propertyEditors, dataTypeReadCache, localizedTextService, logger, shortStringHelper, jsonSerializer, ioHelper, dataValueReferenceFactoryCollection)
             {
                 _backOfficeSecurityAccessor = backOfficeSecurityAccessor;
 				_imageSourceParser = imageSourceParser;

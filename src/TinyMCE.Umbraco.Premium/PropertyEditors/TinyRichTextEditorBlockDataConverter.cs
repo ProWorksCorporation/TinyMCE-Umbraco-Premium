@@ -6,6 +6,8 @@ namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
 /// <summary>
 ///     Data converter for blocks in the richtext property editor
+///     
+///     Based on Umbraco-CMS\src\Umbraco.Infrastructure\Models\Blocks\RichTextEditorBlockDataConverter.cs
 /// </summary>
 internal sealed class TinyRichTextEditorBlockDataConverter : BlockEditorDataConverter
 {
