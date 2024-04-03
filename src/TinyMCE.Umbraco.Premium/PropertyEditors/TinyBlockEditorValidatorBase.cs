@@ -6,6 +6,9 @@ using Umbraco.Cms.Core.PropertyEditors;
 
 namespace TinyMCE.Umbraco.Premium.PropertyEditors;
 
+/// <summary>
+/// Based on Umbraco-CMS\src\Umbraco.Infrastructure\PropertyEditors\BlockEditorValidatorBase.cs
+/// </summary>
 internal abstract class TinyBlockEditorValidatorBase : ComplexEditorValidator
 {
     private readonly IContentTypeService _contentTypeService;

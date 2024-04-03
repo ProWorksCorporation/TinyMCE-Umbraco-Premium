@@ -12,6 +12,7 @@
      * TinyMCE.Umbraco.Premium.PropertyEditors.tinyMcePremiumRtePropertyEditor
      * 
      * Copied and modified from the Umbraco rte.component.js
+     * Umbraco-CMS\src\Umbraco.Web.UI.Client\src\views\propertyeditors\rte\rte.component.js
      */
     angular
         .module("umbraco")
@@ -210,7 +211,7 @@
                     })
                 })
 
-                // Unsure if needed:
+                // Unsure if needed, commenting out for now as we license in a different way:
 
 
                 // Handle additional assets loading depending on the configuration before initializing the editor

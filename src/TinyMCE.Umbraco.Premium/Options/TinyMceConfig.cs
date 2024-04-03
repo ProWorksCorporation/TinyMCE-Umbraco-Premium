@@ -7,6 +7,10 @@ using System.Text.Json;
 
 namespace TinyMCE.Umbraco.Premium.Options
 {
+	/// <summary>
+	/// Custom configuration model used in the appSettings.config or anywhere the 
+	/// enviroment variables are defined.
+	/// </summary>
 	public class TinyMceConfig
 	{
 		public string apikey { get; set; } = "";
