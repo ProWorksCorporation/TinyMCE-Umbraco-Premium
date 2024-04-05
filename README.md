@@ -24,7 +24,7 @@ In addtion, you can install packages via the Visual Studio Nuget Package Manager
 
 # Documentation
 
-To get started with the TinyMCE Umbraco Premium property editor and use it with your projects, you wil need to add some basic configuration and may choose create a new Data Type for the TinyMCE Premium Rich Text Editor.
+To get started with the TinyMCE Umbraco Premium property editor and use it with your projects, you will need to add some basic configuration and may choose to create a new Data Type for the TinyMCE Premium Rich Text Editor.
 
 ## Configuration
 
@@ -45,7 +45,7 @@ The details on each configuration value are described below:
 | ----------- | ----------- |---------|------|
 | apikey      | key string  | None    | The TinyMCE API Key found in [your account](https://www.tiny.cloud/my-account/integrate/#html).  Works for both the Umbraco Rich Text Editor and the TinyMCE Premium Rich Text Editor. |
 | openAiApikey | key string | None    | The ChatGPT API Key found in [your account](https://platform.openai.com/api-keys). Only used by the TinyMCE Premium Rich Text Editor. |
-| pluginsToExclude | Array of TinyMCE plugins names to exclude | [] | This excludes these plugins from being selected or used by the Umbraco Rich Text Editor or the TinyMCE Premium Rich Text Editor |
+| pluginsToExclude | Array of TinyMCE plugins names to exclude | [] | This excludes these plugins from being selected or used by the Umbraco Rich Text Editor and the TinyMCE Premium Rich Text Editor |
 | customConfig | JSON TinyMCE Configuration | {} | See the [Tiny Documentation](https://www.tiny.cloud/docs/tinymce/6/plugins/) for the plugin configuration.  Only used by the TinyMCE Premium Rich Text Editor. | 
  
 ## Data Types
