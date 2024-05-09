@@ -10,7 +10,8 @@
     "~/App_Plugins/TinyMCE.Umbraco.Premium/premuim.rte.component.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/advtemplate.templates.js",
     "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/mergetags.templates.js",
-    "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/ai.templates.js"
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/ai.templates.js",
+    "~/App_Plugins/TinyMCE.Umbraco.Premium/Defaults/custom.config.templates.js"
   ],
   "bundleOptions": "None"
 }

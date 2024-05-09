@@ -10,7 +10,7 @@
     <PackageId>tinymce.umbraco.premium</PackageId>
     <Product>TinyMCE.Umbraco.Premium</Product>
     <Title>TinyMCE.Umbraco.Premium</Title>
-    <Version>13.2.2</Version>
+    <Version>13.2.3</Version>
     <Description>Umbraco CMS package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE.</Description>
     <PackageTags>umbraco plugin package tinymce</PackageTags>
     <Authors>jasonproworks</Authors>
