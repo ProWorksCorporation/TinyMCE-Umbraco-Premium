@@ -48,6 +48,51 @@ The details on each configuration value are described below:
 | pluginsToExclude | Array of TinyMCE plugins names to exclude | [] | This excludes these plugins from being selected or used by the Umbraco Rich Text Editor and the TinyMCE Premium Rich Text Editor |
 | customConfig | JSON TinyMCE Configuration | {} | See the [Tiny Documentation](https://www.tiny.cloud/docs/tinymce/6/plugins/) for the plugin configuration.  Only used by the TinyMCE Premium Rich Text Editor. | 
  
+### Additional Advanced Custom Configuration
+
+In addition to the customConfig setting in the "TinyMceConfig" section of the appSettings.config above, there is a way to extend the configuration to allow for javascript functions to be used.  No javascript functions can be added to the "customConfig" above because it is not valid JSON.
+
+To allow javascript to be present in for the configuration of the TinyMCE Premium Plugin you will need to add a custom App_Plugin to extend Umbraco's back-office.
+
+#### Here are the steps below:
+
+1. Add an App_Plugins folder to the Umbraco project at the root if one is not present
+2. Add a folder and call it something like "TinyMCE.Premium.Overrides".  This is arbitrary, but if you change it then the package.manifest will need to change the paths below.
+3. Add a new .js file to the "TinyMCE.Premium.Overrides" folder.  Something like "tinymce.custom.config.js" works well.
+4. In the "tinymce.custom.config.js" file add the code below:
+
+```
+!(function () {
+
+    function init() {
+
+        window.tinymcepremium.Config.custom_user_config = {
+            // Add your config here -- can contain javascript after the ":"
+            spellchecker_ignore_list: [ "senectus", "malesuada" ]
+        };
+    }
+
+    /**
+    * Initialize after the app.ready event 
+    */
+    angular.module("umbraco").run(function ($rootScope) {
+        $rootScope.$on('app.ready', init)
+    })
+
+})()
+```
+5. Add a new "package.manifest" file in the "TinyMCE.Premium.Overrides" folder.
+6. In the "package.manifest" file add the code below:
+```
+{
+    "javascript": [
+        "/App_Plugins/TinyMCE.Premium.Overrides/tinymce.custom.config.js"
+    ]
+}
+```
+
+Now when the TinyMCE Premium editor loads up, it will load the configuration in the "tinymce.custom.config.js" files as well.
+
 ## Data Types
 
 ### Umbraco's Rich Text Editor
