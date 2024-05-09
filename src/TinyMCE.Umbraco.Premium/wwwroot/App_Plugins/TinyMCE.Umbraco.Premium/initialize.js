@@ -16,6 +16,8 @@
         const plugins = document.createElement('script')
         plugins.referrerPolicy = 'origin'
 
+        //console.log('init()')
+
         //console.log(Umbraco.Sys.ServerVariables.tinymcepremium.apiKey)
 
         // Compose the URL to the TinyMCE plugins.min.js file using the Umbraco.Sys.ServerVariables.tinymcepremium.apiKey variable.

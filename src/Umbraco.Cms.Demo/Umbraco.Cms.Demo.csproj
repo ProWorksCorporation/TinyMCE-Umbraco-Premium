@@ -28,6 +28,15 @@
     <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" Condition="$(RuntimeIdentifier.StartsWith('linux')) or $(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and !$([MSBuild]::IsOSPlatform('osx')))" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="App_Plugins\TinyMCE.Premium.Overrides\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="app_plugins\tinymce.premium.overrides\package.manifest" />
+    <None Include="app_plugins\tinymce.premium.overrides\tinymce.custom.config.js" />
+  </ItemGroup>
+
   <PropertyGroup>
     <!-- Razor files are needed for the backoffice to work correctly -->
     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
