@@ -271,17 +271,18 @@ namespace TinyMCE.Umbraco.Premium.Composers
         /// <inheritdoc /> 
         private class ServerVariablesParsingNotificationHandler : INotificationHandler<ServerVariablesParsingNotification>
         {
-            private TinyMceConfig _tinyMceConfig;
+			private TinyMceConfig _tinyMceConfig;
 
-            public ServerVariablesParsingNotificationHandler(IOptions<TinyMceConfig> tinyMceConfig) { 
-                _tinyMceConfig = tinyMceConfig.Value;
-            }
+			public ServerVariablesParsingNotificationHandler(IOptions<TinyMceConfig> tinyMceConfig) {
+				_tinyMceConfig = tinyMceConfig.Value;
+			}
 
-            /// <inheritdoc /> 
-            public void Handle(ServerVariablesParsingNotification notification) => notification.ServerVariables.Add("tinymcepremium", new
+			/// <inheritdoc /> 
+			public void Handle(ServerVariablesParsingNotification notification) => notification.ServerVariables.Add("tinymcepremium", new
             {
 				apiKey = _tinyMceConfig != null ? _tinyMceConfig.apikey : "",
 				openAiApikey = _tinyMceConfig != null ? _tinyMceConfig.openAiApikey : "",
+				pluginsToExclude = _tinyMceConfig != null ? _tinyMceConfig.pluginsToExclude : Array.Empty<string>()
 			});
         }
     }

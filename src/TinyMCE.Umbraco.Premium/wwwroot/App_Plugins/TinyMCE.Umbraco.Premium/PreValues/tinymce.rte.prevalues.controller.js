@@ -52,17 +52,33 @@
             }
 
             var tinymcePremiumPluginsList = window.tinymcepremium.Config.tinymcePremiumPluginsList;
+            var pluginsToRemoveCompletely = Umbraco.Sys.ServerVariables.tinymcepremium.pluginsToExclude;
 
             // Remove extra plugins that maybe no longer apply but were saved to prevalues at some point
             var allPossiblePlugins = _.pluck($scope.tinyMceConfig.plugins, "name");
             var premiumPlugins = _.pluck(tinymcePremiumPluginsList, "alias");
             allPossiblePlugins = _.union(allPossiblePlugins, premiumPlugins);
+            allPossiblePlugins = _.difference(allPossiblePlugins, pluginsToRemoveCompletely);
             $scope.model.value.plugins = _.intersection(allPossiblePlugins, $scope.model.value.plugins);
             $scope.model.value.pluginsToExclude = _.difference(allPossiblePlugins, $scope.model.value.plugins);
 
+            var allPlugins = allPossiblePlugins;
+            var modifiedTinymcePremiumPluginsList = _.filter(tinymcePremiumPluginsList, function (p) { return _.indexOf(pluginsToRemoveCompletely, p.alias) < 0 });
+
             // Setup the checklist data for selecting plugins
-            if (tinymcePremiumPluginsList != null) {
-                $scope.tinyMceConfig.pluginOptions = _.map(tinymcePremiumPluginsList, obj => {
+            if (modifiedTinymcePremiumPluginsList != null) {
+
+                // adding plugins that have been added via config or are defaults
+                _.each(allPlugins, function (p) {
+                    if (p != null) {
+                        var relatedPlugin = _.findWhere(modifiedTinymcePremiumPluginsList, { alias: p });
+                        if (!relatedPlugin) {
+                            modifiedTinymcePremiumPluginsList = _.union(modifiedTinymcePremiumPluginsList, [{ name: p, alias: p }]);
+                        }
+                    }
+                });
+
+                $scope.tinyMceConfig.pluginOptions = _.map(modifiedTinymcePremiumPluginsList, obj => {
 
                     const objPlugin = Utilities.extend(obj, {
                         displayName: obj.name,
@@ -74,7 +90,7 @@
             }
 
             var allCommands = $scope.tinyMceConfig.commands;
-            _.each(tinymcePremiumPluginsList, function (p) {
+            _.each(modifiedTinymcePremiumPluginsList, function (p) {
                 if (p.command != null) {
                     var relatedCommand = _.findWhere(allCommands, { alias: p.command.alias });
                     if (!relatedCommand) {
