@@ -10,9 +10,9 @@
     <PackageId>tinymce.umbraco.premium</PackageId>
     <Product>TinyMCE.Umbraco.Premium</Product>
     <Title>TinyMCE.Umbraco.Premium</Title>
-    <Version>13.2.3</Version>
-    <Description>Umbraco CMS package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE.</Description>
-    <PackageTags>umbraco plugin package tinymce</PackageTags>
+    <Version>13.2.4</Version>
+    <Description>This is an Umbraco CMS package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE. In addition, it adds a new TinyMCE Premium property editor which additional settings that allows for a more targeted configuration setup for RTE Data Types in Umbraco. Finally, it adds additional configuration that supports JSON directly in the configuration for .Net (appsettings.config).</Description>
+    <PackageTags>umbraco plugin package tinymce umbraco-marketplace</PackageTags>
     <Authors>jasonproworks</Authors>
     <Company>ProWorks Corporation</Company>
     <PackageProjectUrl>https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium</PackageProjectUrl>
