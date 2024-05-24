@@ -5,7 +5,7 @@ The TinyMCE Umbraco Premium package Works with Umbraco Versions 12, and 13
 
 ## Releases
 
-Avvailable via the [Releases page](https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium/releases)
+Available via the [Releases page](https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium/releases)
 
 ## Installation:
 
