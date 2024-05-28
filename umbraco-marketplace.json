@@ -8,11 +8,11 @@
     "Url": "https://www.proworks.com/",
     "ImageUrl": "https://github.com/protherj.png",
     "Contributors": [],
-    "SyncContributorsFromRepository": "false"
+    "SyncContributorsFromRepository": false
   },
   "Category": "Editor Tools",
-  "Description": "This package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE.  In addition, it adds a new TinyMCE Premium property editor which additional settings that allows for a more targeted configuration setup for RTE Data Types in Umbraco.",
-  "DiscussionForumUrl": "",
+  "Description": "Access all the paid features and plugins that TinyMCE offers such as the Accessibility Checker, AI Assistant, Templating, and more.",
+  "DiscussionForumUrl": "https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium/issues",
   "DocumentationUrl": "https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium",
   "LicenseTypes": [ "Free" ],
   "IssueTrackerUrl": "https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium/issues",
