@@ -1,5 +1,6 @@
 # TinyMCE Premium package for Umbraco CMS project
-This is an [Umbraco CMS](https://umbraco.com/) package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE.  In addition, it adds a new TinyMCE Premium property editor which additional settings that allows for a more targeted configuration setup for RTE Data Types in Umbraco.  Finally, it adds additional configuration that supports JSON directly in the configuration for .Net (appsettings.config).
+
+This is an [Umbraco CMS](https://umbraco.com/) package that enables access to the paid features in the [TinyMCE](https://www.tiny.cloud/)-based Rich Text Editor (RTE) in version 12+ with a license. It also adds a new TinyMCE Premium property editor with additional settings, providing a more targeted configuration setup for RTE Data Types in Umbraco. Finally, it allows for additional settings that support JSON directly in the configuration for .NET (appsettings.config).
 
 The TinyMCE Umbraco Premium package Works with Umbraco Versions 12, and 13
 
@@ -52,7 +53,7 @@ The details on each configuration value are described below:
 
 In addition to the customConfig setting in the "TinyMceConfig" section of the appSettings.config above, there is a way to extend the configuration to allow for javascript functions to be used.  No javascript functions can be added to the "customConfig" above because it is not valid JSON.
 
-To allow javascript to be present in for the configuration of the TinyMCE Premium Plugin you will need to add a custom App_Plugin to extend Umbraco's back-office.
+To allow javascript to be present in for the configuration of the TinyMCE Premium plugin you will need to add a custom App_Plugin to extend Umbraco's back-office.
 
 #### Here are the steps below:
 
@@ -149,14 +150,14 @@ In order to use the TinyMCE Premium Rich Text Editor, you will need to create at
 
 The TinyMCE Premium Rich Text property editor adds a few new configuration options for each Data Type that you create:
 
-1. Plugin Selection: Similar to the Toolbar items, you can select which Plugins are enabled / available for this Data Type.
+1. Plugin Selection: Similar to the Toolbar items, you can select which plugins are enabled / available for this Data Type.
 2. CustomConfig: Each Data Type that implements this editor has its own TinyMCE Configuration JSON that can be used for a custom configuration specific to this Data Type.
 
 Both of these new Data Type configuration options are managed via the Data Type editing interface in the back-office of Umbraco.
 
 # Support
 
-If you have questions about TinyMCE Plugins, please contact TinyMCE Support directly.
+If you have questions about TinyMCE plugins, please contact TinyMCE Support directly.
 
 If something specific to the Property Editors in this package or the Configuration isn't working as you would expect, please submit a question via the [Github Issues](https://github.com/ProWorksCorporation/TinyMCE-Umbraco-Premium/issues) for this project.  We will do our best to monitor and respond, but please be patient with us.
 
