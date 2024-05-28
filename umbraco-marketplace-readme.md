@@ -1,5 +1,5 @@
 # TinyMCE Premium package for Umbraco CMS package
-This is an Umbraco CMS package that enables the TinyMCE-based Rich Text Editor (RTE) in Umbraco versions 12+ to be licensed to access the paid Premium features in TinyMCE. In addition, it adds a new TinyMCE Premium property editor which additional settings that allows for a more targeted configuration setup for RTE Data Types in Umbraco. Finally, it adds additional configuration that supports JSON directly in the configuration for .Net (appsettings.config).
+This is an Umbraco CMS package that enables access to the paid features in the TinyMCE-based Rich Text Editor (RTE) in version 12+ with a license. It also adds a new TinyMCE Premium property editor with additional settings, providing a more targeted configuration setup for RTE Data Types in Umbraco. Finally, it allows for additional settings that support JSON directly in the configuration for .NET (appsettings.config).
 
 The TinyMCE Umbraco Premium package Works with Umbraco Versions 12, and 13
 
