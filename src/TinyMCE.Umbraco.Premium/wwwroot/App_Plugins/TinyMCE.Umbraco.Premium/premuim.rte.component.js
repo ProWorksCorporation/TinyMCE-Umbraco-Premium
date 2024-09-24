@@ -287,6 +287,11 @@
                         // add the "media" plugin per TinyMCE docs
                         standardConfig.plugins = _.union(standardConfig.plugins, ["media"]);
                     }
+
+                    if (standardConfig.hasOwnProperty("advtemplate_list")) {
+                        // add the "media" plugin per TinyMCE docs
+                        standardConfig.advtemplate_templates = null;
+                    }
                     ///////////////////
 
                     ////////////////////////////////
