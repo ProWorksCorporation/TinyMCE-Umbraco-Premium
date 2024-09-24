@@ -233,11 +233,6 @@
                     ////////////////////////////////
                     var standardConfigKeys = _.keys(standardConfig);
 
-                    // Override with prevalue custom config if present
-                    if (editorConfig.customConfig) {
-                        Utilities.extend(standardConfig, editorConfig.customConfig);
-                    }
-
                     // Override with prevalue plugins if present
                     if (editorConfig.plugins) {
                         standardConfig.plugins = _.union(standardConfig.plugins, editorConfig.plugins);
@@ -273,6 +268,11 @@
                     // Load any User Defined Custom Config
                     if (window.tinymcepremium.Config.custom_user_config != null) {
                         Utilities.extend(standardConfig, window.tinymcepremium.Config.custom_user_config);
+                    }
+
+                    // Override with prevalue custom config if present
+                    if (editorConfig.customConfig) {
+                        Utilities.extend(standardConfig, editorConfig.customConfig);
                     }
 
                     if (standardConfig.plugins.indexOf("powerpaste")) {
