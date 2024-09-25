@@ -42,7 +42,11 @@ namespace TinyMCE.Umbraco.Premium.Composers
 				{
 					dynamic obj = ConfigurationBinder.BindToExpandoObject(child);
 					dynamic customConfigObj = ((IDictionary<string, object>)obj.TinyMceConfig.customConfig).First().Value;
-					var valueAsText = System.Text.Json.JsonSerializer.Serialize(customConfigObj);
+					string valueAsText = System.Text.Json.JsonSerializer.Serialize(customConfigObj);
+					if(customConfigObj is string)
+					{	// Added this because the Serialize call above encodes double-quotes in strings
+						valueAsText = customConfigObj;
+                    }
 					customConfigKeys.Add(child.Key, valueAsText);
 				}
 
