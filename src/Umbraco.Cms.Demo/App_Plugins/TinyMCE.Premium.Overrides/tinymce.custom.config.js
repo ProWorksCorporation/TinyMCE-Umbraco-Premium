@@ -32,7 +32,30 @@
                 // but you could additionally include anything else you deem useful.
                 success(filteredUsers);
 
-            }
+            }//,
+            //advtemplate_list: () => new Promise((resolve, reject) => {
+            //    setTimeout(() => {
+            //        console.log("promise worked");
+            //        resolve([{
+            //            id: '1',
+            //            title: 'Resolving tickets (promise)'
+            //        },
+            //        {
+            //            id: '2',
+            //            title: 'Quick replies (promise)',
+            //            items: [{
+            //                id: '3',
+            //                title: 'Message received (promise)',
+            //            },
+            //            {
+            //                id: '4',
+            //                title: 'Progress update (promise)',
+            //            }
+            //            ]
+            //        }
+            //        ]);
+            //    }, 300);
+            //})
         };
     }
 
