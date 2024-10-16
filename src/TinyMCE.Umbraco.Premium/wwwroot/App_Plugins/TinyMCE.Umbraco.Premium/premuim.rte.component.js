@@ -421,8 +421,11 @@
 
             ensurePropertyValue(newVal);
 
+            // updating the modelObject with the new value cause a angular compile issue.
+            // But I'm not sure it's needed, as this does not trigger the RTE
             if (modelObject) {
                 modelObject.update(vm.model.value.blocks, $scope);
+                vm.tinyMceEditor.fire('updateBlocks');
             }
             onLoaded();
         }
@@ -1022,7 +1025,19 @@
                 return undefined;
             }
 
-            return vm.layout[layoutIndex].$block;
+            var layoutEntry = vm.layout[layoutIndex];
+            if (layoutEntry.$block === undefined || layoutEntry.$block.config === undefined) {
+                // make block model
+                var blockObject = getBlockObject(layoutEntry);
+                if (blockObject === null) {
+                    // Initialization of the Block Object didn't go well, therefor we will fail the paste action.
+                    return false;
+                }
+
+                // set the BlockObject on our layout entry.
+                layoutEntry.$block = blockObject;
+            }
+            return layoutEntry.$block;
         }
 
         vm.blockEditorApi = {
