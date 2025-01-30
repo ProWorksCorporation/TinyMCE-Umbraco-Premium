@@ -1,0 +1,15 @@
+{
+    "$schema": "../umbraco-package-schema.json",
+    "name": "TinyMCE.Umbraco.Premium",
+    "id": "TinyMCE.Umbraco.Premium",
+    "version": "14.3.1",
+    "allowTelemetry": true,
+    "extensions": [
+        {
+            "name": "TinyMCE.Umbraco.Premium.entrypoint",
+            "alias": "TinyMCE.Umbraco.Premium.EntryPoint",
+            "type": "entryPoint",
+            "js": "/app_plugins/TinyMCE.Umbraco.Premium/assets.js"
+        }
+    ]
+}
