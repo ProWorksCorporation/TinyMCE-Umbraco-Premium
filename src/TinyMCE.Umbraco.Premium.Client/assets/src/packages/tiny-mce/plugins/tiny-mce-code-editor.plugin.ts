@@ -1,0 +1,38 @@
+import { type TinyMcePremiumPluginArguments, UmbTinyMcePremiumPluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
+import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
+import { UMB_CODE_EDITOR_MODAL, UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal';
+
+export default class UmbTinyMceCodeEditorPlugin extends UmbTinyMcePremiumPluginBase {
+	constructor(args: TinyMcePremiumPluginArguments) {
+		super(args);
+		const localize = new UmbLocalizationController(args.host);
+
+		this.editor.ui.registry.addButton('tinymcesourcecode', {
+			icon: 'sourcecode',
+			tooltip: localize.term('general_viewSourceCode'),
+			onAction: () => this.#showCodeEditor(),
+		});
+	}
+
+	async #showCodeEditor() {
+		const modalManager = await this.getContext(UMB_MODAL_MANAGER_CONTEXT);
+		const modal = modalManager.open(this, UMB_CODE_EDITOR_MODAL, {
+			data: {
+				headline: 'Edit source code',
+				content: this.editor.getContent() ?? '',
+				language: 'html',
+			},
+		});
+
+		if (!modal) return;
+
+		const { content } = await modal.onSubmit();
+		if (!content) {
+			this.editor.resetContent();
+		} else {
+			this.editor.setContent(content.toString());
+		}
+
+		this.editor.dispatch('Change');
+	}
+}
