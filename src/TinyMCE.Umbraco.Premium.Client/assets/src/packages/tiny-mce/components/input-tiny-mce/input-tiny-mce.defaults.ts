@@ -27,8 +27,8 @@ export const defaultFallbackConfig: RawEditorOptions = {
 		'outdent',
 		'indent',
 		'link',
-		'tinymcemediapicker',
-		'tinymceembeddialog',
+		'umbmediapicker',
+		'umbembeddialog',
 	],
 
 	init_instance_callback: function (editor) {

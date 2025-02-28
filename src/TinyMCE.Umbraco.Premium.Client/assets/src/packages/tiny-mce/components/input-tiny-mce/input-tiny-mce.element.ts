@@ -1,7 +1,7 @@
-import { availableLanguages } from './input-tiny-mce.languages.js';
+import { availableLanguages } from '@umbraco-cms/backoffice/tiny-mce';
 import { defaultFallbackConfig } from './input-tiny-mce.defaults.js';
-import { pastePreProcessHandler } from './input-tiny-mce.handlers.js';
-import { uriAttributeSanitizer } from './input-tiny-mce.sanitizer.js';
+import { pastePreProcessHandler } from '@umbraco-cms/backoffice/tiny-mce';
+import { uriAttributeSanitizer } from '@umbraco-cms/backoffice/tiny-mce';
 import type { UmbTinyMcePremiumPluginBase } from './tiny-mce-plugin.js';
 import { type ClassConstructor, loadManifestApi } from '@umbraco-cms/backoffice/extension-api';
 import { css, customElement, html, property, query } from '@umbraco-cms/backoffice/external/lit';
@@ -223,6 +223,12 @@ export class UmbInputTinyMcePremiumElement extends UUIFormControlMixin(UmbLitEle
 			if (Array.isArray(configurationOptions.plugins) && configurationOptions.plugins.includes('autoresize')) {
 				configurationOptions.plugins.splice(configurationOptions.plugins.indexOf('autoresize'), 1);
 			}
+		}
+
+		// set the configured toolbar if any, otherwise false
+		const plugins = this.configuration?.getValueByAlias<string[]>('plugins');
+		if (plugins && plugins.length) {
+			configurationOptions.plugins = plugins?.join(' ');
 		}
 
 		// set the configured toolbar if any, otherwise false
