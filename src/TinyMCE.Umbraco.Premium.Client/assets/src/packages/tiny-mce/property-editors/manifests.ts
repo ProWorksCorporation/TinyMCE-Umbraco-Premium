@@ -7,6 +7,17 @@ export const manifests: Array<ManifestTypes> = [
 	blockRteTypeManifest,
 	{
 		type: 'propertyEditorUi',
+		alias: 'TinyMCE.PropertyEditorUI.TinyMCEPremium.PluginConfiguration',
+		name: 'TinyMCE Premium Plugin Property Editor UI',
+		js: () => import('./plugin/property-editor-ui-tiny-mce-plugin-configuration.element.js'),
+		meta: {
+			label: 'TinyMCE Premium Plugin Configuration',
+			icon: 'icon-autofill',
+			group: 'common',
+		},
+	},
+	{
+		type: 'propertyEditorUi',
 		alias: 'TinyMCE.PropertyEditorUI.TinyMCEPremium.ToolbarConfiguration',
 		name: 'TinyMCE Premium Toolbar Property Editor UI',
 		js: () => import('./toolbar/property-editor-ui-tiny-mce-toolbar-configuration.element.js'),

@@ -10,4 +10,8 @@
 		<PackageReference Include="Umbraco.Cms.Api.Management" Version="14.3.2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Composers\" />
+	</ItemGroup>
+
 </Project>

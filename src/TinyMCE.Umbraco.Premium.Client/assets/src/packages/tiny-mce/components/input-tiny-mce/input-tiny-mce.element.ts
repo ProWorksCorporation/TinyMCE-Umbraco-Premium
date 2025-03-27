@@ -19,6 +19,16 @@ import {
 } from '@umbraco-cms/backoffice/external/tinymce';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
+// Import the Cloud TinyMCE so the license can come from configuration
+async function loadModuleFromURL(url: string) {
+	try {
+		const module = await import(url);
+		return module;
+	} catch (error) {
+		console.error("Error loading module:", error);
+		throw error;
+	}
+}
 /**
  * Handles the resize event
  * @param e
@@ -102,6 +112,8 @@ export class UmbInputTinyMcePremiumElement extends UUIFormControlMixin(UmbLitEle
 
 	constructor() {
 		super();
+		var license = ''; // TODO: Get from AppSettings in some way
+		loadModuleFromURL('https://cdn.tiny.cloud/1/' + license + '/tinymce/6/plugins.min.js');
 		this.#loadEditor();
 	}
 
@@ -225,10 +237,15 @@ export class UmbInputTinyMcePremiumElement extends UUIFormControlMixin(UmbLitEle
 			}
 		}
 
-		// set the configured toolbar if any, otherwise false
+		// PREMIUM: set the configured plugins if any, otherwise false
 		const plugins = this.configuration?.getValueByAlias<string[]>('plugins');
 		if (plugins && plugins.length) {
-			configurationOptions.plugins = plugins?.join(' ');
+			if (typeof configurationOptions.plugins === 'string' || Array.isArray(configurationOptions.plugins)) {
+				configurationOptions.plugins = plugins.concat(configurationOptions.plugins);
+			}
+			else {
+				configurationOptions.plugins = plugins;
+			}
 		}
 
 		// set the configured toolbar if any, otherwise false
