@@ -44,7 +44,7 @@ export class UmbPropertyEditorUITinyMcePremiumToolbarConfigurationElement
 		// Migrations
 		if (this.#selectedValues.includes('ace')) {
 			this.#selectedValues = this.#selectedValues.filter((v) => v !== 'ace');
-			this.#selectedValues.push('tinymcesourcecode');
+			this.#selectedValues.push('sourcecode');
 		}
 
 		this._toolbarConfig.forEach((v) => {

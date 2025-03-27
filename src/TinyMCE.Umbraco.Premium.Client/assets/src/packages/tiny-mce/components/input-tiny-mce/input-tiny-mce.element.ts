@@ -1,7 +1,7 @@
-import { availableLanguages } from './input-tiny-mce.languages.js';
+import { availableLanguages } from '@umbraco-cms/backoffice/tiny-mce';
 import { defaultFallbackConfig } from './input-tiny-mce.defaults.js';
-import { pastePreProcessHandler } from './input-tiny-mce.handlers.js';
-import { uriAttributeSanitizer } from './input-tiny-mce.sanitizer.js';
+import { pastePreProcessHandler } from '@umbraco-cms/backoffice/tiny-mce';
+import { uriAttributeSanitizer } from '@umbraco-cms/backoffice/tiny-mce';
 import type { UmbTinyMcePremiumPluginBase } from './tiny-mce-plugin.js';
 import { type ClassConstructor, loadManifestApi } from '@umbraco-cms/backoffice/extension-api';
 import { css, customElement, html, property, query } from '@umbraco-cms/backoffice/external/lit';
@@ -19,6 +19,16 @@ import {
 } from '@umbraco-cms/backoffice/external/tinymce';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
+// Import the Cloud TinyMCE so the license can come from configuration
+async function loadModuleFromURL(url: string) {
+	try {
+		const module = await import(url);
+		return module;
+	} catch (error) {
+		console.error("Error loading module:", error);
+		throw error;
+	}
+}
 /**
  * Handles the resize event
  * @param e
@@ -102,6 +112,8 @@ export class UmbInputTinyMcePremiumElement extends UUIFormControlMixin(UmbLitEle
 
 	constructor() {
 		super();
+		var license = ''; // TODO: Get from AppSettings in some way
+		loadModuleFromURL('https://cdn.tiny.cloud/1/' + license + '/tinymce/6/plugins.min.js');
 		this.#loadEditor();
 	}
 
@@ -222,6 +234,17 @@ export class UmbInputTinyMcePremiumElement extends UUIFormControlMixin(UmbLitEle
 		if (!configurationOptions.height) {
 			if (Array.isArray(configurationOptions.plugins) && configurationOptions.plugins.includes('autoresize')) {
 				configurationOptions.plugins.splice(configurationOptions.plugins.indexOf('autoresize'), 1);
+			}
+		}
+
+		// PREMIUM: set the configured plugins if any, otherwise false
+		const plugins = this.configuration?.getValueByAlias<string[]>('plugins');
+		if (plugins && plugins.length) {
+			if (typeof configurationOptions.plugins === 'string' || Array.isArray(configurationOptions.plugins)) {
+				configurationOptions.plugins = plugins.concat(configurationOptions.plugins);
+			}
+			else {
+				configurationOptions.plugins = plugins;
 			}
 		}
 

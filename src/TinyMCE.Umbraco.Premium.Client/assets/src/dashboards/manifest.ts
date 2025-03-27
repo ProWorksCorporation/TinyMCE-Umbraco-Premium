@@ -15,7 +15,7 @@ const dashboards: Array<ManifestDashboard> = [
         conditions: [
             {
                 alias: 'Umb.Condition.SectionAlias',
-                match: 'Umb.Section.Content'
+                match: 'Umb.Section.Settings'
             }
         ]
     }

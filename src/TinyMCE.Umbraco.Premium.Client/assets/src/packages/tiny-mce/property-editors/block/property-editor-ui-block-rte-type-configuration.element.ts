@@ -11,10 +11,10 @@ import { UMB_WORKSPACE_MODAL } from '@umbraco-cms/backoffice/modal';
 import { UmbModalRouteRegistrationController } from '@umbraco-cms/backoffice/router';
 
 /**
- * @element umb-property-editor-ui-block-rte-type-configuration
+ * @element umb-property-editor-ui-block-tiny-mce-premium-type-configuration
  */
-@customElement('umb-property-editor-ui-block-rte-type-configuration')
-export class UmbPropertyEditorUIBlockRteBlockConfigurationElement
+@customElement('umb-property-editor-ui-block-tiny-mce-premium-type-configuration')
+export class UmbPropertyEditorUIBlockTinyMcePremiumBlockConfigurationElement
 	extends UmbLitElement
 	implements UmbPropertyEditorUiElement
 {
@@ -71,10 +71,10 @@ export class UmbPropertyEditorUIBlockRteBlockConfigurationElement
 	}
 }
 
-export default UmbPropertyEditorUIBlockRteBlockConfigurationElement;
+export default UmbPropertyEditorUIBlockTinyMcePremiumBlockConfigurationElement;
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'umb-property-editor-ui-block-rte-type-configuration': UmbPropertyEditorUIBlockRteBlockConfigurationElement;
+		'umb-property-editor-ui-block-tiny-mce-premium-type-configuration': UmbPropertyEditorUIBlockTinyMcePremiumBlockConfigurationElement;
 	}
 }
