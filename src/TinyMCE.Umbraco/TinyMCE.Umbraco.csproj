@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>TinyMCE.Umbraco</Product>
+    <PackageId>TinyMCE.Umbraco</PackageId>
+    <Title>TinyMCE for Umbraco CMS</Title>
+    <Description>...</Description>
+    <PackageTags>umbraco;umbraco-marketplace</PackageTags>
+    <Authors>ProWorks</Authors>
+    <Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © ProWorks Corporation</Copyright>
+    <PackageProjectUrl>https://github.com/ProWorksCorporation/TinyMCE-Umbraco</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ProWorksCorporation/TinyMCE-Umbraco</RepositoryUrl>
+    <PackageReadmeFile>README_nuget.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>GPL-2.0-or-later</PackageLicenseExpression>
+    <PackageIcon></PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="16.0.0--rc.preview.58.gd1ee95c" />
+    <PackageReference Include="Umbraco.Cms.Web.Common" Version="16.0.0--rc.preview.58.gd1ee95c" />
+    <PackageReference Include="Umbraco.Cms.Api.Common" Version="16.0.0--rc.preview.58.gd1ee95c" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" Version="16.0.0--rc.preview.58.gd1ee95c" />
+    <ProjectReference Include="..\TinyMCE.Umbraco.Client\TinyMCE.Umbraco.Client.esproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\README_nuget.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\Upgrade\" />
+  </ItemGroup>
+
+</Project>
