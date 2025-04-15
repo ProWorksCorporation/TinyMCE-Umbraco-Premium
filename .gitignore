@@ -358,3 +358,5 @@ MigrationBackup/
 # Rider
 src/.idea
 /src/TinyMCE.Umbraco/wwwroot/App_Plugins/TinyMCE/*
+*.tsbuildinfo
+/src/TinyMCE.Umbraco.Client/dist/

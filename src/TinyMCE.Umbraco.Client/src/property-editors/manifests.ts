@@ -13,15 +13,4 @@ export const manifests: Array<UmbExtensionManifest> = [
 			group: 'common',
 		},
 	},
-	{
-		type: 'propertyEditorUi',
-		alias: 'Umb.PropertyEditorUI.TinyMCE.StylesheetsConfiguration',
-		name: 'TinyMCE Stylesheets Property Editor UI',
-		element: () => import('./stylesheets/property-editor-ui-tiny-mce-stylesheets-configuration.element.js'),
-		meta: {
-			label: 'TinyMCE Stylesheets Configuration',
-			icon: 'icon-autofill',
-			group: 'common',
-		},
-	},
 ];

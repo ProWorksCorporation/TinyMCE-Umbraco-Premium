@@ -6,11 +6,7 @@ import { manifests as propertyEditors } from './property-editors/manifests.js';
 import { manifests as plugins } from './plugins/manifests.js';
 import { manifests as stylesheets } from './stylesheets/manifests.js';
 
-// TODO: The current Umbraco 16 nightly build still has the TinyMCE code/manifests,
-// so this causes an extension conflict with the manifest aliases.
-// This temporary workaround prefixes the manifest names and aliases with "ProWorks".
-// Once Umbraco 16 nightly has been updated, we can remove this temporary workaround. [LK]
-const temp: Array<UmbExtensionManifest> = [
+export const manifests: Array<UmbExtensionManifest> = [
 	...components,
 	...entryPoints,
 	...icons,
@@ -18,6 +14,4 @@ const temp: Array<UmbExtensionManifest> = [
 	...propertyEditors,
 	...plugins,
 	...stylesheets,
-].map((x) => ({ ...x, name: `[ProWorks] ${x.name}`, alias: `ProWorks.${x.alias}` }));
-
-export const manifests = temp;
+];

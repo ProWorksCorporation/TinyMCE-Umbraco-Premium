@@ -2,14 +2,11 @@ import esbuild from 'rollup-plugin-esbuild';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import css from 'rollup-plugin-import-css';
 import replace from '@rollup/plugin-replace';
-import { readdirSync, lstatSync, cpSync, copyFileSync, existsSync, unlinkSync } from 'fs';
+import { readdirSync, lstatSync, cpSync, existsSync, unlinkSync } from 'fs';
 import * as globModule from 'tiny-glob';
-
-// TODO: [LK] Review if this is required.
 
 const glob = globModule.default;
 
-// TODO: could we rename this to just dist?
 const DIST_DIRECTORY = './dist';
 
 /* TODO: temp solution. Not every external library can run in the browser so we need rollup to bundle them and make them Browser friendly.

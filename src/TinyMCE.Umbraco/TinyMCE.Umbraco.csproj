@@ -23,10 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="16.0.0--rc.preview.58.gd1ee95c" />
-    <PackageReference Include="Umbraco.Cms.Web.Common" Version="16.0.0--rc.preview.58.gd1ee95c" />
-    <PackageReference Include="Umbraco.Cms.Api.Common" Version="16.0.0--rc.preview.58.gd1ee95c" />
-    <PackageReference Include="Umbraco.Cms.Api.Management" Version="16.0.0--rc.preview.58.gd1ee95c" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="16.0.0--rc.preview.95.g9062851" />
+    <PackageReference Include="Umbraco.Cms.Web.Common" Version="16.0.0--rc.preview.95.g9062851" />
+    <PackageReference Include="Umbraco.Cms.Api.Common" Version="16.0.0--rc.preview.95.g9062851" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" Version="16.0.0--rc.preview.95.g9062851" />
     <ProjectReference Include="..\TinyMCE.Umbraco.Client\TinyMCE.Umbraco.Client.esproj">
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
     </ProjectReference>

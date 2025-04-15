@@ -5,7 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"watch": "tsc && vite build --watch",
-		"build": "tsc && vite build",
+		"build": "tsc --project ./src/tsconfig.build.json",
+		"postbuild": "rollup -c ./src/rollup.config.js",
 		"generate-client": "node scripts/generate-openapi.js https://localhost:44308/umbraco/swagger/tiny-mce/swagger.json"
 	},
 	"dependencies": {
@@ -15,10 +16,17 @@
 	"devDependencies": {
 		"@hey-api/client-fetch": "^0.4.2",
 		"@hey-api/openapi-ts": "^0.53.11",
-		"@umbraco-cms/backoffice": "^16.0.0-rc.gd1ee95c",
+		"@rollup/plugin-json": "^6.1.0",
+		"@rollup/plugin-node-resolve": "^16.0.0",
+		"@rollup/plugin-replace": "^6.0.2",
+		"@umbraco-cms/backoffice": "^16.0.0-rc.g9062851",
 		"chalk": "^5.3.0",
 		"cross-env": "7.0.3",
 		"node-fetch": "^3.3.2",
+		"rollup": "^4.34.8",
+		"rollup-plugin-esbuild": "^6.2.0",
+		"rollup-plugin-import-css": "^3.5.8",
+		"tiny-glob": "^0.2.9",
 		"typescript": "^5.7.3",
 		"vite": "^6.2.2",
 		"vite-plugin-static-copy": "^2.2.0",

@@ -66,16 +66,14 @@ export const manifests: Array<UmbExtensionManifest> = [
 						alias: 'stylesheets',
 						label: '#treeHeaders_stylesheets',
 						description: 'Pick the stylesheets whose editor styles should be available when editing',
-						propertyEditorUiAlias: 'Umb.PropertyEditorUI.TinyMCE.StylesheetsConfiguration',
+						propertyEditorUiAlias: 'Umb.PropertyEditorUi.StylesheetPicker',
 						weight: 20,
 					},
 					{
 						alias: 'dimensions',
 						label: '#general_dimensions',
 						description: 'Set the editor dimensions',
-						// TODO: Use 'Umb.PropertyEditorUi.Dimensions' once the Umbraco 16 nightly is fixed. [LK]
-						propertyEditorUiAlias: 'Umb.PropertyEditorUI.TinyMCE.DimensionsConfiguration',
-						//propertyEditorUiAlias: 'Umb.PropertyEditorUI.Dimensions',
+						propertyEditorUiAlias: 'Umb.PropertyEditorUI.Dimensions',
 						weight: 30,
 					},
 					{
