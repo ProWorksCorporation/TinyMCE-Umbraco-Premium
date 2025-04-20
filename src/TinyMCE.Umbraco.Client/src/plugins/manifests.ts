@@ -81,4 +81,10 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 			],
 		},
 	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.PremiumExample',
+		name: 'Example Premium TinyMCE Plugin',
+		js: () => import('./tiny-mce-premium-example.plugin.js'),
+	},
 ];
