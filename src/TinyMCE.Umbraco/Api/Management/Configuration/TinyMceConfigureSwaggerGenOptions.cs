@@ -6,7 +6,7 @@ using Umbraco.Cms.Api.Management.OpenApi;
 
 namespace TinyMCE.Umbraco.Api.Management;
 
-internal class TinyMceConfigureSwaggerGenOptions : IConfigureOptions<SwaggerGenOptions>
+internal sealed class TinyMceConfigureSwaggerGenOptions : IConfigureOptions<SwaggerGenOptions>
 {
     public void Configure(SwaggerGenOptions options)
     {
@@ -23,7 +23,7 @@ internal class TinyMceConfigureSwaggerGenOptions : IConfigureOptions<SwaggerGenO
     }
 }
 
-internal class TinyMceApiOperationSecurityFilter : BackOfficeSecurityRequirementsOperationFilterBase
+internal sealed class TinyMceApiOperationSecurityFilter : BackOfficeSecurityRequirementsOperationFilterBase
 {
     protected override string ApiName => Constants.ProjectAlias;
 }

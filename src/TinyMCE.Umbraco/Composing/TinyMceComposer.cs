@@ -17,6 +17,9 @@ internal sealed class TinyMceComposer : IComposer
                 .ConfigureOptions<TinyMceConfigureSwaggerGenOptions>()
                 .Configure<RichTextEditorSettings>(builder.Config.GetSection("Umbraco:CMS:RichTextEditor"))
                 .Configure<TinyMceSettings>(builder.Config.GetSection("TinyMceConfig"))
+
+                // NOTE: The follow line prevents the TinyMCE to Tiptap RTE migration in Umbraco v16.
+                // https://github.com/umbraco/Umbraco-CMS/pull/18843
                 .Configure<TinyMceToTiptapMigrationSettings>(settings => settings.DisableMigration = true)
         ;
     }

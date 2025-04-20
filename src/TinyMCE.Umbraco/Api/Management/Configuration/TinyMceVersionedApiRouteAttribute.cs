@@ -2,7 +2,7 @@ using Umbraco.Cms.Api.Management.Routing;
 
 namespace TinyMCE.Umbraco.Api.Management;
 
-internal class TinyMceVersionedApiBackOfficeRouteAttribute : VersionedApiBackOfficeRouteAttribute
+internal sealed class TinyMceVersionedApiBackOfficeRouteAttribute : VersionedApiBackOfficeRouteAttribute
 {
     public TinyMceVersionedApiBackOfficeRouteAttribute(string template)
         : base($"{Constants.ProjectAlias}/{template.TrimStart('/')}")

@@ -8,7 +8,7 @@ namespace TinyMCE.Umbraco.Api.Management;
 [ApiExplorerSettings(GroupName = Constants.ProjectName)]
 [ApiVersion("1.0")]
 [TinyMceVersionedApiBackOfficeRoute("/")]
-public class TinyMceConfigApiController : TinyMceManagementApiControllerBase
+public sealed class TinyMceConfigApiController : TinyMceManagementApiControllerBase
 {
     private readonly RichTextEditorSettings _richTextEditorSettings;
     private readonly TinyMceSettings _tinyMceSettings;

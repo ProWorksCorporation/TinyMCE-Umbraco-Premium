@@ -6,7 +6,7 @@ using Umbraco.Cms.Api.Common.OpenApi;
 
 namespace TinyMCE.Umbraco.Api.Management;
 
-internal class TinyMceOperationIdHandler : OperationIdHandler
+internal sealed class TinyMceOperationIdHandler : OperationIdHandler
 {
     public TinyMceOperationIdHandler(IOptions<ApiVersioningOptions> apiVersioningOptions)
         : base(apiVersioningOptions)
