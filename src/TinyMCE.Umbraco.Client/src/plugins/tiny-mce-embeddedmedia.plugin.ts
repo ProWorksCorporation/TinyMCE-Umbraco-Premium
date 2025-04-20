@@ -1,8 +1,9 @@
-import { type TinyMcePluginArguments, UmbTinyMcePluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
-import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
-import type { UmbEmbeddedMediaModalData, UmbEmbeddedMediaModalValue } from '@umbraco-cms/backoffice/embedded-media';
+import { UmbTinyMcePluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
+import type { TinyMcePluginArguments } from '../components/input-tiny-mce/tiny-mce-plugin.js';
 import { umbOpenModal } from '@umbraco-cms/backoffice/modal';
+import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
 import { UMB_EMBEDDED_MEDIA_MODAL } from '@umbraco-cms/backoffice/embedded-media';
+import type { UmbEmbeddedMediaModalData, UmbEmbeddedMediaModalValue } from '@umbraco-cms/backoffice/embedded-media';
 
 export default class UmbTinyMceEmbeddedMediaPlugin extends UmbTinyMcePluginBase {
 	constructor(args: TinyMcePluginArguments) {
@@ -15,7 +16,7 @@ export default class UmbTinyMceEmbeddedMediaPlugin extends UmbTinyMcePluginBase 
 			onAction: () => this.#onAction(),
 			onSetup: function (api) {
 				const changed = args.editor.selection.selectorChangedWithUnbind('div.umb-embed-holder', (state) =>
-					api.setActive(state),
+					api.setActive(state)
 				);
 				return () => changed.unbind();
 			},
@@ -64,7 +65,7 @@ export default class UmbTinyMceEmbeddedMediaPlugin extends UmbTinyMcePluginBase 
 				'data-embed-constrain': embed.constrain ?? false,
 				contenteditable: false,
 			},
-			embed.markup,
+			embed.markup
 		);
 
 		// Only replace if activeElement is an Embed element.
@@ -77,7 +78,7 @@ export default class UmbTinyMceEmbeddedMediaPlugin extends UmbTinyMcePluginBase 
 
 	async #showModal(selectedElm: HTMLElement, embeddedMediaModalData: UmbEmbeddedMediaModalData) {
 		const result = await umbOpenModal(this, UMB_EMBEDDED_MEDIA_MODAL, { data: embeddedMediaModalData }).catch(
-			() => undefined,
+			() => undefined
 		);
 
 		if (!result) return;

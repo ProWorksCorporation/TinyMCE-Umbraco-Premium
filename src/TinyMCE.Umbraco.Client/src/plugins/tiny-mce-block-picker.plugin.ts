@@ -1,15 +1,12 @@
-import { UMB_BLOCK_RTE_DATA_CONTENT_KEY } from '@umbraco-cms/backoffice/rte';
 import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
 import { UmbTinyMcePluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
+import { UMB_BLOCK_RTE_DATA_CONTENT_KEY } from '@umbraco-cms/backoffice/rte';
+import { UMB_BLOCK_RTE_ENTRIES_CONTEXT, UMB_BLOCK_RTE_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/block-rte';
 import type { Editor } from '@umbraco-cms/backoffice/external/tinymce';
 import type { TinyMcePluginArguments } from '../components/input-tiny-mce/tiny-mce-plugin.js';
 import type { UmbBlockDataModel } from '@umbraco-cms/backoffice/block';
 import type { UmbBlockTypeBaseModel } from '@umbraco-cms/backoffice/block-type';
-import {
-	UMB_BLOCK_RTE_ENTRIES_CONTEXT,
-	UMB_BLOCK_RTE_MANAGER_CONTEXT,
-	type UmbBlockRteLayoutModel,
-} from '@umbraco-cms/backoffice/block-rte';
+import type { UmbBlockRteLayoutModel } from '@umbraco-cms/backoffice/block-rte';
 
 export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase {
 	readonly #localize = new UmbLocalizationController(this._host);
@@ -29,7 +26,7 @@ export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase
 			onSetup: function (api) {
 				const changed = args.editor.selection.selectorChangedWithUnbind(
 					'umb-rte-block[data-content-key], umb-rte-block-inline[data-content-key]',
-					(state) => api.setActive(state),
+					(state) => api.setActive(state)
 				);
 				return () => changed.unbind();
 			},
@@ -41,7 +38,7 @@ export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase
 				(blockTypes) => {
 					this.#blocks = blockTypes;
 				},
-				'blockType',
+				'blockType'
 			);
 
 			this.observe(
@@ -49,7 +46,7 @@ export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase
 				(contents) => {
 					this.#updateBlocks(contents, context.getLayouts());
 				},
-				'contents',
+				'contents'
 			);
 		});
 		this.consumeContext(UMB_BLOCK_RTE_ENTRIES_CONTEXT, (context) => {
