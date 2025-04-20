@@ -2,6 +2,7 @@ import { availableLanguages } from './input-tiny-mce.languages.js';
 import { defaultFallbackConfig } from './input-tiny-mce.defaults.js';
 import { pastePreProcessHandler } from './input-tiny-mce.handlers.js';
 import { uriAttributeSanitizer } from './input-tiny-mce.sanitizer.js';
+import { UmbStylesheetRuleManager } from '../../utils/stylesheet-rule-manager.js';
 import type { UmbTinyMcePluginBase } from './tiny-mce-plugin.js';
 import { css, customElement, html, property, query } from '@umbraco-cms/backoffice/external/lit';
 import { loadManifestApi } from '@umbraco-cms/backoffice/extension-api';
@@ -11,7 +12,7 @@ import { umbExtensionsRegistry } from '@umbraco-cms/backoffice/extension-registr
 import { ImageCropModeModel } from '@umbraco-cms/backoffice/external/backend-api';
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
-import { UmbStylesheetDetailRepository, UmbStylesheetRuleManager } from '@umbraco-cms/backoffice/stylesheet';
+import { UmbStylesheetDetailRepository } from '@umbraco-cms/backoffice/stylesheet';
 import { UUIFormControlMixin } from '@umbraco-cms/backoffice/external/uui';
 import type { ClassConstructor } from '@umbraco-cms/backoffice/extension-api';
 import type { EditorEvent, Editor, RawEditorOptions } from '@umbraco-cms/backoffice/external/tinymce';

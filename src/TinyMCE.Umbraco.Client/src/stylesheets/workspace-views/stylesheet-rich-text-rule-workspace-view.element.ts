@@ -1,9 +1,13 @@
-import { css, html, customElement, state } from '@umbraco-cms/backoffice/external/lit';
+import { UmbStylesheetRuleManager } from '../../utils/stylesheet-rule-manager.js';
+import { css, customElement, html, state } from '@umbraco-cms/backoffice/external/lit';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
-import { UmbStylesheetRuleManager, UMB_STYLESHEET_WORKSPACE_CONTEXT } from '@umbraco-cms/backoffice/stylesheet';
 import { UmbTextStyles } from '@umbraco-cms/backoffice/style';
+import { UMB_STYLESHEET_WORKSPACE_CONTEXT } from '@umbraco-cms/backoffice/stylesheet';
 import type { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import type { UmbStylesheetRule, UmbStylesheetRuleInputElement } from '@umbraco-cms/backoffice/stylesheet';
+
+import '../../components/stylesheet-rule-input/stylesheet-rule-input.element.js';
+import '../../components/stylesheet-rule-ref/stylesheet-rule-ref.element.js';
 
 @customElement('umb-stylesheet-rich-text-rule-workspace-view')
 export class UmbStylesheetRichTextRuleWorkspaceViewElement extends UmbLitElement {
@@ -31,7 +35,7 @@ export class UmbStylesheetRichTextRuleWorkspaceViewElement extends UmbLitElement
 				this.#stylesheetContent = content || '';
 				this.#extractRules(content);
 			},
-			'umbStylesheetContentObserver',
+			'umbStylesheetContentObserver'
 		);
 	}
 

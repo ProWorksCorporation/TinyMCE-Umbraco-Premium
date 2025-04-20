@@ -1,16 +1,13 @@
-import { type TinyMcePluginArguments, UmbTinyMcePluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
+import { sizeImageInEditor, uploadBlobImages } from '../utils/index.js';
+import { UmbTinyMcePluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
+import type { TinyMcePluginArguments } from '../components/input-tiny-mce/tiny-mce-plugin.js';
 import { getGuidFromUdi } from '@umbraco-cms/backoffice/utils';
+import { UmbId } from '@umbraco-cms/backoffice/id';
+import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
+import { UmbTemporaryFileRepository } from '@umbraco-cms/backoffice/temporary-file';
+import { UMB_MEDIA_PICKER_MODAL, UMB_MEDIA_CAPTION_ALT_TEXT_MODAL } from '@umbraco-cms/backoffice/media';
 import { UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal';
 import type { RawEditorOptions } from '@umbraco-cms/backoffice/external/tinymce';
-import { UmbTemporaryFileRepository } from '@umbraco-cms/backoffice/temporary-file';
-import { UmbId } from '@umbraco-cms/backoffice/id';
-import {
-	sizeImageInEditor,
-	uploadBlobImages,
-	UMB_MEDIA_PICKER_MODAL,
-	UMB_MEDIA_CAPTION_ALT_TEXT_MODAL,
-} from '@umbraco-cms/backoffice/media';
-import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
 
 interface MediaPickerTargetData {
 	altText?: string;
@@ -49,7 +46,7 @@ export default class UmbTinyMceMediaPickerPlugin extends UmbTinyMcePluginBase {
 			onAction: () => this.#onAction(),
 			onSetup: (api) => {
 				const changed = this.editor.selection.selectorChangedWithUnbind('img[data-udi]', (state) =>
-					api.setActive(state),
+					api.setActive(state)
 				);
 				return () => changed.unbind();
 			},
