@@ -4,5 +4,5 @@ public sealed class TinyMceConfigResponseModel
 {
     public RichTextEditorSettings? RichTextEditor { get; set; }
 
-    public TinyMceSettings? Config { get; set; }
+    public TinyMceConfig? Config { get; set; }
 }

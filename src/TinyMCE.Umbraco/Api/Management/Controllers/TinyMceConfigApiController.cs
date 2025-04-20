@@ -11,14 +11,14 @@ namespace TinyMCE.Umbraco.Api.Management;
 public sealed class TinyMceConfigApiController : TinyMceManagementApiControllerBase
 {
     private readonly RichTextEditorSettings _richTextEditorSettings;
-    private readonly TinyMceSettings _tinyMceSettings;
+    private readonly TinyMceConfig _tinyMceConfig;
 
     public TinyMceConfigApiController(
         IOptions<RichTextEditorSettings> richTextEditorSettings,
-        IOptions<TinyMceSettings> tinyMceSettings)
+        IOptions<TinyMceConfig> tinyMceConfig)
     {
         _richTextEditorSettings = richTextEditorSettings.Value;
-        _tinyMceSettings = tinyMceSettings.Value;
+        _tinyMceConfig = tinyMceConfig.Value;
     }
 
     [HttpGet("config", Name = "GetConfig")]
@@ -30,7 +30,7 @@ public sealed class TinyMceConfigApiController : TinyMceManagementApiControllerB
         var result = new TinyMceConfigResponseModel
         {
             RichTextEditor = this._richTextEditorSettings,
-            Config = this._tinyMceSettings,
+            Config = this._tinyMceConfig,
         };
 
         return Ok(result);

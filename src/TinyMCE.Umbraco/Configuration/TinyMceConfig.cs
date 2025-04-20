@@ -1,6 +1,6 @@
 namespace TinyMCE.Umbraco;
 
-public class TinyMceSettings
+public class TinyMceConfig
 {
     public string apikey { get; set; } = "";
 
