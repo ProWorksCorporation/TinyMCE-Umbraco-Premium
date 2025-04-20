@@ -25,11 +25,14 @@
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,
+
 		"paths": {
-			"@umbraco-cms/backoffice/tiny-mce": [ "./src/index.ts" ],
-			"@umbraco-cms/backoffice/external/tinymce": [ "./src/external/tinymce/index.ts" ]
+			"@umbraco-cms/backoffice/tiny-mce": ["./src/index.ts"],
+			"@umbraco-cms/backoffice/external/tinymce": ["./src/external/tinymce/index.ts"]
 		},
-		"types": [ "@umbraco-cms/backoffice/extension-types" ]
+
+		"types": ["@umbraco-cms/backoffice/extension-types"]
 	},
-	"include": [ "src" ]
+
+	"include": ["src"]
 }

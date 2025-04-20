@@ -1,4 +1,4 @@
-import { defineConfig, PluginOption } from "vite";
+import { defineConfig, PluginOption } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import viteTSConfigPaths from 'vite-tsconfig-paths';
 
@@ -21,9 +21,8 @@ export const plugins: PluginOption[] = [
 export default defineConfig({
 	build: {
 		lib: {
-			entry: 'src/manifests.ts',
+			entry: ['src/index.ts', 'src/externals.ts', 'src/manifests.ts'],
 			formats: ['es'],
-			fileName: 'bundle',
 		},
 		outDir: '../TinyMCE.Umbraco/wwwroot/App_Plugins/TinyMCE',
 		emptyOutDir: true,

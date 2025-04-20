@@ -8,7 +8,12 @@
 			"name": "TinyMCE Umbraco Bundle",
 			"alias": "TinyMCE.Umbraco.Bundle",
 			"type": "bundle",
-			"js": "/App_Plugins/TinyMCE/bundle.js"
+			"js": "/App_Plugins/TinyMCE/manifests.js"
 		}
-	]
+	],
+	"importmap": {
+		"imports": {
+			"@umbraco-cms/backoffice/external/tinymce": "/App_Plugins/TinyMCE/externals.js"
+		}
+	}
 }

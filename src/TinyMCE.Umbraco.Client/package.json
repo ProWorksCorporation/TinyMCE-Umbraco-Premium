@@ -4,9 +4,8 @@
 	"version": "16.0.0-alpha001",
 	"type": "module",
 	"scripts": {
-		"watch": "tsc && vite build --watch",
-		"build": "tsc --project ./src/tsconfig.build.json",
-		"postbuild": "rollup -c ./src/rollup.config.js",
+		"dev": "tsc && vite build --watch",
+		"build": "tsc && vite build",
 		"generate-client": "node scripts/generate-openapi.js https://localhost:44308/umbraco/swagger/tiny-mce/swagger.json"
 	},
 	"dependencies": {
@@ -31,8 +30,5 @@
 		"vite": "^6.2.2",
 		"vite-plugin-static-copy": "^2.2.0",
 		"vite-tsconfig-paths": "^5.1.4"
-	},
-	"exports": {
-		"./external/tinymce": "./dist/external/tinymce/index.js"
 	}
 }

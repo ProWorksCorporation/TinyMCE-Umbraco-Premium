@@ -13,7 +13,7 @@ export const tinymce = window.tinymce;
 export type * from 'tinymce';
 
 export const defaultConfig: RawEditorOptions = {
-	base_url: '/umbraco/backoffice/tinymce',
+	base_url: '/App_Plugins/TinyMCE/lib',
 };
 
 /* Initialize TinyMCE */
