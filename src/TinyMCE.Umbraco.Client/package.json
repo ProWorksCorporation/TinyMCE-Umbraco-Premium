@@ -13,12 +13,12 @@
 		"tinymce-i18n": "^24.12.30"
 	},
 	"devDependencies": {
-		"@hey-api/client-fetch": "^0.4.2",
-		"@hey-api/openapi-ts": "^0.53.11",
+		"@hey-api/client-fetch": "^0.10.0",
+		"@hey-api/openapi-ts": "^0.66.1",
 		"@rollup/plugin-json": "^6.1.0",
 		"@rollup/plugin-node-resolve": "^16.0.0",
 		"@rollup/plugin-replace": "^6.0.2",
-		"@umbraco-cms/backoffice": "^16.0.0-rc.g9062851",
+		"@umbraco-cms/backoffice": "^16.0.0-rc.gc63ed69",
 		"chalk": "^5.3.0",
 		"cross-env": "7.0.3",
 		"node-fetch": "^3.3.2",
