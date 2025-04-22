@@ -131,4 +131,4 @@ export async function uploadBlobImages(editor: Editor, newContent?: string) {
 	}
 }
 
-export { UmbStylesheetRuleManager } from './stylesheet-rule-manager.js';
+export { UmbStylesheetRuleManager } from '../stylesheets/stylesheet-rule-manager.js';

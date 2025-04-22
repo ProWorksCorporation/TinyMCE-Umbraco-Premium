@@ -2,7 +2,7 @@ import { availableLanguages } from './input-tiny-mce.languages.js';
 import { defaultFallbackConfig } from './input-tiny-mce.defaults.js';
 import { pastePreProcessHandler } from './input-tiny-mce.handlers.js';
 import { uriAttributeSanitizer } from './input-tiny-mce.sanitizer.js';
-import { UmbStylesheetRuleManager } from '../../utils/stylesheet-rule-manager.js';
+import { UmbStylesheetRuleManager } from '../../stylesheets/stylesheet-rule-manager.js';
 import type { UmbTinyMcePluginBase } from './tiny-mce-plugin.js';
 import { css, customElement, html, property, query } from '@umbraco-cms/backoffice/external/lit';
 import { loadManifestApi } from '@umbraco-cms/backoffice/extension-api';
