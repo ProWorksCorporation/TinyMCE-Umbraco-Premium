@@ -21,7 +21,7 @@ export const plugins: PluginOption[] = [
 export default defineConfig({
 	build: {
 		lib: {
-			entry: ['src/index.ts', 'src/externals.ts', 'src/manifests.ts'],
+			entry: ['src/index.ts', 'src/tinymce.ts', 'src/manifests.ts'],
 			formats: ['es'],
 		},
 		outDir: '../TinyMCE.Umbraco/wwwroot/App_Plugins/TinyMCE',

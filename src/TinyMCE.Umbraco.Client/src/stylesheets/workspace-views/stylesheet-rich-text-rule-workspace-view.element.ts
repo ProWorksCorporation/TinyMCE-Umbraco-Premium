@@ -1,12 +1,11 @@
-import { UmbStylesheetRuleManager } from '../../utils/stylesheet-rule-manager.js';
+import { UmbStylesheetRuleManager } from '../stylesheet-rule-manager.js';
 import { css, customElement, html, state } from '@umbraco-cms/backoffice/external/lit';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
 import { UmbTextStyles } from '@umbraco-cms/backoffice/style';
 import { UMB_STYLESHEET_WORKSPACE_CONTEXT } from '@umbraco-cms/backoffice/stylesheet';
 import type { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
-//import type { UmbStylesheetRule, UmbStylesheetRuleInputElement } from '@umbraco-cms/backoffice/stylesheet';
 import type { UmbStylesheetRule } from '../../types.js';
-import type { UmbStylesheetRuleInputElement } from '../../components/stylesheet-rule-input/stylesheet-rule-input.element.js';
+import type UmbStylesheetRuleInputElement from '../../components/stylesheet-rule-input/stylesheet-rule-input.element.js';
 
 import '../../components/stylesheet-rule-input/stylesheet-rule-input.element.js';
 import '../../components/stylesheet-rule-ref/stylesheet-rule-ref.element.js';

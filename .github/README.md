@@ -27,6 +27,8 @@ Copyright &copy; [ProWorks Corporation](https://proworks.com).
 
 All source code is licensed under the [GNU General Public License Version 2](../LICENSE).
 
+The initial source code has been derived from [Umbraco CMS](https://github.com/umbraco/Umbraco-CMS), originally licensed under the MIT License and relicensed under GPL-2.0-or-later with permission from Umbraco A/S.
+
 
 ### Acknowledgments
 

@@ -13,7 +13,7 @@
 	],
 	"importmap": {
 		"imports": {
-			"@umbraco-cms/backoffice/external/tinymce": "/App_Plugins/TinyMCE/externals.js"
+			"@umbraco-cms/backoffice/external/tinymce": "/App_Plugins/TinyMCE/tinymce.js"
 		}
 	}
 }
