@@ -19,16 +19,16 @@ import type { EditorEvent, Editor, RawEditorOptions } from '@umbraco-cms/backoff
 import type { ManifestTinyMcePlugin } from '@umbraco-cms/backoffice/tiny-mce';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
-//v14 Import the Cloud TinyMCE so the license can come from configuration
-//async function loadModuleFromURL(url: string) {
-//	try {
-//		const module = await import(url);
-//		return module;
-//	} catch (error) {
-//		console.error("Error loading module:", error);
-//		throw error;
-//	}
-//}
+// Import the Cloud TinyMCE so the license can come from configuration
+async function loadModuleFromURL(url: string) {
+	try {
+		const module = await import(url);
+		return module;
+	} catch (error) {
+		console.error("Error loading module:", error);
+		throw error;
+	}
+}
 /**
  * Handles the resize event
  * @param e
@@ -111,14 +111,14 @@ export class UmbInputTinyMcePremiumElement extends UUIFormControlMixin(UmbLitEle
 	}
 
 	override firstUpdated() {
+		var license = ''; // TODO: Get from AppSettings in some way
+		loadModuleFromURL('https://cdn.tiny.cloud/1/' + license + '/tinymce/6/plugins.min.js');
 		this.#loadEditor();
 	}
-//v14	constructor() {
-//		super();
-//		var license = ''; // TODO: Get from AppSettings in some way
-//		loadModuleFromURL('https://cdn.tiny.cloud/1/' + license + '/tinymce/6/plugins.min.js');
-//		this.#loadEditor();
-//	}
+	//constructor() {
+	//	super();
+	//	this.#loadEditor();
+	//}
 
 	async #loadEditor() {
 		this.observe(umbExtensionsRegistry.byType('tinyMcePlugin'), async (manifests) => {
