@@ -24,6 +24,6 @@ export default class UmbTinyMcePremiumExamplePlugin extends UmbTinyMcePluginBase
 		console.log('TinyMceService.getConfig', [data, url]);
 
 		// TODO: Uncomment this when the plugin is ready
-		//await import(url);
+		await import(url);
 	}
 }

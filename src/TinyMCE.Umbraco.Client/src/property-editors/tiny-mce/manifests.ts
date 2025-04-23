@@ -16,6 +16,22 @@ export const manifests: Array<UmbExtensionManifest> = [
 			settings: {
 				properties: [
 					{
+						alias: 'plugins',
+						label: 'Plugins',
+						description: 'Pick the plugins to activate for this editor',
+						propertyEditorUiAlias: 'TinyMCE.PropertyEditorUI.TinyMCEPremium.PluginConfiguration',
+						weight: 5,
+						config: [
+							{
+								alias: 'plugins',
+								value: [
+									{ alias: 'accordion', label: 'Accordion' },
+									{ alias: 'a11ychecker', label: 'Accessibility Checker (Premium Plugin)' },
+								],
+							},
+						],
+					},
+					{
 						alias: 'toolbar',
 						label: 'Toolbar',
 						description: 'Pick the toolbar options that should be available when editing',
@@ -58,6 +74,8 @@ export const manifests: Array<UmbExtensionManifest> = [
 									{ alias: 'charmap', label: 'Character map', icon: 'insert-character' },
 									{ alias: 'rtl', label: 'Right to left', icon: 'rtl' },
 									{ alias: 'ltr', label: 'Left to right', icon: 'ltr' },
+									{ alias: 'accordion', label: 'Accordion', icon: 'accordion' },
+									{ alias: 'a11ycheck', label: 'Accessibility Checker (Premium Plugin)', icon: 'a11ycheck' },
 								],
 							},
 						],

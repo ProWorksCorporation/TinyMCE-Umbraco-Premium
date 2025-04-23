@@ -19,6 +19,7 @@ import type { EditorEvent, Editor, RawEditorOptions } from '@umbraco-cms/backoff
 import type { ManifestTinyMcePlugin } from '../../plugins/tinymce-plugin.extension.js';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
+
 /**
  * Handles the resize event
  * @param e
@@ -221,6 +222,17 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		if (!configurationOptions.height) {
 			if (Array.isArray(configurationOptions.plugins) && configurationOptions.plugins.includes('autoresize')) {
 				configurationOptions.plugins.splice(configurationOptions.plugins.indexOf('autoresize'), 1);
+			}
+		}
+
+		// PREMIUM: set the configured plugins if any, otherwise false
+		const plugins = this.configuration?.getValueByAlias<string[]>('plugins');
+		if (plugins && plugins.length) {
+			if (typeof configurationOptions.plugins === 'string' || Array.isArray(configurationOptions.plugins)) {
+				configurationOptions.plugins = plugins.concat(configurationOptions.plugins);
+			}
+			else {
+				configurationOptions.plugins = plugins;
 			}
 		}
 
