@@ -1,4 +1,5 @@
 import { UMB_CONTEXT_REQUEST_EVENT_TYPE, type UmbContextRequestEvent } from '@umbraco-cms/backoffice/context-api';
+//import { UmbContextProxyController } from '@umbraco-cms/backoffice/context-proxy';
 import type { RawEditorOptions } from '@umbraco-cms/backoffice/external/tinymce';
 import { UUIIconRequestEvent } from '@umbraco-cms/backoffice/external/uui';
 
@@ -29,7 +30,17 @@ export const defaultFallbackConfig: RawEditorOptions = {
     'link',
     'umbmediapicker',
     'umbembeddialog',
-  ],
+	],
+	//setup: function (editor) {
+	//	console.log('TinyMCE editor is initializing...');
+	//	editor.on('init', function () {
+	//		console.log('TinyMCE initialized.');
+	//	});
+	//	editor.on('PluginLoad', function (e) {
+	//		console.log('Plugin loaded:', e.plugin);
+	//	});
+	//},
+
 
   init_instance_callback: function (editor) {
     // The following code is the context api proxy. [NL]
@@ -40,6 +51,14 @@ export const defaultFallbackConfig: RawEditorOptions = {
       event.stopImmediatePropagation();
       editor.iframeElement.dispatchEvent(event.clone());
     }) as EventListener);
+
+		//TODO: wire this up
+		//editor.dom.doc.addEventListener(UMB_CONTEXT_PROVIDE_EVENT_TYPE, ((event: UmbContextProvideEvent) => {
+		//	if (!editor.iframeElement) return;
+
+		//	event.stopImmediatePropagation();
+		//	editor.iframeElement.dispatchEvent(event.clone());
+		//}) as EventListener);
 
     // Proxy for retrieving icons from outside the iframe [NL]
     editor.dom.doc.addEventListener(UUIIconRequestEvent.ICON_REQUEST, ((event: UUIIconRequestEvent) => {

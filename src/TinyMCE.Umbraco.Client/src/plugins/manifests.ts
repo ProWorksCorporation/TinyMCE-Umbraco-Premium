@@ -12,6 +12,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					alias: 'sourcecode',
 					label: 'Source code editor',
 					icon: 'sourcecode',
+					isplugin: false,
 				},
 			],
 		},
@@ -27,6 +28,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					alias: 'umbmediapicker',
 					label: 'Image',
 					icon: 'image',
+					isplugin: false,
 				},
 			],
 		},
@@ -42,6 +44,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					alias: 'umbembeddialog',
 					label: 'Embed',
 					icon: 'embed',
+					isplugin: false,
 				},
 			],
 		},
@@ -57,6 +60,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					alias: 'umbblockpicker',
 					label: '#blockEditor_insertBlock',
 					icon: 'visualblocks',
+					isplugin: false,
 				},
 			],
 		},
@@ -72,19 +76,51 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					alias: 'link',
 					label: 'Insert/Edit link',
 					icon: 'link',
+					isplugin: false,
 				},
 				{
 					alias: 'unlink',
 					label: 'Remove link',
 					icon: 'unlink',
+					isplugin: false,
 				},
 			],
 		},
 	},
 	{
 		type: 'tinyMcePlugin',
-		alias: 'Umb.TinyMcePlugin.PremiumExample',
-		name: 'Example Premium TinyMCE Plugin',
-		js: () => import('./tiny-mce-premium-example.plugin.js'),
+		alias: 'Umb.TinyMcePlugin.Accordion',
+		name: 'TinyMCE Accorion Plugin',
+		js: () => import('./core/accordion.tinymce-api.js'),
+		meta: {
+			plugins: ['accordion'],
+			toolbar: [
+				{
+					alias: 'accordion',
+					label: 'Accordion',
+					icon: 'accordion',
+					isplugin: true,
+					pluginAlias: 'accordion',
+				}
+			],
+		},
 	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Accessibilty',
+		name: 'TinyMCE Accessibilty Checker Plugin',
+		js: () => import('./core/accordion.tinymce-api.js'),
+		meta: {
+			plugins: ['a11ychecker'],
+			toolbar: [
+				{
+					alias: 'a11ycheck',
+					label: 'Accessibility Checker (Premium Plugin)',
+					icon: 'a11ycheck',
+					isplugin: true,
+					pluginAlias: 'a11ychecker',
+				}
+			],
+		},
+	}
 ];

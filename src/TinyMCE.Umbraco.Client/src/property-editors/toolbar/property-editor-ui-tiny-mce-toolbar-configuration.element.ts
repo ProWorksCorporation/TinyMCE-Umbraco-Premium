@@ -10,6 +10,7 @@ import type {
 	UmbPropertyEditorConfigCollection,
 } from '@umbraco-cms/backoffice/property-editor';
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
+import { UMB_PROPERTY_DATASET_CONTEXT } from '@umbraco-cms/backoffice/property';
 
 const tinyIconSet = tinymce.IconManager.get('default');
 
@@ -18,6 +19,9 @@ type ToolbarConfig = {
 	label: string;
 	icon?: string;
 	selected: boolean;
+	disabled: boolean;
+	isplugin: boolean;
+	pluginAlias?: string;
 };
 
 /**
@@ -70,12 +74,37 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 			this._toolbarConfig.push({
 				...v,
 				selected: this.value.includes(v.alias),
+				disabled: false,
+				isplugin: false,
+				pluginAlias: v.pluginAlias,
 			});
 		});
 
 		await this.getToolbarPlugins();
 
 		this.requestUpdate('_toolbarConfig');
+
+		this.consumeContext(UMB_PROPERTY_DATASET_CONTEXT, async (context) => {
+			this.observe(
+				await context.propertyValueByAlias<Array<string>>('plugins'),
+				(value) => {
+					console.log([value]);
+					this._toolbarConfig.forEach((p) => {
+						if (p.isplugin && p.pluginAlias) {
+							if (value?.includes(p.pluginAlias)) {
+								p.disabled = false;
+							}
+							else {
+								p.disabled = true;
+							}
+						}
+					})
+					console.log([this._toolbarConfig]);
+
+					this.requestUpdate('_toolbarConfig');
+				}
+			)
+		})
 	}
 
 	private async getToolbarPlugins(): Promise<void> {
@@ -93,6 +122,9 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 						label: this.localize.string(t.label),
 						icon: t.icon ?? 'icon-autofill',
 						selected: this.value.includes(t.alias),
+						disabled: false,
+						isplugin: t.isplugin,
+						pluginAlias: t.pluginAlias,
 					});
 				});
 			}
@@ -119,7 +151,7 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 				(v) => v.alias,
 				(v) =>
 					html`<li>
-						<uui-checkbox label=${v.label} value=${v.alias} ?checked=${v.selected} @change=${this.onChange}>
+						<uui-checkbox label=${v.label} value=${v.alias} ?disabled=${v.disabled} ?checked=${v.selected} @change=${this.onChange}>
 							<uui-icon .svg=${tinyIconSet?.icons[v.icon ?? 'alignjustify']}></uui-icon>
 							${v.label}
 						</uui-checkbox>

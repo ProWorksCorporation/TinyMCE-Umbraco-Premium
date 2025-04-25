@@ -21,6 +21,7 @@
 		"@umbraco-cms/backoffice": "^16.0.0-rc.gc63ed69",
 		"chalk": "^5.3.0",
 		"cross-env": "7.0.3",
+		"eslint": "^9.25.1",
 		"node-fetch": "^3.3.2",
 		"rollup": "^4.34.8",
 		"rollup-plugin-esbuild": "^6.2.0",

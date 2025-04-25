@@ -25,8 +25,7 @@ export const manifests: Array<UmbExtensionManifest> = [
 							{
 								alias: 'plugins',
 								value: [
-									{ alias: 'accordion', label: 'Accordion' },
-									{ alias: 'a11ychecker', label: 'Accessibility Checker (Premium Plugin)' },
+									{ alias: 'test', label: 'test' },
 								],
 							},
 						],
@@ -74,8 +73,6 @@ export const manifests: Array<UmbExtensionManifest> = [
 									{ alias: 'charmap', label: 'Character map', icon: 'insert-character' },
 									{ alias: 'rtl', label: 'Right to left', icon: 'rtl' },
 									{ alias: 'ltr', label: 'Left to right', icon: 'ltr' },
-									{ alias: 'accordion', label: 'Accordion', icon: 'accordion' },
-									{ alias: 'a11ycheck', label: 'Accessibility Checker (Premium Plugin)', icon: 'a11ycheck' },
 								],
 							},
 						],

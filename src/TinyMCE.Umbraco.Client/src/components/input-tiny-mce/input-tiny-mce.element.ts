@@ -19,6 +19,11 @@ import type { EditorEvent, Editor, RawEditorOptions } from '@umbraco-cms/backoff
 import type { ManifestTinyMcePlugin } from '../../plugins/tinymce-plugin.extension.js';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
+import { TinyMceService } from '../../api/index.js';
+import { tryExecute } from '@umbraco-cms/backoffice/resources';
+// @ts-ignore
+import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
+
 
 /**
  * Handles the resize event
@@ -110,6 +115,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			this.#plugins.length = 0;
 			this.#plugins = await this.#loadPlugins(manifests);
 
+			console.log('#plugins', [this.#plugins, manifests]);
+
 			let config: RawEditorOptions = {};
 			manifests.forEach((manifest) => {
 				if (manifest.meta?.config) {
@@ -144,7 +151,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 				promises.push(await loadManifestApi(manifest.api));
 			}
 		}
-		return promises;
+		return await Promise.all(promises); // await all together;
 	}
 
 	async getFormatStyles(stylesheetPaths: Array<string>) {
@@ -197,6 +204,24 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		return formatStyles;
 	}
 
+	async #getTinyMceConfig() {
+		// @ts-ignore
+		const { data } = await tryExecute(this, TinyMceService.getConfig({ client: umbHttpClient }));
+		if (!data) return;
+
+		// @ts-ignore
+		const apiKey = data.config?.apikey || 'no-origin';
+		// @ts-ignore
+		const url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/6/plugins.min.js`;
+
+		console.log('TinyMceService.getConfig', [data, url]);
+
+		return data;
+
+		// TODO: Uncomment this when the plugin is ready
+		//await import(url);
+	}
+
 	async #setTinyConfig(additionalConfig?: RawEditorOptions) {
 		const dimensions = this.configuration?.getValueByAlias<{ width?: number; height?: number }>('dimensions');
 
@@ -208,6 +233,18 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			stylesheetPaths?.map((stylesheetPath: string) => `/css${stylesheetPath.replace(/\\/g, '/')}`) ?? [];
 
 		stylesheets.push('/umbraco/backoffice/css/rte-content.css');
+
+		const appSettingsConfig = await this.#getTinyMceConfig();
+		var apiKey = 'no-origin';
+		var url = '';
+		if (appSettingsConfig) {
+			// @ts-ignore
+			var apiKey = appSettingsConfig.config?.apikey || 'no-origin';
+			// @ts-ignore
+			url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/6/`;
+		}
+
+		console.log('#setTinyConfig 1', [appSettingsConfig, this.configuration, additionalConfig]);
 
 		// create an object by merging the configuration onto the fallback config
 		const configurationOptions: RawEditorOptions = {
@@ -256,6 +293,9 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			configurationOptions.maxImageSize = maxImageSize;
 		}
 
+		console.log('#setTinyConfig 2', [configurationOptions]);
+
+
 		// set the default values that will not be modified via configuration
 		let config: RawEditorOptions = {
 			autoresize_bottom_margin: 10,
@@ -280,10 +320,16 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			...configurationOptions,
 		};
 
+		if (appSettingsConfig && url.length > 0) {
+			config.base_url = url;
+		}
+
 		// Extend with additional configuration options
 		if (additionalConfig) {
 			config = umbDeepMerge(additionalConfig, config);
 		}
+
+		console.log('#setTinyConfig 3', [config]);
 
 		this.#editorRef?.destroy();
 

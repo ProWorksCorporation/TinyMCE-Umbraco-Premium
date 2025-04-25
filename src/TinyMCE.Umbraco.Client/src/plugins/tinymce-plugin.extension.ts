@@ -7,6 +7,12 @@ export interface MetaTinyMcePlugin {
 	 * If the plugin adds toolbar buttons, this property can be used to configure the buttons.
 	 * This configuration will be used on the Rich Text Editor configuration page.
 	 */
+	plugins?: string[];
+
+	/**
+	 * If the plugin adds toolbar buttons, this property can be used to configure the buttons.
+	 * This configuration will be used on the Rich Text Editor configuration page.
+	 */
 	toolbar?: Array<{
 		/**
 		 * The alias of the toolbar button that will be configured in the TinyMCE editor.
@@ -25,6 +31,16 @@ export interface MetaTinyMcePlugin {
 		 * @see [TinyMCE Icon Set](https://www.tiny.cloud/docs/tinymce/6/editor-icon-identifiers/) for available default icons.
 		 */
 		icon?: string;
+
+		/**
+		 * If this is a TinyMCE plugin that can be enabled/disabled
+		 */
+		isplugin?: boolean;
+
+		/**
+		 * Name of the plugin this is a part of (links to the plugin for property editor UI)
+		 */
+		pluginAlias?: string;
 	}>;
 
 	/**

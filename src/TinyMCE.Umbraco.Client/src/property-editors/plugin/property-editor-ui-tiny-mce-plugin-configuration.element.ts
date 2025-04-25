@@ -1,23 +1,25 @@
 import { css, customElement, html, property, state, repeat } from '@umbraco-cms/backoffice/external/lit';
 import { firstValueFrom } from '@umbraco-cms/backoffice/external/rxjs';
-import { tinymce } from '@umbraco-cms/backoffice/external/tinymce';
+//import { tinymce } from '@umbraco-cms/backoffice/external/tinymce';
 import { umbExtensionsRegistry } from '@umbraco-cms/backoffice/extension-registry';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
-import { UmbPropertyValueChangeEvent } from '@umbraco-cms/backoffice/property-editor';
 import { UmbTextStyles } from '@umbraco-cms/backoffice/style';
 import type { PropertyValueMap } from '@umbraco-cms/backoffice/external/lit';
 import type {
 	UmbPropertyEditorUiElement,
 	UmbPropertyEditorConfigCollection,
 } from '@umbraco-cms/backoffice/property-editor';
+import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
+import { defaultFallbackConfig } from '../../components/input-tiny-mce/input-tiny-mce.defaults.js';
 
-const tinyIconSet = tinymce.IconManager.get('default');
+//const tinyIconSet = tinymce.IconManager.get('default');
 
 type PluginConfig = {
 	alias: string;
 	label: string;
 	icon?: string;
 	selected: boolean;
+	disabled: boolean;
 };
 
 /**
@@ -60,9 +62,7 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 	protected override async firstUpdated(_changedProperties: PropertyValueMap<unknown>) {
 		super.firstUpdated(_changedProperties);
 
-		var basePlugins = this.config?.getValueByAlias<PluginConfig[]>('plugins');
-
-		basePlugins?.forEach((v) => {
+		this.config?.getValueByAlias<PluginConfig[]>('plugins')?.forEach((v) => {
 			this._pluginConfig.push({
 				...v,
 				selected: this.value.includes(v.alias),
@@ -75,28 +75,51 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 	}
 
 	private async getPlugins(): Promise<void> {
-		// Get all the toolbar plugins
+		// Get all the tinymce plugins
 		const plugin$ = umbExtensionsRegistry.byType('tinyMcePlugin');
 
 		const plugins = await firstValueFrom(plugin$);
 
+		// Add defaultPlugins
+		if (typeof defaultFallbackConfig.plugins === 'string') {
+			this._pluginConfig.push({
+				alias: defaultFallbackConfig.plugins,
+				label: defaultFallbackConfig.plugins + " (default plugin)",
+				icon: undefined,
+				selected: true,
+				disabled: true,
+			});
+		}
+		else if (Array.isArray(defaultFallbackConfig.plugins)) {
+			defaultFallbackConfig.plugins.forEach((pl: any) => {
+				this._pluginConfig.push({
+					alias: pl,
+					label: pl + " (default plugin)",
+					selected: true,
+					disabled: true,
+				});
+			});
+		}
+
 		plugins.forEach((p) => {
-			if (p.meta?.config?.plugins) {
-				if (typeof p.meta.config.plugins === 'string') {
+			if (p.meta?.plugins) {
+				if (typeof p.meta.plugins === 'string') {
 					this._pluginConfig.push({
-						alias: p.meta.config.plugins,
-						label: p.meta.config.plugins,
+						alias: p.meta.plugins,
+						label: p.meta.plugins,
 						icon: undefined,
-						selected: this.value.includes(p.meta.config.plugins),
+						selected: this.value.includes(p.meta.plugins),
+						disabled: false,
 					});
 				}
-				else if (Array.isArray(p.meta.config.plugins)) {
-					p.meta.config.plugins.forEach((pl: any) => {
+				else if (Array.isArray(p.meta.plugins)) {
+					p.meta.plugins.forEach((pl: any) => {
 						this._pluginConfig.push({
 							alias: pl,
 							label: pl,
 							icon: undefined,
 							selected: this.value.includes(pl),
+							disabled: false,
 						});
 					});
 				}
@@ -114,7 +137,7 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 
 		this.value = value;
 
-		this.dispatchEvent(new UmbPropertyValueChangeEvent());
+		this.dispatchEvent(new UmbChangeEvent());
 	}
 
 	override render() {
@@ -124,8 +147,7 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 				(v) => v.alias,
 				(v) =>
 					html`<li>
-						<uui-checkbox label=${v.label} value=${v.alias} ?checked=${v.selected} @change=${this.onChange}>
-							<uui-icon .svg=${tinyIconSet?.icons[v.icon ?? 'alignjustify']}></uui-icon>
+						<uui-checkbox label=${v.label} value=${v.alias} ?disabled=${v.disabled} ?checked=${v.selected} @change=${this.onChange}>							
 							${v.label}
 						</uui-checkbox>
 					</li>`,
@@ -140,12 +162,6 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 				list-style: none;
 				padding: 0;
 				margin: 0;
-
-				uui-icon {
-					width: 1.5em;
-					height: 1.5em;
-					margin-right: 5px;
-				}
 			}
 		`,
 	];
