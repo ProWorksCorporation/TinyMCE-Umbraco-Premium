@@ -31,6 +31,7 @@ export const defaultFallbackConfig: RawEditorOptions = {
     'umbmediapicker',
     'umbembeddialog',
 	],
+	// debugging option: 
 	//setup: function (editor) {
 	//	console.log('TinyMCE editor is initializing...');
 	//	editor.on('init', function () {

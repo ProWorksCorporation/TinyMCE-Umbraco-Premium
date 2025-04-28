@@ -412,7 +412,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 				{
 					alias: 'mergetags',
 					label: 'Merge Tags (Premium Plugin)',
-					icon: 'close',
+					icon: 'addtag',
 					isplugin: true,
 					pluginAlias: 'mergetags',
 				}

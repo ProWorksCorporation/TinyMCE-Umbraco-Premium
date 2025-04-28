@@ -1,5 +1,9 @@
 import { css, customElement, html, property, state, repeat } from '@umbraco-cms/backoffice/external/lit';
 import { firstValueFrom } from '@umbraco-cms/backoffice/external/rxjs';
+import { TinyMceService } from '../../api/index.js';
+import { tryExecute } from '@umbraco-cms/backoffice/resources';
+import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
+
 //import { tinymce } from '@umbraco-cms/backoffice/external/tinymce';
 import { umbExtensionsRegistry } from '@umbraco-cms/backoffice/extension-registry';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
@@ -74,11 +78,28 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 		this.requestUpdate('_pluginConfig');
 	}
 
+	async #getTinyMceConfig() {
+		// @ts-ignore
+		const { data } = await tryExecute(this, TinyMceService.getConfig({ client: umbHttpClient }));
+		if (!data) return;
+
+		return data;
+	}
+
 	private async getPlugins(): Promise<void> {
 		// Get all the tinymce plugins
 		const plugin$ = umbExtensionsRegistry.byType('tinyMcePlugin');
 
 		const plugins = await firstValueFrom(plugin$);
+
+		const appSettingsConfig = await this.#getTinyMceConfig();
+		// Get list of plugins to exclude from the list
+		let excludeList: string[] = [];
+		if (appSettingsConfig) {
+			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
+				excludeList = appSettingsConfig.config?.pluginsToExclude;
+			}
+		}
 
 		// Add defaultPlugins
 		if (typeof defaultFallbackConfig.plugins === 'string') {
@@ -103,7 +124,7 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 
 		plugins.forEach((p) => {
 			if (p.meta?.plugins) {
-				if (typeof p.meta.plugins === 'string') {
+				if (typeof p.meta.plugins === 'string' && !excludeList.includes(p.meta.plugins)) {
 					this._pluginConfig.push({
 						alias: p.meta.plugins,
 						label: p.meta.plugins,
@@ -114,13 +135,15 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 				}
 				else if (Array.isArray(p.meta.plugins)) {
 					p.meta.plugins.forEach((pl: any) => {
-						this._pluginConfig.push({
-							alias: pl,
-							label: pl,
-							icon: undefined,
-							selected: this.value.includes(pl),
-							disabled: false,
-						});
+						if (!excludeList.includes(pl)) {
+							this._pluginConfig.push({
+								alias: pl,
+								label: pl,
+								icon: undefined,
+								selected: this.value.includes(pl),
+								disabled: false,
+							});
+						}
 					});
 				}
 			}

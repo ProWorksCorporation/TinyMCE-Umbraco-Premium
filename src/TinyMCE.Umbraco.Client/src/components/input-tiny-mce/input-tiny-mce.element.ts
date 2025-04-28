@@ -211,15 +211,13 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 
 		// @ts-ignore
 		const apiKey = data.config?.apikey || 'no-origin';
+		const version = data.config?.tinyMceVersion || '6';
 		// @ts-ignore
-		const url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/6/plugins.min.js`;
+		const url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${version}/`;
 
 		console.log('TinyMceService.getConfig', [data, url]);
 
 		return data;
-
-		// TODO: Uncomment this when the plugin is ready
-		//await import(url);
 	}
 
 	async #setTinyConfig(additionalConfig?: RawEditorOptions) {
@@ -235,13 +233,19 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		stylesheets.push('/umbraco/backoffice/css/rte-content.css');
 
 		const appSettingsConfig = await this.#getTinyMceConfig();
-		var apiKey = 'no-origin';
-		var url = '';
+		let apiKey = 'no-origin';
+		let version = '6';
+		let url = '';
+		let excludeList: string[] = [];
 		if (appSettingsConfig) {
 			// @ts-ignore
-			var apiKey = appSettingsConfig.config?.apikey || 'no-origin';
+			apiKey = appSettingsConfig.config?.apikey || 'no-origin';
+			version = appSettingsConfig.config?.tinyMceVersion || '6';
 			// @ts-ignore
-			url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/6/`;
+			url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${version}/`;
+			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
+				excludeList = appSettingsConfig.config?.pluginsToExclude;
+			}
 		}
 
 		console.log('#setTinyConfig 1', [appSettingsConfig, this.configuration, additionalConfig]);
@@ -271,6 +275,11 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			else {
 				configurationOptions.plugins = plugins;
 			}
+		}
+
+		// Exclude plugins explicitly excluded by configuration
+		if (Array.isArray(configurationOptions.plugins)) {
+			configurationOptions.plugins = configurationOptions.plugins.filter(item => !excludeList.includes(item));
 		}
 
 		// set the configured toolbar if any, otherwise false
@@ -327,6 +336,15 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		// Extend with additional configuration options
 		if (additionalConfig) {
 			config = umbDeepMerge(additionalConfig, config);
+		}
+
+		if (appSettingsConfig) {
+			if (appSettingsConfig.richTextEditor) {
+				config = umbDeepMerge(appSettingsConfig.richTextEditor.customConfig, config);
+			}
+			if (appSettingsConfig.config) {
+				config = umbDeepMerge(appSettingsConfig.config.customConfig, config);
+			}
 		}
 
 		console.log('#setTinyConfig 3', [config]);

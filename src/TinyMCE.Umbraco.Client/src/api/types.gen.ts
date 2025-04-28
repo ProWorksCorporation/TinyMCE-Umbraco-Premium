@@ -38,7 +38,8 @@ export type TinyMceConfigResponseModel = {
 };
 
 export type TinyMceSettings = {
-    apikey: string;
+		apikey: string;
+		tinyMceVersion: string;
     openAiApikey: string;
     pluginsToExclude: Array<string>;
     customConfig: {};

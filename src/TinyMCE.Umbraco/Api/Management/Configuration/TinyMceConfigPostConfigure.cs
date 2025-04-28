@@ -1,62 +1,63 @@
 using Microsoft.Extensions.Configuration;
 using System.Dynamic;
-using Microsoft.Extensions.DependencyInjection;
-using TinyMCE.Umbraco.Api.Management;
-using Umbraco.Cms.Api.Common.OpenApi;
-using Umbraco.Cms.Core.Composing;
-using Umbraco.Cms.Core.Configuration.Models;
-using Umbraco.Cms.Core.DependencyInjection;
 using Microsoft.Extensions.Options;
-using TinyMCE.Umbraco.Api.Management.Configuration;
+using J2N.Collections.Generic.Extensions;
+using Umbraco.Cms.Core.DependencyInjection;
 
-namespace TinyMCE.Umbraco.Composing;
-
-internal sealed class TinyMceComposer : IComposer
+namespace TinyMCE.Umbraco.Api.Management.Configuration
 {
-    public void Compose(IUmbracoBuilder builder)
+
+    public class TinyMceConfigPostConfigure : IConfigureOptions<TinyMceConfig>
     {
-        builder
-            .Services
-                .AddSingleton<IOperationIdHandler, TinyMceOperationIdHandler>()
-                .ConfigureOptions<TinyMceConfigureSwaggerGenOptions>()
-                .Configure<RichTextEditorSettings>(builder.Config.GetSection("Umbraco:CMS:RichTextEditor"))
-                .Configure<TinyMceConfig>(options =>
-                {
-                    builder.Config.GetSection("TinyMceConfig").Bind(options);
+        private readonly IUmbracoBuilder _builder;
 
-                    var tinyMceCustomConfigurationSection = builder.Config.GetSection("TinyMceConfig:customConfig");
-                    var customConfigKeys = new Dictionary<string, object>();
-                    foreach (var child in tinyMceCustomConfigurationSection.GetChildren())
-                    {
-                        dynamic obj = ConfigurationBinder.BindToExpandoObject(child);
-                        dynamic customConfigObj = ((IDictionary<string, object>)obj.TinyMceConfig.customConfig).First().Value;
-                        //string valueAsText = System.Text.Json.JsonSerializer.Serialize(customConfigObj);
-                        //if (customConfigObj is string)
-                        //{   // Added this because the Serialize call above encodes double-quotes in strings
-                        //    valueAsText = customConfigObj;
-                        //}
-                        //customConfigKeys.Add(child.Key, valueAsText);
-                        customConfigKeys.Add(child.Key, customConfigObj);
-                    }
+        public TinyMceConfigPostConfigure(IUmbracoBuilder builder)
+        {
+            _builder = builder;
+        }
 
-                    options.customConfig = customConfigKeys;
-                })
-                //.AddTransient<IConfigureOptions<TinyMceConfig>, TinyMceConfigPostConfigure>()
+        public void Configure(TinyMceConfig options)
+        {
+            // Transform the customConfig options
 
-                // NOTE: The follow line prevents the TinyMCE to Tiptap RTE migration in Umbraco v16.
-                // https://github.com/umbraco/Umbraco-CMS/pull/18843
-                .Configure<TinyMceToTiptapMigrationSettings>(settings => settings.DisableMigration = true)
-        ;
+
+            // Rebuild the Json
+            var tinyMceCustomConfigurationSection = _builder.Config.GetSection("TinyMceConfig:customConfig");
+            var customConfigKeys = new Dictionary<string, object>();
+            foreach (var child in tinyMceCustomConfigurationSection.GetChildren())
+            {
+                dynamic obj = ConfigurationBinder.BindToExpandoObject(child);
+                dynamic customConfigObj = ((IDictionary<string, object>)obj.TinyMceConfig.customConfig).First().Value;
+                //string valueAsText = System.Text.Json.JsonSerializer.Serialize(customConfigObj);
+                //if (customConfigObj is string)
+                //{   // Added this because the Serialize call above encodes double-quotes in strings
+                //    valueAsText = customConfigObj;
+                //}
+                customConfigKeys.Add(child.Key, customConfigObj);
+            }
+
+            options.customConfig = customConfigKeys;
+            //if (customConfigKeys.Any())
+            //{
+            //    foreach (var item in customConfigKeys)
+            //    {
+            //        if (!customConfig.ContainsKey(item.Key))
+            //        {
+            //            customConfig.Add(item.Key, item.Value);
+            //        }
+            //    }
+            //}
+        }
     }
-}
 
+}
 
 
 
 /// <summary>
 /// This pulls the nested items from the appSettings and builds them into objects in the TinyMceConfig
 /// </summary>
-internal static class ConfigurationBinder
+public static class ConfigurationBinder
 {
     public static ExpandoObject BindToExpandoObject(IConfiguration config)
     {

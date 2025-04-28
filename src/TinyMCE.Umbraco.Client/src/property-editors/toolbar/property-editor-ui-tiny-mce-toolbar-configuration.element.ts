@@ -1,5 +1,8 @@
 import { css, customElement, html, property, state, repeat } from '@umbraco-cms/backoffice/external/lit';
 import { firstValueFrom } from '@umbraco-cms/backoffice/external/rxjs';
+import { TinyMceService } from '../../api/index.js';
+import { tryExecute } from '@umbraco-cms/backoffice/resources';
+import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
 import { tinymce } from '@umbraco-cms/backoffice/external/tinymce';
 import { umbExtensionsRegistry } from '@umbraco-cms/backoffice/extension-registry';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
@@ -67,6 +70,14 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 
 	#selectedValues: string[] = [];
 
+	async #getTinyMceConfig() {
+		// @ts-ignore
+		const { data } = await tryExecute(this, TinyMceService.getConfig({ client: umbHttpClient }));
+		if (!data) return;
+
+		return data;
+	}
+
 	protected override async firstUpdated(_changedProperties: PropertyValueMap<unknown>) {
 		super.firstUpdated(_changedProperties);
 
@@ -113,19 +124,33 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 
 		const plugins = await firstValueFrom(plugin$);
 
+		const appSettingsConfig = await this.#getTinyMceConfig();
+
+		// Get list of plugins to exclude from the list
+		let excludeList: string[] = [];
+		if (appSettingsConfig) {
+			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
+				excludeList = appSettingsConfig.config?.pluginsToExclude;
+			}
+		}
+
+
 		plugins.forEach((p) => {
+
 			// If the plugin has a toolbar, add it to the config
 			if (p.meta?.toolbar) {
 				p.meta.toolbar.forEach((t: any) => {
-					this._toolbarConfig.push({
-						alias: t.alias,
-						label: this.localize.string(t.label),
-						icon: t.icon ?? 'icon-autofill',
-						selected: this.value.includes(t.alias),
-						disabled: false,
-						isplugin: t.isplugin,
-						pluginAlias: t.pluginAlias,
-					});
+					if (!excludeList.includes(t.pluginAlias)) {
+						this._toolbarConfig.push({
+							alias: t.alias,
+							label: this.localize.string(t.label),
+							icon: t.icon ?? 'icon-autofill',
+							selected: this.value.includes(t.alias),
+							disabled: false,
+							isplugin: t.isplugin,
+							pluginAlias: t.pluginAlias,
+						});
+					}
 				});
 			}
 		});

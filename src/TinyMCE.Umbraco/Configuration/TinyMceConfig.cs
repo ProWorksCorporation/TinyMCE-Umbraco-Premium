@@ -4,6 +4,8 @@ public class TinyMceConfig
 {
     public string apikey { get; set; } = "";
 
+    public string tinyMceVersion { get; set; } = "6";
+
     public string openAiApikey { get; set; } = "";
 
     public string[] pluginsToExclude { get; set; } = [];
