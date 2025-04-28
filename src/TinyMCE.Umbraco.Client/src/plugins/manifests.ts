@@ -91,7 +91,6 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 		type: 'tinyMcePlugin',
 		alias: 'Umb.TinyMcePlugin.Accordion',
 		name: 'TinyMCE Accorion Plugin',
-		js: () => import('./core/accordion.tinymce-api.js'),
 		meta: {
 			plugins: ['accordion'],
 			toolbar: [
@@ -107,18 +106,307 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 	},
 	{
 		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.CodeSample',
+		name: 'TinyMCE Code Sample Plugin',
+		meta: {
+			plugins: ['codesample'],
+			toolbar: [
+				{
+					alias: 'codesample',
+					label: 'Code Sample',
+					icon: 'code-sample',
+					isplugin: true,
+					pluginAlias: 'codesample',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Emoticons',
+		name: 'TinyMCE Emoticons Plugin',
+		meta: {
+			plugins: ['emoticons'],
+			toolbar: [
+				{
+					alias: 'emoticons',
+					label: 'Emoticons',
+					icon: 'emoji',
+					isplugin: true,
+					pluginAlias: 'emoticons',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Help',
+		name: 'TinyMCE Help Plugin',
+		meta: {
+			plugins: ['help'],
+			toolbar: [
+				{
+					alias: 'help',
+					label: 'Help for Editors',
+					icon: 'help',
+					isplugin: true,
+					pluginAlias: 'help',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.InsertDateTime',
+		name: 'TinyMCE Insert Date/Time Plugin',
+		meta: {
+			plugins: ['insertdatetime'],
+			toolbar: [
+				{
+					alias: 'insertdatetime',
+					label: 'Insert Date/Time',
+					icon: 'insert-time',
+					isplugin: true,
+					pluginAlias: 'insertdatetime',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.SearchReplace',
+		name: 'TinyMCE Search and Replace Plugin',
+		meta: {
+			plugins: ['searchreplace'],
+			toolbar: [
+				{
+					alias: 'searchreplace',
+					label: 'Search and Replace',
+					icon: 'search',
+					isplugin: true,
+					pluginAlias: 'searchreplace',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.WordCount',
+		name: 'TinyMCE Word Count Plugin',
+		meta: {
+			plugins: ['wordcount'],
+			toolbar: [
+				{
+					alias: 'wordcount',
+					label: 'Word Count',
+					icon: 'character-count',
+					isplugin: true,
+					pluginAlias: 'wordcount',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
 		alias: 'Umb.TinyMcePlugin.Accessibilty',
 		name: 'TinyMCE Accessibilty Checker Plugin',
-		js: () => import('./core/accordion.tinymce-api.js'),
+		js: () => import('./core/a11ychecker.tinymce-api.js'),
 		meta: {
 			plugins: ['a11ychecker'],
 			toolbar: [
 				{
 					alias: 'a11ycheck',
 					label: 'Accessibility Checker (Premium Plugin)',
-					icon: 'a11ycheck',
+					icon: 'accessibility-check',
 					isplugin: true,
 					pluginAlias: 'a11ychecker',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Typography',
+		name: 'TinyMCE Advanced Typography Plugin',
+		meta: {
+			plugins: ['typography'],
+			toolbar: [
+				{
+					alias: 'typography',
+					label: 'Advanced Typography (Premium Plugin)',
+					icon: 'typography',
+					isplugin: true,
+					pluginAlias: 'typography',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.CaseChange',
+		name: 'TinyMCE Case Change Plugin',
+		meta: {
+			plugins: ['casechange'],
+			toolbar: [
+				{
+					alias: 'casechange',
+					label: 'Case Change (Premium Plugin)',
+					icon: 'change-case',
+					isplugin: true,
+					pluginAlias: 'casechange',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Checklist',
+		name: 'TinyMCE Checklist Plugin',
+		meta: {
+			plugins: ['checklist'],
+			toolbar: [
+				{
+					alias: 'checklist',
+					label: 'Checklist (Premium Plugin)',
+					icon: 'checklist',
+					isplugin: true,
+					pluginAlias: 'checklist',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Export',
+		name: 'TinyMCE Export Plugin',
+		meta: {
+			plugins: ['export'],
+			toolbar: [
+				{
+					alias: 'export',
+					label: 'Export (Premium Plugin)',
+					icon: 'export',
+					isplugin: true,
+					pluginAlias: 'export',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.Footnotes',
+		name: 'TinyMCE Footnotes Plugin',
+		meta: {
+			plugins: ['footnotes'],
+			toolbar: [
+				{
+					alias: 'footnotes',
+					label: 'Footnotes (Premium Plugin)',
+					icon: 'footnote',
+					isplugin: true,
+					pluginAlias: 'footnotes',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.FormatPainter',
+		name: 'TinyMCE Format Painter Plugin',
+		meta: {
+			plugins: ['formatpainter'],
+			toolbar: [
+				{
+					alias: 'formatpainter',
+					label: 'Format Painter (Premium Plugin)',
+					icon: 'format-painter',
+					isplugin: true,
+					pluginAlias: 'formatpainter',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.MergeTags',
+		name: 'TinyMCE Merge Tags Plugin',
+		meta: {
+			plugins: ['mergetags'],
+			toolbar: [
+				{
+					alias: 'mergetags',
+					label: 'Merge Tags (Premium Plugin)',
+					icon: 'close',
+					isplugin: true,
+					pluginAlias: 'mergetags',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.PageEmbed',
+		name: 'TinyMCE Page Embed Plugin',
+		meta: {
+			plugins: ['pageembed'],
+			toolbar: [
+				{
+					alias: 'pageembed',
+					label: 'Page Embed (Premium Plugin)',
+					icon: 'embed-page',
+					isplugin: true,
+					pluginAlias: 'pageembed',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.PermanentPen',
+		name: 'TinyMCE Permanent Pen Plugin',
+		meta: {
+			plugins: ['permanentpen'],
+			toolbar: [
+				{
+					alias: 'permanentpen',
+					label: 'Permanent Pen (Premium Plugin)',
+					icon: 'permanent-pen',
+					isplugin: true,
+					pluginAlias: 'permanentpen',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.SpellChecker',
+		name: 'TinyMCE Spell Checker Pro Plugin',
+		meta: {
+			plugins: ['spellchecker'],
+			toolbar: [
+				{
+					alias: 'spellchecker',
+					label: 'Spell Checker Pro (Premium Plugin)',
+					icon: 'spell-check',
+					isplugin: true,
+					pluginAlias: 'spellchecker',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.TableOfContents',
+		name: 'TinyMCE Table of Contents Plugin',
+		meta: {
+			plugins: ['tableofcontents'],
+			toolbar: [
+				{
+					alias: 'tableofcontents',
+					label: 'Table of Contents (Premium Plugin)',
+					icon: 'toc',
+					isplugin: true,
+					pluginAlias: 'tableofcontents',
 				}
 			],
 		},
