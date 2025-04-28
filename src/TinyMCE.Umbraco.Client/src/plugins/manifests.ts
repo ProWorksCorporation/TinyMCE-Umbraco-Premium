@@ -226,6 +226,48 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 	},
 	{
 		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.AdvancedCodeEditor',
+		name: 'TinyMCE Advanced Code Editor Plugin',
+		meta: {
+			plugins: ['advcode'],
+			toolbar: [
+				{
+					alias: 'code',
+					label: 'Advanced Code Editor (Premium Plugin)',
+					icon: 'sourcecode',
+					isplugin: true,
+					pluginAlias: 'advcode',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.AdvancedTableEditor',
+		name: 'TinyMCE Advanced Table Editor Plugin',
+		meta: {
+			plugins: ['advtable']
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.AdvancedTemplates',
+		name: 'TinyMCE Advanced Templates Plugin',
+		meta: {
+			plugins: ['advtemplate'],
+			toolbar: [
+				{
+					alias: 'inserttemplate',
+					label: 'Advanced Templates (Premium Plugin)',
+					icon: 'template',
+					isplugin: true,
+					pluginAlias: 'advtemplate',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
 		alias: 'Umb.TinyMcePlugin.Typography',
 		name: 'TinyMCE Advanced Typography Plugin',
 		meta: {
@@ -237,6 +279,23 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'typography',
 					isplugin: true,
 					pluginAlias: 'typography',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.AIAssistantShortcuts',
+		name: 'TinyMCE AI Assistant Shortcuts Plugin',
+		meta: {
+			plugins: ['ai'],
+			toolbar: [
+				{
+					alias: 'aishortcuts aidialog',
+					label: 'AI Assistant Shortcuts (Premium Plugin)',
+					icon: 'ai',
+					isplugin: true,
+					pluginAlias: 'ai',
 				}
 			],
 		},
@@ -271,6 +330,23 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'checklist',
 					isplugin: true,
 					pluginAlias: 'checklist',
+				}
+			],
+		},
+	},
+	{
+		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.EnhancedMediaEmbed',
+		name: 'TinyMCE Enhanced Media Embed Plugin',
+		meta: {
+			plugins: ['mediaembed'],
+			toolbar: [
+				{
+					alias: 'media',
+					label: 'Enhanced Media Embed (Premium Plugin)',
+					icon: 'image',
+					isplugin: true,
+					pluginAlias: 'mediaembed',
 				}
 			],
 		},
@@ -362,6 +438,24 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 	},
 	{
 		type: 'tinyMcePlugin',
+		alias: 'Umb.TinyMcePlugin.PowerPaste',
+		name: 'TinyMCE PowerPaste Plugin',
+		meta: {
+			plugins: ['powerpaste'],
+			toolbar: [
+				{
+					alias: 'paste',
+					label: 'PowerPaste (Premium Plugin)',
+					icon: 'paste',
+					isplugin: true,
+					pluginAlias: 'powerpaste',
+				}
+			],
+		},
+	},
+
+	{
+		type: 'tinyMcePlugin',
 		alias: 'Umb.TinyMcePlugin.PermanentPen',
 		name: 'TinyMCE Permanent Pen Plugin',
 		meta: {
@@ -382,14 +476,14 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 		alias: 'Umb.TinyMcePlugin.SpellChecker',
 		name: 'TinyMCE Spell Checker Pro Plugin',
 		meta: {
-			plugins: ['spellchecker'],
+			plugins: ['tinymcespellchecker'],
 			toolbar: [
 				{
 					alias: 'spellchecker',
 					label: 'Spell Checker Pro (Premium Plugin)',
 					icon: 'spell-check',
 					isplugin: true,
-					pluginAlias: 'spellchecker',
+					pluginAlias: 'tinymcespellchecker',
 				}
 			],
 		},
