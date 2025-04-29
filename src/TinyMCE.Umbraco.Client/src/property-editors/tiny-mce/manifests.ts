@@ -22,12 +22,6 @@ export const manifests: Array<UmbExtensionManifest> = [
 						propertyEditorUiAlias: 'TinyMCE.PropertyEditorUI.TinyMCEPremium.PluginConfiguration',
 						weight: 5,
 						config: [
-							{
-								alias: 'plugins',
-								value: [
-									{ alias: 'test', label: 'test' },
-								],
-							},
 						],
 					},
 					{

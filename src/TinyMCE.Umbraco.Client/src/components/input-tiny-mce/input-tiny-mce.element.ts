@@ -239,7 +239,10 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		let excludeList: string[] = [];
 		if (appSettingsConfig) {
 			// @ts-ignore
-			apiKey = appSettingsConfig.config?.apikey || 'no-origin';
+			apiKey = appSettingsConfig.richTextEditor?.cloudApiKey || 'no-origin';
+			if (appSettingsConfig.config?.apikey) {
+				apiKey = appSettingsConfig.config?.apikey;
+			}
 			version = appSettingsConfig.config?.tinyMceVersion || '6';
 			// @ts-ignore
 			url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${version}/`;

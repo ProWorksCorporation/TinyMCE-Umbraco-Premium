@@ -95,9 +95,13 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 		const appSettingsConfig = await this.#getTinyMceConfig();
 		// Get list of plugins to exclude from the list
 		let excludeList: string[] = [];
+		let configPlugins: string[] = [];
 		if (appSettingsConfig) {
 			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
+			}
+			if (Array.isArray(appSettingsConfig.richTextEditor?.plugins)) {
+				configPlugins = appSettingsConfig.richTextEditor?.plugins;
 			}
 		}
 
@@ -121,6 +125,20 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 				});
 			});
 		}
+
+		const defaultPluginAliases = this._pluginConfig.map((p) => p.alias);
+
+		configPlugins.forEach((p) => {
+			if (!excludeList.includes(p) && !defaultPluginAliases.includes(p)) {
+				this._pluginConfig.push({
+					alias: p,
+					label: p,
+					icon: undefined,
+					selected: this.value.includes(p),
+					disabled: false,
+				});
+			}
+		});
 
 		plugins.forEach((p) => {
 			if (p.meta?.plugins) {
