@@ -24,4 +24,15 @@ export const manifests: Array<UmbExtensionManifest> = [
 			group: 'common',
 		},
 	},
+	{
+		type: 'propertyEditorUi',
+		alias: 'Umb.PropertyEditorUI.TinyMCE.CustomConfig',
+		name: 'TinyMCE Custom Config Property Editor UI',
+		element: () => import('./configEditor/property-editor-ui-tiny-mce-config-editor.element.js'),
+		meta: {
+			label: 'TinyMCE Custom Configuration',
+			icon: 'icon-autofill',
+			group: 'common',
+		},
+	},
 ];

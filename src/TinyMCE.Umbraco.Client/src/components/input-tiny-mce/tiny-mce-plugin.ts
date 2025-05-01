@@ -4,18 +4,27 @@ import type { UmbApi } from '@umbraco-cms/backoffice/extension-api';
 import type { Editor } from '@umbraco-cms/backoffice/external/tinymce';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
-export class UmbTinyMcePluginBase extends UmbControllerBase implements UmbApi {
+export class UmbTinyMcePluginBase extends UmbControllerBase implements UmbApi,TinyMcePluginInterface {
   editor: Editor;
-  configuration?: UmbPropertyEditorConfigCollection;
+	configuration?: UmbPropertyEditorConfigCollection;
+	
 
   constructor(arg: TinyMcePluginArguments) {
     super(arg.host);
     this.editor = arg.editor;
     this.configuration = arg.host.configuration;
-  }
+	}
+
+	// Default (empty) implementation so subclasses can override it
+	async init(): Promise<void> {
+		// No-op by default
+	}
 }
 
 export type TinyMcePluginArguments = {
   host: UmbInputTinyMceElement;
   editor: Editor;
 };
+export interface TinyMcePluginInterface {
+	init(): Promise<void>;
+}

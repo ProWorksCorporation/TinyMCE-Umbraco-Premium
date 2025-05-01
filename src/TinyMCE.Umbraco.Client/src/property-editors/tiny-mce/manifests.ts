@@ -114,6 +114,14 @@ export const manifests: Array<UmbExtensionManifest> = [
 						propertyEditorUiAlias: 'Umb.PropertyEditorUi.Toggle',
 						weight: 82,
 					},
+					{
+						alias: 'customConfig',
+						label: 'Custom Configuration',
+						description: 'Set specific custom configuration for this TinyMCE editor',
+						propertyEditorUiAlias: 'Umb.PropertyEditorUI.TinyMCE.CustomConfig',
+						weight: 90,
+					},
+
 				],
 				defaultData: [
 					{

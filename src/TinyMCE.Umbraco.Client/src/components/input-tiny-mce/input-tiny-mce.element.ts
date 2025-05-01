@@ -15,7 +15,7 @@ import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
 import { UmbStylesheetDetailRepository } from '@umbraco-cms/backoffice/stylesheet';
 import { UUIFormControlMixin } from '@umbraco-cms/backoffice/external/uui';
 import type { ClassConstructor } from '@umbraco-cms/backoffice/extension-api';
-import type { EditorEvent, Editor, RawEditorOptions } from '@umbraco-cms/backoffice/external/tinymce';
+import type { EditorEvent, Editor, RawEditorOptions } from '../../external/tinymce/index.js';
 import type { ManifestTinyMcePlugin } from '../../plugins/tinymce-plugin.extension.js';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 
@@ -119,6 +119,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 
 			let config: RawEditorOptions = {};
 			manifests.forEach((manifest) => {
+
 				if (manifest.meta?.config) {
 					config = umbDeepMerge(manifest.meta.config, config);
 				}
@@ -380,7 +381,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		return languageMatch;
 	}
 
-	#editorSetup(editor: Editor) {
+	async #editorSetup(editor: Editor) {
 		editor.suffix = '.min';
 
 		// define keyboard shortcuts
@@ -432,7 +433,11 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			if (plugin) {
 				// [v15]: This might be improved by changing to `createExtensionApi` and avoiding the `#loadPlugins` method altogether, but that would require a breaking change
 				// because that function sends the UmbControllerHost as the first argument, which is not the case here.
-				new plugin({ host: this, editor });
+				const instance = new plugin({ host: this, editor });
+				// [Jason]: Added this to allow for some initialization in the plugins before the TinyMCE editor is initialized
+				if (typeof instance.init === 'function') {
+					await instance.init(); // await only if async init exists
+				}
 			}
 		}
 	}

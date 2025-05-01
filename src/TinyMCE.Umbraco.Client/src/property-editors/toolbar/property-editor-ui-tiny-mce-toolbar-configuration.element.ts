@@ -110,7 +110,7 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 							}
 						}
 					})
-					console.log([this._toolbarConfig]);
+					//console.log([this._toolbarConfig]);
 
 					this.requestUpdate('_toolbarConfig');
 				}

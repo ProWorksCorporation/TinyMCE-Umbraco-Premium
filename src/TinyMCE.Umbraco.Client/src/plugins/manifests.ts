@@ -287,6 +287,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 		type: 'tinyMcePlugin',
 		alias: 'Umb.TinyMcePlugin.AIAssistantShortcuts',
 		name: 'TinyMCE AI Assistant Shortcuts Plugin',
+		js: () => import('./core/ai-assistant.tinymce-api'),
 		meta: {
 			plugins: ['ai'],
 			toolbar: [
