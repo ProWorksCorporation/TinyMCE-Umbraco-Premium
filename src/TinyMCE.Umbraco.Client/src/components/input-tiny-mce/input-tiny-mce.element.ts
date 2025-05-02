@@ -3,7 +3,7 @@ import { defaultFallbackConfig } from './input-tiny-mce.defaults.js';
 import { pastePreProcessHandler } from './input-tiny-mce.handlers.js';
 import { uriAttributeSanitizer } from './input-tiny-mce.sanitizer.js';
 import { UmbStylesheetRuleManager } from '../../stylesheets/stylesheet-rule-manager.js';
-import type { UmbTinyMcePluginBase } from './tiny-mce-plugin.js';
+import type { UmbTinyMcePluginClass } from './tiny-mce-plugin.js';
 import { css, customElement, html, property, query } from '@umbraco-cms/backoffice/external/lit';
 import { loadManifestApi } from '@umbraco-cms/backoffice/extension-api';
 import { getProcessedImageUrl, umbDeepMerge } from '@umbraco-cms/backoffice/utils';
@@ -14,7 +14,7 @@ import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
 import { UmbStylesheetDetailRepository } from '@umbraco-cms/backoffice/stylesheet';
 import { UUIFormControlMixin } from '@umbraco-cms/backoffice/external/uui';
-import type { ClassConstructor } from '@umbraco-cms/backoffice/extension-api';
+//import type { ClassConstructor } from '@umbraco-cms/backoffice/extension-api';
 import type { EditorEvent, Editor, RawEditorOptions } from '../../external/tinymce/index.js';
 import type { ManifestTinyMcePlugin } from '../../plugins/tinymce-plugin.extension.js';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
@@ -58,7 +58,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 	@property({ attribute: false })
 	configuration?: UmbPropertyEditorConfigCollection;
 
-	#plugins: Array<ClassConstructor<UmbTinyMcePluginBase> | undefined> = [];
+	//#plugins: Array<ClassConstructor<UmbTinyMcePluginBase> | undefined> = [];
+	#plugins: Array<UmbTinyMcePluginClass | undefined> = [];
 	#editorRef?: Editor | null = null;
 	readonly #stylesheetRepository = new UmbStylesheetDetailRepository(this);
 	readonly #umbStylesheetRuleManager = new UmbStylesheetRuleManager();
@@ -222,6 +223,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 	}
 
 	async #setTinyConfig(additionalConfig?: RawEditorOptions) {
+		console.log('#setTinyConfig start');
+
 		const dimensions = this.configuration?.getValueByAlias<{ width?: number; height?: number }>('dimensions');
 
 		const stylesheetPaths = this.configuration?.getValueByAlias<string[]>('stylesheets') ?? [];
@@ -351,6 +354,17 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			}
 		}
 
+		// Loop through plugins and call extendEditorConfig if it exists to allow plugins to
+		// setup some advanced config like javascript before the editor is initialized.
+		for (const pluginClass of this.#plugins) {
+			if (pluginClass) {
+					if (typeof pluginClass.extendEditorConfig === 'function') {
+						await pluginClass.extendEditorConfig(config);
+					}
+			}
+		}
+
+
 		console.log('#setTinyConfig 3', [config]);
 
 		this.#editorRef?.destroy();
@@ -360,6 +374,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			return [];
 		});
 		this.#editorRef = editors.pop();
+
+		console.log('#setTinyConfig end');
 	}
 
 	/**
@@ -382,6 +398,9 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 	}
 
 	async #editorSetup(editor: Editor) {
+
+		console.log('#editorSetup start');
+
 		editor.suffix = '.min';
 
 		// define keyboard shortcuts
@@ -440,6 +459,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 				}
 			}
 		}
+		console.log('#editorSetup end');
+
 	}
 
 	#onInit(editor: Editor) {

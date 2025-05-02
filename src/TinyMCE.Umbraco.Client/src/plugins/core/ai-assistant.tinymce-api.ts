@@ -23,11 +23,15 @@ export default class TinyMceAiAssitantExtensionApi extends UmbTinyMcePluginBase 
 		}
 	}
 
+	static override async extendEditorConfig(_config: any): Promise<void> {
+		console.log("ai-assitant extendEditorConfig 1", [_config]);
+		_config.ai_request = await createAiRequest();  // or a function that returns the request handler
+		console.log("ai-assitant extendEditorConfig 2", [_config]);
+	}
+
 	override async init(): Promise<void> {
-		const callAi = await createAiRequest();
+		console.log("ai-assitant init 1");
 
-		(this.#editor as any).ai_request = callAi;
-
-		console.log("ai-assitant this.#editor 2", [this.#editor]);
+		console.log("ai-assitant init 2");
 	}
 }
