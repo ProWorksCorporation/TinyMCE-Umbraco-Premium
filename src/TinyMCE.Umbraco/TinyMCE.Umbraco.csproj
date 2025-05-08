@@ -10,9 +10,11 @@
     <Product>TinyMCE.Umbraco</Product>
     <PackageId>TinyMCE.Umbraco</PackageId>
     <Title>TinyMCE for Umbraco CMS</Title>
-    <Description>...</Description>
-    <PackageTags>umbraco;umbraco-marketplace</PackageTags>
+    <Version>16.0.0--rc</Version>
+    <Description>This Umbraco CMS package enables access to the TinyMCE-based Rich Text Editor (RTE) in version 16 and above. It also supports the use of TinyMCE Premium plugins with a valid subscription. Additional features include streamlined configuration for RTE Data Types in Umbraco and enhanced settings that support direct JSON-based configuration via .NET (appsettings.config).</Description>
+    <PackageTags>umbraco;umbraco-marketplace;tinymce</PackageTags>
     <Authors>ProWorks</Authors>
+    <Company>ProWorks Corporation</Company>
     <Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © ProWorks Corporation</Copyright>
     <PackageProjectUrl>https://github.com/ProWorksCorporation/TinyMCE-Umbraco</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ProWorksCorporation/TinyMCE-Umbraco</RepositoryUrl>

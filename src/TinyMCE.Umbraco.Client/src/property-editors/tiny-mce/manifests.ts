@@ -19,7 +19,7 @@ export const manifests: Array<UmbExtensionManifest> = [
 						alias: 'plugins',
 						label: 'Plugins',
 						description: 'Pick the plugins to activate for this editor',
-						propertyEditorUiAlias: 'TinyMCE.PropertyEditorUI.TinyMCEPremium.PluginConfiguration',
+						propertyEditorUiAlias: 'TinyMCE.PropertyEditorUI.TinyMCE.PluginConfiguration',
 						weight: 5,
 						config: [
 						],

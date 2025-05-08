@@ -16,10 +16,10 @@ import type { UmbCodeEditorElement, CodeEditorLanguage } from '@umbraco-cms/back
 //import type { TinyMceConfigResponseModel } from '../../api/index.js';
 
 /**
- * @element umb-property-editor-ui-tiny-mce-premium-config-editor
+ * @element umb-property-editor-ui-tiny-mce-config-editor
  */
-@customElement('umb-property-editor-ui-tiny-mce-premium-config-editor')
-export class UmbPropertyEditorUITinyMcePremiumConfigEditorElement
+@customElement('umb-property-editor-ui-tiny-mce-config-editor')
+export class UmbPropertyEditorUITinyMceConfigEditorElement
 	extends UmbLitElement
 	implements UmbPropertyEditorUiElement
 {
@@ -113,10 +113,10 @@ export class UmbPropertyEditorUITinyMcePremiumConfigEditorElement
 	];
 }
 
-export default UmbPropertyEditorUITinyMcePremiumConfigEditorElement;
+export default UmbPropertyEditorUITinyMceConfigEditorElement;
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'umb-property-editor-ui-tiny-mce-premium-config-editor': UmbPropertyEditorUITinyMcePremiumConfigEditorElement;
+		'umb-property-editor-ui-tiny-mce-config-editor': UmbPropertyEditorUITinyMceConfigEditorElement;
 	}
 }

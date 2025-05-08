@@ -1,5 +1,5 @@
 import { availableLanguages } from './input-tiny-mce.languages.js';
-import { defaultFallbackConfig } from './input-tiny-mce.defaults.js';
+import { defaultFallbackConfig, defaultPremiumPluginsList } from './input-tiny-mce.defaults.js';
 import { pastePreProcessHandler } from './input-tiny-mce.handlers.js';
 import { uriAttributeSanitizer } from './input-tiny-mce.sanitizer.js';
 import { UmbStylesheetRuleManager } from '../../stylesheets/stylesheet-rule-manager.js';
@@ -116,7 +116,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			this.#plugins.length = 0;
 			this.#plugins = await this.#loadPlugins(manifests);
 
-			console.log('#plugins', [this.#plugins, manifests]);
+			//console.log('#plugins', [this.#plugins, manifests]);
 
 			let config: RawEditorOptions = {};
 			manifests.forEach((manifest) => {
@@ -211,19 +211,11 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		const { data } = await tryExecute(this, TinyMceService.getConfig({ client: umbHttpClient }));
 		if (!data) return;
 
-		// @ts-ignore
-		const apiKey = data.config?.apikey || 'no-origin';
-		const version = data.config?.tinyMceVersion || '6';
-		// @ts-ignore
-		const url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${version}/`;
-
-		console.log('TinyMceService.getConfig', [data, url]);
-
 		return data;
 	}
 
 	async #setTinyConfig(additionalConfig?: RawEditorOptions) {
-		console.log('#setTinyConfig start');
+		//console.log('#setTinyConfig start');
 
 		const dimensions = this.configuration?.getValueByAlias<{ width?: number; height?: number }>('dimensions');
 
@@ -237,6 +229,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		stylesheets.push('/umbraco/backoffice/css/rte-content.css');
 
 		const appSettingsConfig = await this.#getTinyMceConfig();
+
 		let apiKey = 'no-origin';
 		let version = '6';
 		let url = '';
@@ -249,13 +242,18 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			}
 			version = appSettingsConfig.config?.tinyMceVersion || '6';
 			// @ts-ignore
-			url = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${version}/`;
+			if (apiKey && apiKey != 'no-origin') {
+				url = appSettingsConfig.config?.tinyMceUrl || `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${version}/`;
+			}
 			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
+				if (!apiKey || apiKey == 'no-origin') {  // Remove pre-loaded premium plugins if no key present
+					excludeList = [...new Set([...excludeList, ...defaultPremiumPluginsList])];
+				}
 			}
 		}
 
-		console.log('#setTinyConfig 1', [appSettingsConfig, this.configuration, additionalConfig]);
+		//console.log('#setTinyConfig 1', [appSettingsConfig, this.configuration, additionalConfig]);
 
 		// create an object by merging the configuration onto the fallback config
 		const configurationOptions: RawEditorOptions = {
@@ -273,7 +271,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			}
 		}
 
-		// PREMIUM: set the configured plugins if any, otherwise false
+		// set the configured plugins if any, otherwise false
 		const plugins = this.configuration?.getValueByAlias<string[]>('plugins');
 		if (plugins && plugins.length) {
 			if (typeof configurationOptions.plugins === 'string' || Array.isArray(configurationOptions.plugins)) {
@@ -309,7 +307,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			configurationOptions.maxImageSize = maxImageSize;
 		}
 
-		console.log('#setTinyConfig 2', [configurationOptions]);
+		//console.log('#setTinyConfig 2', [configurationOptions]);
 
 
 		// set the default values that will not be modified via configuration
@@ -356,16 +354,18 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 
 		// Loop through plugins and call extendEditorConfig if it exists to allow plugins to
 		// setup some advanced config like javascript before the editor is initialized.
+		const promises = [];
 		for (const pluginClass of this.#plugins) {
 			if (pluginClass) {
 					if (typeof pluginClass.extendEditorConfig === 'function') {
-						await pluginClass.extendEditorConfig(config);
+						promises.push(await pluginClass.extendEditorConfig(config));
 					}
 			}
 		}
+		await Promise.all(promises); // await all together;
 
 
-		console.log('#setTinyConfig 3', [config]);
+		console.log('#setTinyConfig before init', [config]);
 
 		this.#editorRef?.destroy();
 
@@ -375,7 +375,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		});
 		this.#editorRef = editors.pop();
 
-		console.log('#setTinyConfig end');
+	//	console.log('#setTinyConfig end');
 	}
 
 	/**
@@ -399,7 +399,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 
 	async #editorSetup(editor: Editor) {
 
-		console.log('#editorSetup start');
+		//console.log('#editorSetup start');
 
 		editor.suffix = '.min';
 
@@ -459,7 +459,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 				}
 			}
 		}
-		console.log('#editorSetup end');
+		//console.log('#editorSetup end');
 
 	}
 

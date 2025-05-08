@@ -14,6 +14,7 @@ import type {
 } from '@umbraco-cms/backoffice/property-editor';
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { UMB_PROPERTY_DATASET_CONTEXT } from '@umbraco-cms/backoffice/property';
+import { defaultPremiumPluginsList } from '../../components/input-tiny-mce/input-tiny-mce.defaults.js';
 
 const tinyIconSet = tinymce.IconManager.get('default');
 
@@ -99,7 +100,7 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 			this.observe(
 				await context.propertyValueByAlias<Array<string>>('plugins'),
 				(value) => {
-					console.log([value]);
+					//console.log([value]);
 					this._toolbarConfig.forEach((p) => {
 						if (p.isplugin && p.pluginAlias) {
 							if (value?.includes(p.pluginAlias)) {
@@ -128,9 +129,19 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 
 		// Get list of plugins to exclude from the list
 		let excludeList: string[] = [];
+		let apiKey = '';
 		if (appSettingsConfig) {
+			apiKey = appSettingsConfig.richTextEditor?.cloudApiKey || '';
+			if (appSettingsConfig.config?.apikey) {
+				apiKey = appSettingsConfig.config?.apikey;
+			}
+
 			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
+			}
+
+			if (!apiKey) {  // Remove pre-loaded premium plugins if no key present
+				excludeList = [...new Set([...excludeList, ...defaultPremiumPluginsList])];
 			}
 		}
 

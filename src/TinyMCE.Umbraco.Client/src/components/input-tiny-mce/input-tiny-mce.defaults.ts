@@ -3,8 +3,27 @@ import { UMB_CONTEXT_REQUEST_EVENT_TYPE, type UmbContextRequestEvent } from '@um
 import type { RawEditorOptions } from '@umbraco-cms/backoffice/external/tinymce';
 import { UUIIconRequestEvent } from '@umbraco-cms/backoffice/external/uui';
 
-//export const UMB_BLOCK_ENTRY_WEB_COMPONENTS_ABSOLUTE_PATH = '/umbraco/backoffice/packages/block/block-rte/index.js';
 export const UMB_BLOCK_ENTRY_WEB_COMPONENTS_ABSOLUTE_PATH = '@umbraco-cms/backoffice/block-rte';
+
+export const defaultPremiumPluginsList = [
+	'a11ychecker',
+	'advcode',
+	'advtable',
+	'advtemplate',
+	'typography',
+	'ai',
+	'casechange',
+	'checklist',
+	'mediaembed',
+	'export',
+	'footnotes',
+	'formatpainter',
+	'mergetags',
+	'pageembed',
+	'powerpaste',
+	'permanentpen',
+	'tinymcespellchecker',
+	'tableofcontents'] as const;
 
 //we put these as extended elements because they get merged on top of the normal allowed elements by tiny mce
 //so we don't have to specify all the normal elements again

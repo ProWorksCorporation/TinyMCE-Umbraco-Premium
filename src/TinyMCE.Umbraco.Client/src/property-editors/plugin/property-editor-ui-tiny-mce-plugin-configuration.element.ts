@@ -15,6 +15,7 @@ import type {
 } from '@umbraco-cms/backoffice/property-editor';
 import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
 import { defaultFallbackConfig } from '../../components/input-tiny-mce/input-tiny-mce.defaults.js';
+import { defaultPremiumPluginsList } from '../../components/input-tiny-mce/input-tiny-mce.defaults.js';
 
 //const tinyIconSet = tinymce.IconManager.get('default');
 
@@ -27,10 +28,10 @@ type PluginConfig = {
 };
 
 /**
- * @element umb-property-editor-ui-tiny-mce-premium-plugin-configuration
+ * @element umb-property-editor-ui-tiny-mce-plugin-configuration
  */
-@customElement('umb-property-editor-ui-tiny-mce-premium-plugin-configuration')
-export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
+@customElement('umb-property-editor-ui-tiny-mce-plugin-configuration')
+export class UmbPropertyEditorUITinyMcePluginConfigurationElement
 	extends UmbLitElement
 	implements UmbPropertyEditorUiElement
 {
@@ -94,12 +95,23 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 
 		const appSettingsConfig = await this.#getTinyMceConfig();
 		// Get list of plugins to exclude from the list
+		let apiKey = '';
 		let excludeList: string[] = [];
 		let configPlugins: string[] = [];
 		if (appSettingsConfig) {
+			apiKey = appSettingsConfig.richTextEditor?.cloudApiKey || '';
+			if (appSettingsConfig.config?.apikey) {
+				apiKey = appSettingsConfig.config?.apikey;
+			}
+
 			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
 			}
+
+			if (!apiKey) {  // Remove pre-loaded premium plugins if no key present
+				excludeList = [...new Set([...excludeList, ...defaultPremiumPluginsList])];
+			}
+
 			if (Array.isArray(appSettingsConfig.richTextEditor?.plugins)) {
 				configPlugins = appSettingsConfig.richTextEditor?.plugins;
 			}
@@ -208,10 +220,10 @@ export class UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement
 	];
 }
 
-export default UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement;
+export default UmbPropertyEditorUITinyMcePluginConfigurationElement;
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'umb-property-editor-ui-tiny-mce-premium-plugin-configuration': UmbPropertyEditorUITinyMcePremiumPluginConfigurationElement;
+		'umb-property-editor-ui-tiny-mce-plugin-configuration': UmbPropertyEditorUITinyMcePluginConfigurationElement;
 	}
 }

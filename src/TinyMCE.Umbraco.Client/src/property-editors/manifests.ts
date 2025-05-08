@@ -4,11 +4,11 @@ export const manifests: Array<UmbExtensionManifest> = [
 	...tinyMceManifest,
 	{
 		type: 'propertyEditorUi',
-		alias: 'TinyMCE.PropertyEditorUI.TinyMCEPremium.PluginConfiguration',
-		name: 'TinyMCE Premium Plugin Property Editor UI',
+		alias: 'TinyMCE.PropertyEditorUI.TinyMCE.PluginConfiguration',
+		name: 'TinyMCE Plugin Property Editor UI',
 		element: () => import('./plugin/property-editor-ui-tiny-mce-plugin-configuration.element.js'),
 		meta: {
-			label: 'TinyMCE Premium Plugin Configuration',
+			label: 'TinyMCE Plugin Configuration',
 			icon: 'icon-autofill',
 			group: 'common',
 		},
