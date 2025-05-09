@@ -145,3 +145,5 @@ The initial source code has been derived from [Umbraco CMS](https://github.com/u
 ## Acknowledgments
 
 Thanks to [TinyMCE](https://www.tiny.cloud/) and [Umbraco](https://umbraco.com/) for their support during the package development.  Special thanks to Lee Kelleher and Jacob Overgaard for their help getting started and for giving valuable feedback along the way.
+
+Big thanks to the [ProWorks](https://www.proworks.com) team for their encouragement, support, and contributions.
