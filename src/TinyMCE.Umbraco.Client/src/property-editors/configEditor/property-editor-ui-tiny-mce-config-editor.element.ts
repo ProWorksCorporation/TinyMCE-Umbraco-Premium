@@ -50,7 +50,10 @@ export class UmbPropertyEditorUITinyMceConfigEditorElement
 		super.firstUpdated(_changedProperties);
 
 		this._customConfig = this.value;
-		this._customConfig = "{ test: 'test' }";
+		if (!this._customConfig) {
+			this._customConfig = "{ test: 'test' }";
+		}
+		//this._customConfig = "{ test: 'test' }";
 		//this.#tinyConfiguration = await this.#getTinyMceConfig();
 
 		this.requestUpdate('_customConfig');

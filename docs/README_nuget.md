@@ -6,6 +6,6 @@ It also supports the use of TinyMCE Premium plugins with a valid subscription. A
 
 ---
 
-TinyMCE for Umbraco CMS is licensed under the [GNU General Public License Version 2](https://opensource.org/license/gpl-2-0).
+TinyMCE for Umbraco CMS is licensed under [MIT License](https://opensource.org/license/mit).
 
 Copyright &copy; [ProWorks Corporation](https://proworks.com).
