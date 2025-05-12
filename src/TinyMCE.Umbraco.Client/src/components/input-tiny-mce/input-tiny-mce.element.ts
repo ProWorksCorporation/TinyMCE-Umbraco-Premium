@@ -354,14 +354,14 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		const promises = [];
 		for (const pluginClass of this.#plugins) {
 			if (pluginClass) {
-					if (typeof pluginClass.extendEditorConfig === 'function') {
-						promises.push(await pluginClass.extendEditorConfig(config));
-					}
+				if (typeof pluginClass.extendEditorConfig === 'function') {
+					promises.push(await pluginClass.extendEditorConfig(config));
+				}
 			}
 		}
 		await Promise.all(promises); // await all together;
 
-		console.log('#setTinyConfig before init', [config]);
+		//console.log('#setTinyConfig before init', [config]);
 
 		this.#editorRef?.destroy();
 
@@ -371,7 +371,7 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		});
 		this.#editorRef = editors.pop();
 
-	//	console.log('#setTinyConfig end');
+		//	console.log('#setTinyConfig end');
 	}
 
 	/**
