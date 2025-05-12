@@ -34,7 +34,7 @@ export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase
 
 		this.consumeContext(UMB_BLOCK_RTE_MANAGER_CONTEXT, (context) => {
 			this.observe(
-				context.blockTypes,
+				context?.blockTypes,
 				(blockTypes) => {
 					this.#blocks = blockTypes;
 				},
@@ -42,9 +42,9 @@ export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase
 			);
 
 			this.observe(
-				context.contents,
+				context?.contents,
 				(contents) => {
-					this.#updateBlocks(contents, context.getLayouts());
+					this.#updateBlocks(contents, context?.getLayouts());
 				},
 				'contents'
 			);
@@ -90,18 +90,18 @@ export default class UmbTinyMceMultiUrlPickerPlugin extends UmbTinyMcePluginBase
 		}
 	}
 
-	#updateBlocks(blocks: UmbBlockDataModel[], layouts: Array<UmbBlockRteLayoutModel>) {
+	#updateBlocks(blocks?: UmbBlockDataModel[], layouts?: Array<UmbBlockRteLayoutModel>) {
 		const editor = this.#editor;
 		if (!editor?.dom) return;
 
 		const existingBlocks = editor.dom
 			.select('umb-rte-block, umb-rte-block-inline')
 			.map((x) => x.getAttribute(UMB_BLOCK_RTE_DATA_CONTENT_KEY));
-		const newBlocks = blocks.filter((x) => !existingBlocks.find((contentKey) => contentKey === x.key));
+		const newBlocks = blocks?.filter((x) => !existingBlocks.find((contentKey) => contentKey === x.key));
 
-		newBlocks.forEach((block) => {
+		newBlocks?.forEach((block) => {
 			// Find layout for block
-			const layout = layouts.find((x) => x.contentKey === block.key);
+			const layout = layouts?.find((x) => x.contentKey === block.key);
 			const inline = layout?.displayInline ?? false;
 
 			let blockTag = 'umb-rte-block';
