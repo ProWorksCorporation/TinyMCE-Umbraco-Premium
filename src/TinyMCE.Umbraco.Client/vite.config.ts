@@ -6,11 +6,11 @@ export const plugins: PluginOption[] = [
 	viteStaticCopy({
 		targets: [
 			{
-				src: 'node_modules/tinymce/**/*',
+				src: 'node_modules/tinymce/*',
 				dest: 'lib',
 			},
 			{
-				src: 'node_modules/tinymce-i18n/langs6/**/*',
+				src: 'node_modules/tinymce-i18n/langs6/*',
 				dest: 'lib/langs',
 			},
 		],
