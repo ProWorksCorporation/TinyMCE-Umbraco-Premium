@@ -6,6 +6,8 @@ export const onInit: UmbEntryPointOnInit = (_host, _extensionRegistry) => {
 	// Will use only to add in Open API config with generated TS OpenAPI HTTPS Client
 	// Do the OAuth token handshake stuff
 	_host.consumeContext(UMB_AUTH_CONTEXT, async (authContext) => {
+		if (!authContext) return;
+
 		// Get the token info from Umbraco
 		const config = authContext.getOpenApiConfiguration();
 

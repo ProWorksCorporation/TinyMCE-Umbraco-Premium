@@ -97,26 +97,22 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 		this.requestUpdate('_toolbarConfig');
 
 		this.consumeContext(UMB_PROPERTY_DATASET_CONTEXT, async (context) => {
-			this.observe(
-				await context.propertyValueByAlias<Array<string>>('plugins'),
-				(value) => {
-					//console.log([value]);
-					this._toolbarConfig.forEach((p) => {
-						if (p.isplugin && p.pluginAlias) {
-							if (value?.includes(p.pluginAlias)) {
-								p.disabled = false;
-							}
-							else {
-								p.disabled = true;
-							}
+			this.observe(await context?.propertyValueByAlias<Array<string>>('plugins'), (value) => {
+				//console.log([value]);
+				this._toolbarConfig.forEach((p) => {
+					if (p.isplugin && p.pluginAlias) {
+						if (value?.includes(p.pluginAlias)) {
+							p.disabled = false;
+						} else {
+							p.disabled = true;
 						}
-					})
-					//console.log([this._toolbarConfig]);
+					}
+				});
+				//console.log([this._toolbarConfig]);
 
-					this.requestUpdate('_toolbarConfig');
-				}
-			)
-		})
+				this.requestUpdate('_toolbarConfig');
+			});
+		});
 	}
 
 	private async getToolbarPlugins(): Promise<void> {
