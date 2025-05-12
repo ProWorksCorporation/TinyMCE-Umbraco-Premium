@@ -21,8 +21,7 @@ export const manifests: Array<UmbExtensionManifest> = [
 						description: 'Pick the plugins to activate for this editor',
 						propertyEditorUiAlias: 'TinyMCE.PropertyEditorUI.TinyMCE.PluginConfiguration',
 						weight: 5,
-						config: [
-						],
+						config: [],
 					},
 					{
 						alias: 'toolbar',
@@ -121,7 +120,6 @@ export const manifests: Array<UmbExtensionManifest> = [
 						propertyEditorUiAlias: 'Umb.PropertyEditorUI.TinyMCE.CustomConfig',
 						weight: 90,
 					},
-
 				],
 				defaultData: [
 					{

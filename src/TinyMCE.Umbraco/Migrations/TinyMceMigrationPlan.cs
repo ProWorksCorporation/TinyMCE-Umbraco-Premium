@@ -16,5 +16,4 @@ internal sealed class TinyMceMigrationPlan : PackageMigrationPlan
         .To<RegisterUmbracoPackageEntry>(RegisterUmbracoPackageEntry.State)
         ;
     }
-
 }

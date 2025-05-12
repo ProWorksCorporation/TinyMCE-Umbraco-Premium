@@ -14,5 +14,5 @@ export const UMB_STYLESHEET_RULE_SETTINGS_MODAL = new UmbModalToken<never, UmbSt
 			size: 'medium',
 		},
 		value: { rule: null },
-	},
+	}
 );

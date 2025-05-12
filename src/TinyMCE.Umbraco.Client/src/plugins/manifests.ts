@@ -100,7 +100,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'accordion',
 					isplugin: true,
 					pluginAlias: 'accordion',
-				}
+				},
 			],
 		},
 	},
@@ -117,7 +117,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'code-sample',
 					isplugin: true,
 					pluginAlias: 'codesample',
-				}
+				},
 			],
 		},
 	},
@@ -134,7 +134,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'emoji',
 					isplugin: true,
 					pluginAlias: 'emoticons',
-				}
+				},
 			],
 		},
 	},
@@ -151,7 +151,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'help',
 					isplugin: true,
 					pluginAlias: 'help',
-				}
+				},
 			],
 		},
 	},
@@ -168,7 +168,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'insert-time',
 					isplugin: true,
 					pluginAlias: 'insertdatetime',
-				}
+				},
 			],
 		},
 	},
@@ -185,7 +185,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'search',
 					isplugin: true,
 					pluginAlias: 'searchreplace',
-				}
+				},
 			],
 		},
 	},
@@ -202,7 +202,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'character-count',
 					isplugin: true,
 					pluginAlias: 'wordcount',
-				}
+				},
 			],
 		},
 	},
@@ -220,7 +220,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'accessibility-check',
 					isplugin: true,
 					pluginAlias: 'a11ychecker',
-				}
+				},
 			],
 		},
 	},
@@ -237,7 +237,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'sourcecode',
 					isplugin: true,
 					pluginAlias: 'advcode',
-				}
+				},
 			],
 		},
 	},
@@ -246,7 +246,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 		alias: 'Umb.TinyMcePlugin.AdvancedTableEditor',
 		name: 'TinyMCE Advanced Table Editor Plugin',
 		meta: {
-			plugins: ['advtable']
+			plugins: ['advtable'],
 		},
 	},
 	{
@@ -262,7 +262,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'template',
 					isplugin: true,
 					pluginAlias: 'advtemplate',
-				}
+				},
 			],
 		},
 	},
@@ -279,7 +279,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'typography',
 					isplugin: true,
 					pluginAlias: 'typography',
-				}
+				},
 			],
 		},
 	},
@@ -297,7 +297,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'ai',
 					isplugin: true,
 					pluginAlias: 'ai',
-				}
+				},
 			],
 		},
 	},
@@ -314,7 +314,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'change-case',
 					isplugin: true,
 					pluginAlias: 'casechange',
-				}
+				},
 			],
 		},
 	},
@@ -331,7 +331,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'checklist',
 					isplugin: true,
 					pluginAlias: 'checklist',
-				}
+				},
 			],
 		},
 	},
@@ -348,7 +348,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'image',
 					isplugin: true,
 					pluginAlias: 'mediaembed',
-				}
+				},
 			],
 		},
 	},
@@ -365,7 +365,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'export',
 					isplugin: true,
 					pluginAlias: 'export',
-				}
+				},
 			],
 		},
 	},
@@ -382,7 +382,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'footnote',
 					isplugin: true,
 					pluginAlias: 'footnotes',
-				}
+				},
 			],
 		},
 	},
@@ -399,7 +399,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'format-painter',
 					isplugin: true,
 					pluginAlias: 'formatpainter',
-				}
+				},
 			],
 		},
 	},
@@ -416,7 +416,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'addtag',
 					isplugin: true,
 					pluginAlias: 'mergetags',
-				}
+				},
 			],
 		},
 	},
@@ -433,7 +433,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'embed-page',
 					isplugin: true,
 					pluginAlias: 'pageembed',
-				}
+				},
 			],
 		},
 	},
@@ -450,7 +450,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'paste',
 					isplugin: true,
 					pluginAlias: 'powerpaste',
-				}
+				},
 			],
 		},
 	},
@@ -468,7 +468,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'permanent-pen',
 					isplugin: true,
 					pluginAlias: 'permanentpen',
-				}
+				},
 			],
 		},
 	},
@@ -485,7 +485,7 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'spell-check',
 					isplugin: true,
 					pluginAlias: 'tinymcespellchecker',
-				}
+				},
 			],
 		},
 	},
@@ -502,8 +502,8 @@ export const manifests: Array<ManifestTinyMcePlugin> = [
 					icon: 'toc',
 					isplugin: true,
 					pluginAlias: 'tableofcontents',
-				}
+				},
 			],
 		},
-	}
+	},
 ];

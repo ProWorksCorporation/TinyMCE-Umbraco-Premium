@@ -67,7 +67,7 @@ export const manifests: Array<UmbExtensionManifest> = [
 		name: 'TinyMCE Umbraco Croatian Localization',
 		alias: 'Umb.TinyMCE.Localization.Croatian',
 		weight: -100,
-		meta: { culture: 'hr', },
+		meta: { culture: 'hr' },
 		js: () => import('./hr.js'),
 	},
 	{

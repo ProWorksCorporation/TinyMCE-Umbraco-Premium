@@ -19,10 +19,7 @@ import type { UmbCodeEditorElement, CodeEditorLanguage } from '@umbraco-cms/back
  * @element umb-property-editor-ui-tiny-mce-config-editor
  */
 @customElement('umb-property-editor-ui-tiny-mce-config-editor')
-export class UmbPropertyEditorUITinyMceConfigEditorElement
-	extends UmbLitElement
-	implements UmbPropertyEditorUiElement
-{
+export class UmbPropertyEditorUITinyMceConfigEditorElement extends UmbLitElement implements UmbPropertyEditorUiElement {
 	#defaultLanguage: CodeEditorLanguage = 'json';
 
 	@property({ attribute: false })
@@ -39,7 +36,7 @@ export class UmbPropertyEditorUITinyMceConfigEditorElement
 	config?: UmbPropertyEditorConfigCollection;
 
 	@state()
-	private _customConfig: string = "";
+	private _customConfig: string = '';
 
 	@query('umb-code-editor')
 	_codeEditor?: UmbCodeEditorElement;
@@ -67,7 +64,6 @@ export class UmbPropertyEditorUITinyMceConfigEditorElement
 	//	return data;
 	//}
 
-
 	//private onChange(_event: CustomEvent) {
 	//	//const checkbox = event.target as HTMLInputElement;
 
@@ -84,10 +80,12 @@ export class UmbPropertyEditorUITinyMceConfigEditorElement
 		this.dispatchEvent(new UmbChangeEvent());
 	}
 
-
 	#renderCodeEditor() {
 		return html`
-			<umb-code-editor .language="${this.#defaultLanguage}" .code=${this.value ?? ''} @input=${this.#onChange}></umb-code-editor>
+			<umb-code-editor
+				.language="${this.#defaultLanguage}"
+				.code=${this.value ?? ''}
+				@input=${this.#onChange}></umb-code-editor>
 		`;
 	}
 

@@ -5,15 +5,14 @@ import type { Editor } from '@umbraco-cms/backoffice/external/tinymce';
 import type { UmbPropertyEditorConfigCollection } from '@umbraco-cms/backoffice/property-editor';
 import type { ClassConstructor } from '@umbraco-cms/backoffice/extension-api';
 
-export class UmbTinyMcePluginBase extends UmbControllerBase implements UmbApi,TinyMcePluginInterface {
-  editor: Editor;
+export class UmbTinyMcePluginBase extends UmbControllerBase implements UmbApi, TinyMcePluginInterface {
+	editor: Editor;
 	configuration?: UmbPropertyEditorConfigCollection;
-	
 
-  constructor(arg: TinyMcePluginArguments) {
-    super(arg.host);
-    this.editor = arg.editor;
-    this.configuration = arg.host.configuration;
+	constructor(arg: TinyMcePluginArguments) {
+		super(arg.host);
+		this.editor = arg.editor;
+		this.configuration = arg.host.configuration;
 	}
 
 	// Called before the editor is created
@@ -28,8 +27,8 @@ export class UmbTinyMcePluginBase extends UmbControllerBase implements UmbApi,Ti
 }
 
 export type TinyMcePluginArguments = {
-  host: UmbInputTinyMceElement;
-  editor: Editor;
+	host: UmbInputTinyMceElement;
+	editor: Editor;
 };
 export interface TinyMcePluginInterface {
 	init(): Promise<void>;

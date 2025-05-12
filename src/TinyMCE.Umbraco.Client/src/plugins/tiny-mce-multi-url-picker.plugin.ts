@@ -3,7 +3,11 @@ import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-
 import { UmbTinyMcePluginBase } from '../components/input-tiny-mce/tiny-mce-plugin.js';
 import { UMB_LINK_PICKER_MODAL } from '@umbraco-cms/backoffice/multi-url-picker';
 import type { TinyMcePluginArguments } from '../components/input-tiny-mce/tiny-mce-plugin.js';
-import type { UmbLinkPickerLink, UmbLinkPickerLinkType, UmbLinkPickerModalValue } from '@umbraco-cms/backoffice/multi-url-picker';
+import type {
+	UmbLinkPickerLink,
+	UmbLinkPickerLinkType,
+	UmbLinkPickerModalValue,
+} from '@umbraco-cms/backoffice/multi-url-picker';
 
 type AnchorElementAttributes = {
 	'data-anchor'?: string | null;

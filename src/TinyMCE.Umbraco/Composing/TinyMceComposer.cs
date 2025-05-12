@@ -1,13 +1,11 @@
-using Microsoft.Extensions.Configuration;
 using System.Dynamic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TinyMCE.Umbraco.Api.Management;
 using Umbraco.Cms.Api.Common.OpenApi;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.Configuration.Models;
 using Umbraco.Cms.Core.DependencyInjection;
-using Microsoft.Extensions.Options;
-using TinyMCE.Umbraco.Api.Management.Configuration;
 
 namespace TinyMCE.Umbraco.Composing;
 
@@ -49,9 +47,6 @@ internal sealed class TinyMceComposer : IComposer
         ;
     }
 }
-
-
-
 
 /// <summary>
 /// This pulls the nested items from the appSettings and builds them into objects in the TinyMceConfig

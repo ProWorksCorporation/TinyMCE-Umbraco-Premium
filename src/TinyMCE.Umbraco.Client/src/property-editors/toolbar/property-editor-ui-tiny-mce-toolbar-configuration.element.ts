@@ -136,14 +136,13 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
 			}
 
-			if (!apiKey) {  // Remove pre-loaded premium plugins if no key present
+			if (!apiKey) {
+				// Remove pre-loaded premium plugins if no key present
 				excludeList = [...new Set([...excludeList, ...defaultPremiumPluginsList])];
 			}
 		}
 
-
 		plugins.forEach((p) => {
-
 			// If the plugin has a toolbar, add it to the config
 			if (p.meta?.toolbar) {
 				p.meta.toolbar.forEach((t: any) => {
@@ -183,11 +182,16 @@ export class UmbPropertyEditorUITinyMceToolbarConfigurationElement
 				(v) => v.alias,
 				(v) =>
 					html`<li>
-						<uui-checkbox label=${v.label} value=${v.alias} ?disabled=${v.disabled} ?checked=${v.selected} @change=${this.onChange}>
+						<uui-checkbox
+							label=${v.label}
+							value=${v.alias}
+							?disabled=${v.disabled}
+							?checked=${v.selected}
+							@change=${this.onChange}>
 							<uui-icon .svg=${tinyIconSet?.icons[v.icon ?? 'alignjustify']}></uui-icon>
 							${v.label}
 						</uui-checkbox>
-					</li>`,
+					</li>`
 			)}
 		</ul>`;
 	}
