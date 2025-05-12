@@ -45,7 +45,7 @@ export class UmbStylesheetRuleManager {
 ${rule.selector} {
 	${rule.styles ?? ''}
 }
-`,
+`
 				)
 				.join('')}`;
 		return newContent.trim();

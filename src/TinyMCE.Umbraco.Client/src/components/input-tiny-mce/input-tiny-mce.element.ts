@@ -24,7 +24,6 @@ import { tryExecute } from '@umbraco-cms/backoffice/resources';
 // @ts-ignore
 import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
 
-
 /**
  * Handles the resize event
  * @param e
@@ -120,7 +119,6 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 
 			let config: RawEditorOptions = {};
 			manifests.forEach((manifest) => {
-
 				if (manifest.meta?.config) {
 					config = umbDeepMerge(manifest.meta.config, config);
 				}
@@ -247,7 +245,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			}
 			if (Array.isArray(appSettingsConfig.config?.pluginsToExclude)) {
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
-				if (!apiKey || apiKey == 'no-origin') {  // Remove pre-loaded premium plugins if no key present
+				if (!apiKey || apiKey == 'no-origin') {
+					// Remove pre-loaded premium plugins if no key present
 					excludeList = [...new Set([...excludeList, ...defaultPremiumPluginsList])];
 				}
 			}
@@ -276,15 +275,14 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		if (plugins && plugins.length) {
 			if (typeof configurationOptions.plugins === 'string' || Array.isArray(configurationOptions.plugins)) {
 				configurationOptions.plugins = plugins.concat(configurationOptions.plugins);
-			}
-			else {
+			} else {
 				configurationOptions.plugins = plugins;
 			}
 		}
 
 		// Exclude plugins explicitly excluded by configuration
 		if (Array.isArray(configurationOptions.plugins)) {
-			configurationOptions.plugins = configurationOptions.plugins.filter(item => !excludeList.includes(item));
+			configurationOptions.plugins = configurationOptions.plugins.filter((item) => !excludeList.includes(item));
 		}
 
 		// set the configured toolbar if any, otherwise false
@@ -308,7 +306,6 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		}
 
 		//console.log('#setTinyConfig 2', [configurationOptions]);
-
 
 		// set the default values that will not be modified via configuration
 		let config: RawEditorOptions = {
@@ -364,7 +361,6 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		}
 		await Promise.all(promises); // await all together;
 
-
 		console.log('#setTinyConfig before init', [config]);
 
 		this.#editorRef?.destroy();
@@ -398,7 +394,6 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 	}
 
 	async #editorSetup(editor: Editor) {
-
 		//console.log('#editorSetup start');
 
 		editor.suffix = '.min';
@@ -460,7 +455,6 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			}
 		}
 		//console.log('#editorSetup end');
-
 	}
 
 	#onInit(editor: Editor) {

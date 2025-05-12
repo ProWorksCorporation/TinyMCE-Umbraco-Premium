@@ -84,7 +84,7 @@ export class UmbStylesheetRuleInputElement extends UUIFormControlMixin(UmbLitEle
 									@click=${() => this.#removeRule(rule)}></uui-button>
 							</uui-action-bar>
 						</umb-stylesheet-rule-ref>
-					`,
+					`
 				)}
 			</uui-ref-list>
 			<uui-button label=${this.localize.term('general_add')} look="placeholder" @click=${this.#appendRule}></uui-button>

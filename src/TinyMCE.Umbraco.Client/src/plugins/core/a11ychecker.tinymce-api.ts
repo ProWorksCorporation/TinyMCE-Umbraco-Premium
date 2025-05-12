@@ -6,5 +6,4 @@ export default class TinyMceA11ycheckerExtensionApi extends UmbTinyMcePluginBase
 		super(args);
 		//console.log("allychecker initialized");
 	}
-
 }

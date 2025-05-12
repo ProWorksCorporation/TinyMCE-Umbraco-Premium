@@ -108,7 +108,8 @@ export class UmbPropertyEditorUITinyMcePluginConfigurationElement
 				excludeList = appSettingsConfig.config?.pluginsToExclude;
 			}
 
-			if (!apiKey) {  // Remove pre-loaded premium plugins if no key present
+			if (!apiKey) {
+				// Remove pre-loaded premium plugins if no key present
 				excludeList = [...new Set([...excludeList, ...defaultPremiumPluginsList])];
 			}
 
@@ -121,17 +122,16 @@ export class UmbPropertyEditorUITinyMcePluginConfigurationElement
 		if (typeof defaultFallbackConfig.plugins === 'string') {
 			this._pluginConfig.push({
 				alias: defaultFallbackConfig.plugins,
-				label: defaultFallbackConfig.plugins + " (default plugin)",
+				label: defaultFallbackConfig.plugins + ' (default plugin)',
 				icon: undefined,
 				selected: true,
 				disabled: true,
 			});
-		}
-		else if (Array.isArray(defaultFallbackConfig.plugins)) {
+		} else if (Array.isArray(defaultFallbackConfig.plugins)) {
 			defaultFallbackConfig.plugins.forEach((pl: any) => {
 				this._pluginConfig.push({
 					alias: pl,
-					label: pl + " (default plugin)",
+					label: pl + ' (default plugin)',
 					selected: true,
 					disabled: true,
 				});
@@ -162,8 +162,7 @@ export class UmbPropertyEditorUITinyMcePluginConfigurationElement
 						selected: this.value.includes(p.meta.plugins),
 						disabled: false,
 					});
-				}
-				else if (Array.isArray(p.meta.plugins)) {
+				} else if (Array.isArray(p.meta.plugins)) {
 					p.meta.plugins.forEach((pl: any) => {
 						if (!excludeList.includes(pl)) {
 							this._pluginConfig.push({
@@ -200,10 +199,15 @@ export class UmbPropertyEditorUITinyMcePluginConfigurationElement
 				(v) => v.alias,
 				(v) =>
 					html`<li>
-						<uui-checkbox label=${v.label} value=${v.alias} ?disabled=${v.disabled} ?checked=${v.selected} @change=${this.onChange}>							
+						<uui-checkbox
+							label=${v.label}
+							value=${v.alias}
+							?disabled=${v.disabled}
+							?checked=${v.selected}
+							@change=${this.onChange}>
 							${v.label}
 						</uui-checkbox>
-					</li>`,
+					</li>`
 			)}
 		</ul>`;
 	}

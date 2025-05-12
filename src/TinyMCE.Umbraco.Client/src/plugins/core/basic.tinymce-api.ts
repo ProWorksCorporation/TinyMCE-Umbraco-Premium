@@ -6,5 +6,4 @@ export default class TinyMceBasicExtensionApi extends UmbTinyMcePluginBase {
 		super(args);
 		//console.log("basic initialized");
 	}
-
 }

@@ -35,7 +35,7 @@ export class UmbPropertyEditorUITinyMceElement extends UmbPropertyEditorUiRteEle
 		// Remove unused Blocks of Blocks Layout. Leaving only the Blocks that are present in Markup.
 		//const blockElements = editor.dom.select(`umb-rte-block, umb-rte-block-inline`);
 		const usedContentKeys = Array.from(blockEls).map((blockElement) =>
-			blockElement.getAttribute(UMB_BLOCK_RTE_DATA_CONTENT_KEY),
+			blockElement.getAttribute(UMB_BLOCK_RTE_DATA_CONTENT_KEY)
 		);
 
 		if (super.value) {

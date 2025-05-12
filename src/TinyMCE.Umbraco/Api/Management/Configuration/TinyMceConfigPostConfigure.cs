@@ -6,7 +6,6 @@ using Umbraco.Cms.Core.DependencyInjection;
 
 namespace TinyMCE.Umbraco.Api.Management.Configuration
 {
-
     public class TinyMceConfigPostConfigure : IConfigureOptions<TinyMceConfig>
     {
         private readonly IUmbracoBuilder _builder;
@@ -49,10 +48,7 @@ namespace TinyMCE.Umbraco.Api.Management.Configuration
             //}
         }
     }
-
 }
-
-
 
 /// <summary>
 /// This pulls the nested items from the appSettings and builds them into objects in the TinyMceConfig

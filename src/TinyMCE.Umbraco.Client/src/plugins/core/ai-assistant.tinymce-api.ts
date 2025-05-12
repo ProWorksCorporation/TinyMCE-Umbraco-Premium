@@ -31,7 +31,6 @@ export default class TinyMceAiAssitantExtensionApi extends UmbTinyMcePluginBase 
 
 	override async init(): Promise<void> {
 		//console.log("ai-assitant init 1");
-
 		//console.log("ai-assitant init 2");
 	}
 }
