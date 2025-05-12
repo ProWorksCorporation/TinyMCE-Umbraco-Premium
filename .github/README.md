@@ -6,7 +6,7 @@
 
 This package brings the [TinyMCE](https://www.tiny.cloud/) Rich Text Editor (RTE) back to [Umbraco CMS](https://umbraco.com/), (version 16+).
 
-It also supports the use of TinyMCE Premium plugins with a valid subscription. Additional features include streamlined configuration for RTE Data Types in Umbraco and enhanced settings that support direct JSON-based configuration via .NET (appsettings.config).
+It also supports the use of TinyMCE Premium plugins with a valid subscription. Additional features include streamlined configuration for RTE Data Types in Umbraco and enhanced settings that support direct JSON-based configuration via .NET (`appsettings.json`).
 
 ## Releases
 
@@ -19,7 +19,7 @@ To [install from NuGet](https://www.nuget.org/packages/TinyMCE.Umbraco), you can
 
     dotnet add package TinyMCE.Umbraco
 
-In addtion, you can install packages via the Visual Studio Nuget Package Manager.  This can be found in the Tools menu of Visual Studio.
+In addition, you can install packages via the Visual Studio NuGet Package Manager.  This can be found in the Tools menu of Visual Studio.
 
 ### Upgrading from v15
 
@@ -31,18 +31,20 @@ To get started with the TinyMCE Umbraco property editor and use it with your pro
 
 ## Configuration
 
-The following options are available for configuration in the appsettings.config or through other environment level configuration settings (web.config, Azure environment variables, etc).  This is using standard .Net configuration and you can learn more about [.Net Configuration here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0).
+The following options are available for configuration in the `appsettings.json` or through other environment level configuration settings (`web.config`, Azure environment variables, etc).  This is using standard .NET configuration and you can learn more about [.NET Configuration here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0).
 
-    {
-        "TinyMceConfig": {
-            "tinyMceUrl": STRING,
-            "tinyMceVersion": STRING
-            "apikey": "STRING",
-            "openAiApikey": "STRING",
-            "pluginsToExclude": ["STRING LIST"],
-            "customConfig": {JSON}
-        }
-    }
+```json
+{
+	"TinyMceConfig": {
+		"tinyMceUrl": STRING,
+		"tinyMceVersion": STRING
+		"apikey": "STRING",
+		"openAiApikey": "STRING",
+		"pluginsToExclude": ["STRING LIST"],
+		"customConfig": {JSON}
+	}
+}
+```
 
 The details on each configuration value are described below:
 
@@ -123,7 +125,7 @@ Both of these Data Type configuration options are managed via the Data Type edit
 
 If you have questions about TinyMCE plugins, please contact TinyMCE Support directly.
 
-If something specific to the Property Editors in this package or the Configuration isn't working as you would expect, please submit a question via the [Github Issues](https://github.com/ProWorksCorporation/TinyMCE-Umbraco/issues) for this project.  We will do our best to monitor and respond, but please be patient with us.
+If something specific to the Property Editors in this package or the Configuration isn't working as you would expect, please submit a question via the [GitHub Issues](https://github.com/ProWorksCorporation/TinyMCE-Umbraco/issues) for this project.  We will do our best to monitor and respond, but please be patient with us.
 
 In addition, you may find that the community is very helpful and you can ask questions of them on the [Umbraco Forums](https://forum.umbraco.com/) or the [Umbraco Discord Server](https://community.umbraco.com/get-involved/community-discord-server/).
 
@@ -144,6 +146,7 @@ The initial source code has been derived from [Umbraco CMS](https://github.com/u
 
 ## Acknowledgments
 
-Thanks to [TinyMCE](https://www.tiny.cloud/) and [Umbraco](https://umbraco.com/) for their support during the package development.  Special thanks to Lee Kelleher and Jacob Overgaard for their help getting started and for giving valuable feedback along the way.
+Thanks to [TinyMCE](https://www.tiny.cloud/) and [Umbraco](https://umbraco.com/) for their support during the package development.
+Special thanks to [Lee Kelleher](https://github.com/leekelleher) and [Jacob Overgaard](https://github.com/iOvergaard) for their help getting started and for giving valuable feedback along the way.
 
 Also thanks to the [ProWorks](https://www.proworks.com) team for their encouragement, support, and contributions.
