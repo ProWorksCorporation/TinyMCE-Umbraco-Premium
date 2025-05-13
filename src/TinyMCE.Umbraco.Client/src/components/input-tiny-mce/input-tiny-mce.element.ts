@@ -219,6 +219,8 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 		const stylesheetPaths = this.configuration?.getValueByAlias<string[]>('stylesheets') ?? [];
 		const styleFormats = await this.getFormatStyles(stylesheetPaths);
 
+		const preValueCustomConfig = this.configuration?.getValueByAlias<JSON>('customConfig') ?? {};
+
 		// Map the stylesheets with server url
 		const stylesheets =
 			stylesheetPaths?.map((stylesheetPath: string) => `/css${stylesheetPath.replace(/\\/g, '/')}`) ?? [];
@@ -346,6 +348,10 @@ export class UmbInputTinyMceElement extends UUIFormControlMixin(UmbLitElement, '
 			if (appSettingsConfig.config) {
 				config = umbDeepMerge(appSettingsConfig.config.customConfig, config);
 			}
+		}
+
+		if (preValueCustomConfig) {
+			config = umbDeepMerge(preValueCustomConfig, config);
 		}
 
 		// Loop through plugins and call extendEditorConfig if it exists to allow plugins to

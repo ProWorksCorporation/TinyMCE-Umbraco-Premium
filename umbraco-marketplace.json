@@ -51,8 +51,7 @@
       {
         "UmbracoMajorVersion": 13,
         "PackageId": "tinymce.umbraco.premium"
-      }
-      ,
+      },
       {
         "UmbracoMajorVersion": 16,
         "PackageId": "tinymce.umbraco"

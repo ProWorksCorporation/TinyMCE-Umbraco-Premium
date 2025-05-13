@@ -1,34 +1,27 @@
-import { css, customElement, html, property, state, query } from '@umbraco-cms/backoffice/external/lit';
-//import { TinyMceService } from '../../api/index.js';
-//import { tryExecute } from '@umbraco-cms/backoffice/resources';
-//import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
-
-//import { umbExtensionsRegistry } from '@umbraco-cms/backoffice/extension-registry';
+import { css, customElement, html, property, state } from '@umbraco-cms/backoffice/external/lit';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
-//import { UmbTextStyles } from '@umbraco-cms/backoffice/style';
 import type { PropertyValueMap } from '@umbraco-cms/backoffice/external/lit';
 import type {
 	UmbPropertyEditorUiElement,
 	UmbPropertyEditorConfigCollection,
 } from '@umbraco-cms/backoffice/property-editor';
-import { UmbChangeEvent, UmbInputEvent } from '@umbraco-cms/backoffice/event';
-import type { UmbCodeEditorElement, CodeEditorLanguage } from '@umbraco-cms/backoffice/code-editor';
-//import type { TinyMceConfigResponseModel } from '../../api/index.js';
+import { UmbChangeEvent } from '@umbraco-cms/backoffice/event';
+import { UMB_CODE_EDITOR_MODAL } from '@umbraco-cms/backoffice/code-editor';
+import { umbOpenModal } from '@umbraco-cms/backoffice/modal';
 
 /**
  * @element umb-property-editor-ui-tiny-mce-config-editor
  */
 @customElement('umb-property-editor-ui-tiny-mce-config-editor')
 export class UmbPropertyEditorUITinyMceConfigEditorElement extends UmbLitElement implements UmbPropertyEditorUiElement {
-	#defaultLanguage: CodeEditorLanguage = 'json';
 
 	@property({ attribute: false })
-	set value(value: string | null) {
+	set value(value: JSON | null) {
 		if (!value) return;
 
 		this._customConfig = value;
 	}
-	get value(): string {
+	get value(): JSON {
 		return this._customConfig;
 	}
 
@@ -36,64 +29,50 @@ export class UmbPropertyEditorUITinyMceConfigEditorElement extends UmbLitElement
 	config?: UmbPropertyEditorConfigCollection;
 
 	@state()
-	private _customConfig: string = '';
-
-	@query('umb-code-editor')
-	_codeEditor?: UmbCodeEditorElement;
-
-	//#tinyConfiguration: TinyMceConfigResponseModel | undefined;
+	private _customConfig: JSON = JSON.parse('{}');
 
 	protected override async firstUpdated(_changedProperties: PropertyValueMap<unknown>) {
 		super.firstUpdated(_changedProperties);
 
 		this._customConfig = this.value;
-		if (!this._customConfig) {
-			this._customConfig = "{ test: 'test' }";
-		}
-		//this._customConfig = "{ test: 'test' }";
-		//this.#tinyConfiguration = await this.#getTinyMceConfig();
 
 		this.requestUpdate('_customConfig');
 	}
 
-	//async #getTinyMceConfig() {
-	//	// @ts-ignore
-	//	const { data } = await tryExecute(this, TinyMceService.getConfig({ client: umbHttpClient }));
-	//	if (!data) return;
 
-	//	return data;
-	//}
+	async #showCodeEditor() {
+		const value = await umbOpenModal(this, UMB_CODE_EDITOR_MODAL, {
+			data: {
+				headline: 'Edit custom configuration',
+				content: JSON.stringify(this._customConfig) ?? '',
+				language: 'json',
+			},
+		}).catch(() => undefined);
 
-	//private onChange(_event: CustomEvent) {
-	//	//const checkbox = event.target as HTMLInputElement;
+		if (!value) {
+			return;
+		}
 
-	//	this.value = this._codeEditor?.editor?.monacoEditor?.getValue() ?? '';
+		if (!value.content) {
+			this._customConfig = JSON.parse('{}');
+		} else {
+			try {
+				this._customConfig = JSON.parse(value.content.toString());
+				console.log('Parsed object:', this._customConfig);
+				// Proceed with using jsonObj
+			} catch (err) {
+				console.error('Invalid JSON:', err);
+			}
+		}
 
-	//	//this.value = value;
-
-	//	this.dispatchEvent(new UmbChangeEvent());
-	//}
-
-	#onChange(event: UmbInputEvent & { target: UmbCodeEditorElement }) {
-		if (!(event instanceof UmbInputEvent)) return;
-		this.value = event.target.code;
 		this.dispatchEvent(new UmbChangeEvent());
-	}
-
-	#renderCodeEditor() {
-		return html`
-			<umb-code-editor
-				.language="${this.#defaultLanguage}"
-				.code=${this.value ?? ''}
-				@input=${this.#onChange}></umb-code-editor>
-		`;
 	}
 
 	override render() {
 		return html`
 			<umb-body-layout>
-				<p>TODO...</p>
-				<div id="editor-box">${this.#renderCodeEditor()}</div>
+				<button @click=${this.#showCodeEditor}>Open Code Editor</button>
+				<div id="editor-box"><pre>${JSON.stringify(this.value, null, 2)}</pre></div>
 			</umb-body-layout>
 		`;
 	}
@@ -104,11 +83,10 @@ export class UmbPropertyEditorUITinyMceConfigEditorElement extends UmbLitElement
 				padding: var(--uui-box-default-padding, var(--uui-size-space-5, 18px));
 				height: 100%;
 				display: flex;
-			}
-
-			umb-code-editor {
-				width: 100%;
-				height: 300px;
+				background: #FFFFFF;
+				padding: 1em;
+				border-radius: 4px;
+				font-family: monospace;
 			}
 		`,
 	];
